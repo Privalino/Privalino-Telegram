@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="AppName">Telegram</string>
-    <string name="AppNameBeta">Telegram Beta</string>
+    <string name="AppName">Privalino</string>
+    <string name="AppNameBeta">Privalino Beta</string>
     <string name="LanguageName">Español</string>
     <string name="English">Inglés</string>
     <string name="LanguageNameInEnglish">Spanish</string>
@@ -215,8 +215,8 @@ Cuando %2$s actualice Telegram, las fotos con autodestrucción de 1 minuto o men
     <string name="NewChannel">Nuevo canal</string>
     <string name="EnterChannelName">Nombre del canal</string>
     <string name="AddMutual">Añadir contactos a tu canal</string>
-    <string name="ChannelUsernameHelp">Las personas pueden compartir este enlace con los demás y encontrar tu canal usando la búsqueda de Telegram.</string>
-    <string name="MegaUsernameHelp">Las personas pueden compartir este enlace con los demás y encontrar tu grupo usando la búsqueda de Telegram.</string>
+    <string name="ChannelUsernameHelp">Las personas pueden compartir este enlace con los demás y encontrar tu canal usando la búsqueda de Privalino.</string>
+    <string name="MegaUsernameHelp">Las personas pueden compartir este enlace con los demás y encontrar tu grupo usando la búsqueda de Privalino.</string>
     <string name="ChannelUsernamePlaceholder">Enlace</string>
     <string name="ChannelPrivateLinkHelp">Las personas pueden unirse a tu canal siguiendo este enlace. Puedes anular el enlace en cualquier momento.</string>
     <string name="MegaPrivateLinkHelp">Las personas pueden unirse a tu canal siguiendo este enlace. Puedes anular el enlace en cualquier momento.</string>
@@ -550,7 +550,7 @@ sobre Telegram?</string>
     <string name="SendAsFile">Enviar como archivo</string>
     <string name="SendAsFiles">Como archivo</string>
     <string name="OpenUrlAlert">¿Abrir %1$s?</string>
-    <string name="BotPermissionGameAlert">¿Permites a %1$s entregar tu nombre e id de Telegram (no tu número de teléfono) a los sitios web que abres a través de este bot?</string>
+    <string name="BotPermissionGameAlert">¿Permites a %1$s entregar tu nombre e id de Privalino (no tu número de teléfono) a los sitios web que abres a través de este bot?</string>
     <string name="ReportSpam">REPORTAR SPAM</string>
     <string name="ReportSpamAndLeave">REPORTAR SPAM Y SALIR</string>
     <string name="AddContactChat">AÑADIR CONTACTO</string>
@@ -755,7 +755,7 @@ El grupo \"**%2$s**\" pasará a ser privado.</string>
 El canal \"**%2$s**\" pasará a ser privado.</string>
     <string name="CopyLink">Copiar enlace</string>
     <string name="ShareLink">Compartir enlace</string>
-    <string name="LinkInfo">Cualquiera que tenga Telegram instalada podrá unirse a tu grupo siguiendo este enlace.</string>
+    <string name="LinkInfo">Cualquiera que tenga Privalino instalada podrá unirse a tu grupo siguiendo este enlace.</string>
     <!--set admins view-->
     <string name="SetAdminsTitle">Administradores</string>
     <string name="SetAdminsAll">Todos son administradores</string>
@@ -798,7 +798,7 @@ Para superar el límite y tener características adicionales, conviértelo en un
     <string name="ShareContact">Compartir</string>
     <string name="AddContact">Añadir</string>
     <string name="AddContactTitle">Añadir contacto</string>
-    <string name="ContactNotRegistered">%1$s aún no está en Telegram. ¿Quieres enviarle una invitación?</string>
+    <string name="ContactNotRegistered">%1$s aún no está en Privalino. ¿Quieres enviarle una invitación?</string>
     <string name="Invite">Invitar</string>
     <string name="BlockContact">Bloquear</string>
     <string name="EditContact">Editar</string>
@@ -874,7 +874,7 @@ Puedes usar **a–z**, **0–9** y guiones bajos. La longitud mínima es de **5*
     <string name="Masks">Máscaras</string>
     <string name="MasksInfo">Puedes añadir máscaras a las fotos que envías. Para hacerlo, abre el editor de fotos antes de enviar una foto.</string>
     <string name="FeaturedStickers">Stickers destacados</string>
-    <string name="FeaturedStickersInfo">Estos stickers son tendencia en Telegram. Puedes añadir stickers personalizados con el bot @stickers.</string>
+    <string name="FeaturedStickersInfo">Estos stickers son tendencia en Privalino. Puedes añadir stickers personalizados con el bot @stickers.</string>
     <string name="ArchivedStickers">Stickers archivados</string>
     <string name="ArchivedMasks">Máscaras archivadas</string>
     <string name="ArchivedStickersEmpty">Stickers no archivados</string>
@@ -901,7 +901,7 @@ Puedes usar **a–z**, **0–9** y guiones bajos. La longitud mínima es de **5*
     <string name="SelectColor">Elegir color</string>
     <string name="CreateNewTheme">Crear nuevo tema</string>
     <string name="CreateNewThemeHelp">Toca sobre el icono de la paleta de colores para ver la lista de elementos en cada ventana y editarlos.</string>
-    <string name="CreateNewThemeInfo">Puedes crear tu propio tema cambiando los colores en la aplicación. Siempre puedes volver al tema por defecto de Telegram aquí.</string>
+    <string name="CreateNewThemeInfo">Puedes crear tu propio tema cambiando los colores en la aplicación. Siempre puedes volver al tema por defecto de Privalino aquí.</string>
     <!--settings view-->
     <string name="ResetNotificationsText">Restablecer las notificaciones</string>
     <string name="TextSize">Tamaño del texto</string>
@@ -926,7 +926,7 @@ Puedes usar **a–z**, **0–9** y guiones bajos. La longitud mínima es de **5*
     <string name="NotificationsAndSounds">Notificaciones y sonidos</string>
     <string name="CustomNotifications">Notificaciones personalizadas</string>
     <string name="ProfilePopupNotification">Notificaciones emergentes</string>
-    <string name="ProfilePopupNotificationInfo">Los mensajes nuevos de este contacto aparecerán en tu pantalla cuando no estés usando Telegram.</string>
+    <string name="ProfilePopupNotificationInfo">Los mensajes nuevos de este contacto aparecerán en tu pantalla cuando no estés usando Privalino.</string>
     <string name="NotificationsLed">LED</string>
     <string name="NotificationsLedColor">Color</string>
     <string name="ColorBlue">Azul</string>
@@ -959,7 +959,7 @@ Puedes usar **a–z**, **0–9** y guiones bajos. La longitud mínima es de **5*
     <string name="SendByEnter">Enviar con “Intro”</string>
     <string name="TerminateAllSessions">Cerrar todas las otras sesiones</string>
     <string name="Events">Eventos</string>
-    <string name="ContactJoined">Un contacto se unió a Telegram</string>
+    <string name="ContactJoined">Un contacto se unió a Privalino</string>
     <string name="PinnedMessages">Mensajes anclados</string>
     <string name="Language">Idioma</string>
     <string name="LanguageCustom">Personalizado</string>
@@ -969,9 +969,9 @@ Por favor, mira las <![CDATA[<a href=\"https://telegram.org/faq#general\">pregun
     <string name="AskButton">Preguntar</string>
     <string name="TelegramFAQ">Preguntas frecuentes</string>
     <string name="TelegramFaq">Preguntas frecuentes</string>
-    <string name="TelegramFaqUrl">https://telegram.org/faq/es</string>
+    <string name="TelegramFaqUrl">https://Privalino.org/faq/es</string>
     <string name="PrivacyPolicy">Política de privacidad</string>
-    <string name="PrivacyPolicyUrl">https://telegram.org/privacy</string>
+    <string name="PrivacyPolicyUrl">https://Privalino.org/privacy</string>
     <string name="DeleteLocalization">¿Eliminar traducción?</string>
     <string name="IncorrectLocalization">Archivo de traducción incorrecto</string>
     <string name="NotificationsService">Servicio keep-alive</string>
@@ -1020,7 +1020,7 @@ Por favor, mira las <![CDATA[<a href=\"https://telegram.org/faq#general\">pregun
     <string name="PhoneNumberChange">CAMBIAR NÚMERO</string>
     <string name="ChangePhoneNewNumber">Nuevo número</string>
     <string name="ChangePhoneHelp">Enviaremos un SMS con el código de confirmación a tu nuevo número.</string>
-    <string name="ChangePhoneNumberOccupied">El número %1$s ya está vinculado a una cuenta de Telegram. Por favor, elimina esa cuenta antes de migrar al nuevo número.</string>
+    <string name="ChangePhoneNumberOccupied">El número %1$s ya está vinculado a una cuenta de Privalino. Por favor, elimina esa cuenta antes de migrar al nuevo número.</string>
     <string name="NotificationsOther">Otras</string>
     <string name="VibrationDisabled">Desactivadas</string>
     <string name="PopupEnabled">Activadas</string>
@@ -1044,7 +1044,7 @@ Por favor, mira las <![CDATA[<a href=\"https://telegram.org/faq#general\">pregun
     <string name="Emoji">Emoji</string>
     <string name="EmojiBigSize">Usar un emoji grande</string>
     <string name="EmojiUseDefault">Usar emoji predeterminado</string>
-    <string name="TelegramVersion">Telegram para Android %1$s</string>
+    <string name="TelegramVersion">Privalino para Android %1$s</string>
     <string name="DebugMenu">Menú de depuración</string>
     <string name="DebugMenuImportContacts">Importar contactos</string>
     <string name="DebugMenuReloadContacts">Recargar contactos</string>
@@ -1103,7 +1103,7 @@ Toda la multimedia permanecerá en la nube de Telegram y podrás volver a descar
     <string name="SessionsTitle">Sesiones activas</string>
     <string name="CurrentSession">Sesión actual</string>
     <string name="NoOtherSessions">Sin otras sesiones activas</string>
-    <string name="NoOtherSessionsInfo">Puedes iniciar sesión en Telegram desde otro móvil, tablet o computador, usando el mismo número de teléfono. Todos tus datos se sincronizarán al instante.</string>
+    <string name="NoOtherSessionsInfo">Puedes iniciar sesión en Privalino desde otro móvil, tablet o computador, usando el mismo número de teléfono. Todos tus datos se sincronizarán al instante.</string>
     <string name="OtherSessions">Sesiones activas</string>
     <string name="SessionsInfo">Controla tus sesiones en otros dispositivos.</string>
     <string name="TerminateSessionInfo">Toca una sesión para cerrarla.</string>
@@ -1433,7 +1433,7 @@ Necesitarás la contraseña que configuraste para iniciar tu sesión en Telegram
     <string name="ActionAddUserSelf">un1 volvió al grupo</string>
     <string name="ActionAddUserSelfMega">un1 se unió al grupo</string>
     <string name="ActionAddUserSelfYou">Volviste al grupo</string>
-    <string name="UnsupportedMedia">Tu versión de Telegram no soporta este mensaje. Por favor, actualiza tu app para verlo: https://telegram.org/update</string>
+    <string name="UnsupportedMedia">Tu versión de Privalino no soporta este mensaje. Por favor, actualiza tu app para verlo: https://Privalino.org/update</string>
     <string name="AttachPhoto">Foto</string>
     <string name="AttachVideo">Vídeo</string>
     <string name="AttachPhotoExpired">La foto expiró</string>
@@ -1464,7 +1464,7 @@ Necesitarás la contraseña que configuraste para iniciar tu sesión en Telegram
     <string name="NoPlayerInstalled">No tienes reproductor de vídeo. Por favor, instala uno para continuar.</string>
     <string name="NoMailInstalled">Por favor, envía un correo electrónico a sms@stel.com y cuéntanos tu problema.</string>
     <string name="NoHandleAppInstalled">No tienes aplicaciones que puedan manejar el tipo de archivo “%1$s”. Por favor, instala una para continuar.</string>
-    <string name="InviteUser">Este usuario aún no tiene Telegram. ¿Enviarle una invitación?</string>
+    <string name="InviteUser">Este usuario aún no tiene Privalino. ¿Enviarle una invitación?</string>
     <string name="AreYouSure">¿Quieres hacerlo?</string>
     <string name="AddToTheGroupTitle">¿Añadir a %1$s al chat %2$s?</string>
     <string name="AddToTheGroupForwardCount">Cantidad de últimos mensajes para reenviar:</string>
@@ -1503,13 +1503,13 @@ No olvides que, al cerrar sesión, eliminas todos tus chats secretos.</string>
     <string name="SendContactToGroup">¿Enviar contacto a %1$s?</string>
     <string name="NoUsernameFound">No hay ninguna cuenta de Telegram con este alias.</string>
     <string name="BotCantJoinGroups">Este bot no puede unirse a grupos.</string>
-    <string name="SecretLinkPreviewAlert">¿Quieres permitir las vistas previas ampliadas en chats secretos? Ten en cuenta que son generadas en los servidores de Telegram.</string>
+    <string name="SecretLinkPreviewAlert">¿Quieres permitir las vistas previas ampliadas en chats secretos? Ten en cuenta que son generadas en los servidores de Privalino.</string>
     <string name="SecretChatContextBotAlert">Ten en cuenta que los bots integrados son hechos por terceros. Para que funcione, los símbolos escritos después del alias del bot, son enviados al desarrollador respectivo.</string>
     <string name="EditMessageError">No puedes editar este mensaje.</string>
-    <string name="AllowReadSms">Por favor, permite a Telegram recibir SMS, para ingresar el código automáticamente.</string>
-    <string name="AllowReadCall">Por favor, permite a Telegram recibir llamadas, para ingresar el código automáticamente.</string>
-    <string name="AllowFillNumber">Por favor, permite a Telegram recibir llamadas y SMS, para que podamos ingresar tu número, enviarte un código e ingresarlo por ti.</string>
-    <string name="AllowReadCallAndSms">Por favor, permite a Telegram recibir llamadas y SMS, para ingresar el código automáticamente.</string>
+    <string name="AllowReadSms">Por favor, permite a Privalino recibir SMS, para ingresar el código automáticamente.</string>
+    <string name="AllowReadCall">Por favor, permite a Privalino recibir llamadas, para ingresar el código automáticamente.</string>
+    <string name="AllowFillNumber">Por favor, permite a Privalino recibir llamadas y SMS, para que podamos ingresar tu número, enviarte un código e ingresarlo por ti.</string>
+    <string name="AllowReadCallAndSms">Por favor, permite a Privalino recibir llamadas y SMS, para ingresar el código automáticamente.</string>
     <string name="UserRestricted">Lo sentimos, no estás autorizado para hacer esto.</string>
     <string name="YouBlockedUser">No puedes añadir a este usuario o bot al grupo porque lo has bloqueado. Por favor, desbloquéalo para continuar.</string>
     <string name="JoinGroup">UNIRME AL GRUPO</string>
@@ -1519,17 +1519,17 @@ No olvides que, al cerrar sesión, eliminas todos tus chats secretos.</string>
     <string name="ErrorSendRestrictedStickers">Los administradores del grupo han restringido que envíes stickers.</string>
     <string name="ErrorSendRestrictedMedia">Los administradores del grupo han restringido que envíes multimedia.</string>
     <!--permissions-->
-    <string name="PermissionContacts">Telegram necesita el acceso a tus contactos, para que puedas comunicarte con ellos en todos tus dispositivos.</string>
-    <string name="PermissionStorage">Telegram necesita acceso a tu almacenamiento, para que puedas enviar y guardar fotos, vídeos, música y otros archivos.</string>
-    <string name="PermissionNoAudio">Telegram necesita acceso a tu micrófono, para que puedas enviar mensajes de voz.</string>
-    <string name="PermissionNoAudioVideo">Telegram necesita acceso a tu micrófono, para que puedas grabar vídeos.</string>
-    <string name="PermissionNoCamera">Telegram necesita acceso a tu cámara, para que puedas hacer fotos y vídeos.</string>
-    <string name="PermissionNoLocation">Telegram necesita acceso a tu ubicación, para que puedas compartirla con tus amigos.</string>
-    <string name="PermissionNoLocationPosition">Telegram necesita acceso a tu ubicación.</string>
-    <string name="PermissionDrawAboveOtherApps">Telegram necesita acceso a mostrarse sobre otras aplicaciones para usar el modo Picture-in-Picture.</string>
+    <string name="PermissionContacts">Privalino necesita el acceso a tus contactos, para que puedas comunicarte con ellos en todos tus dispositivos.</string>
+    <string name="PermissionStorage">Privalino necesita acceso a tu almacenamiento, para que puedas enviar y guardar fotos, vídeos, música y otros archivos.</string>
+    <string name="PermissionNoAudio">Privalino necesita acceso a tu micrófono, para que puedas enviar mensajes de voz.</string>
+    <string name="PermissionNoAudioVideo">Privalino necesita acceso a tu micrófono, para que puedas grabar vídeos.</string>
+    <string name="PermissionNoCamera">Privalino necesita acceso a tu cámara, para que puedas hacer fotos y vídeos.</string>
+    <string name="PermissionNoLocation">Privalino necesita acceso a tu ubicación, para que puedas compartirla con tus amigos.</string>
+    <string name="PermissionNoLocationPosition">Privalino necesita acceso a tu ubicación.</string>
+    <string name="PermissionDrawAboveOtherApps">Privalino necesita acceso a mostrarse sobre otras aplicaciones para usar el modo Picture-in-Picture.</string>
     <string name="PermissionOpenSettings">AJUSTES</string>
     <!--Intro view-->
-    <string name="Page1Title">Telegram</string>
+    <string name="Page1Title">Privalino</string>
     <string name="Page2Title">Rápida</string>
     <string name="Page3Title">Gratis</string>
     <string name="Page4Title">Segura</string>
@@ -1561,14 +1561,14 @@ desde múltiples dispositivos.</string>
     <string name="VoipFailed">Conexión fallida</string>
     <string name="VoipRinging">Llamando</string>
     <string name="VoipBusy">Línea ocupada</string>
-    <string name="VoipInCallBranding">Llamada de Telegram</string>
-    <string name="VoipOutgoingCall">Llamada de Telegram en curso</string>
+    <string name="VoipInCallBranding">Llamada de Privalino</string>
+    <string name="VoipOutgoingCall">Llamada de Privalino en curso</string>
     <string name="VoipEndCall">Finalizar llamada</string>
     <string name="VoipOngoingAlertTitle">Otra llamada en curso</string>
     <string name="VoipOngoingAlert">Actualmente tienes una llamada en curso con **%1$s**. ¿Quieres colgar esa llamada y empezar una nueva con **%2$s**?</string>
     <string name="VoipNotificationSettings">Llamadas de voz</string>
     <string name="VoipSettingsRingtone">Tono de llamada</string>
-    <string name="VoipRingtoneInfo">Puedes personalizar el tono de llamada desde este contacto en Telegram.</string>
+    <string name="VoipRingtoneInfo">Puedes personalizar el tono de llamada desde este contacto en Privalino.</string>
     <string name="Calls">Llamadas</string>
     <string name="WhoCanCallMe">¿Quién puede llamarme?</string>
     <string name="WhoCanCallMeInfo">Puedes restringir quién puede llamarte.</string>
@@ -1599,7 +1599,7 @@ desde múltiples dispositivos.</string>
     <string name="CallAgain">Llamar de nuevo</string>
     <string name="DefaultRingtone">Por defecto</string>
     <string name="ConfirmDeleteCallLog">¿Quieres eliminar este elemento del registro de llamadas?</string>
-    <string name="CallViaTelegram">Llamada de Telegram</string>
+    <string name="CallViaTelegram">Llamada de Privalino</string>
     <string name="VoipAudioRoutingEarpiece">Auricular</string>
     <string name="VoipAudioRoutingSpeaker">Altavoz</string>
     <string name="VoipAudioRoutingBluetooth">Bluetooth</string>

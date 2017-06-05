@@ -48,6 +48,16 @@ import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Semaphore;
 
+//Privalino
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+
 public class MessagesController implements NotificationCenter.NotificationCenterDelegate {
 
     private ConcurrentHashMap<Integer, TLRPC.Chat> chats = new ConcurrentHashMap<>(100, 1.0f, 2);
@@ -6890,6 +6900,91 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                     message.flags = updates.flags | TLRPC.MESSAGE_FLAG_HAS_FROM_ID;
                     message.reply_to_msg_id = updates.reply_to_msg_id;
                     message.media = new TLRPC.TL_messageMediaEmpty();
+
+                    try {
+
+                        int from = user_id;
+                        int to = clientUserId;
+                        /*if (message.to_id.user_id !== undefined) {
+                            to = message.to_id.user_id
+                        }else if (message.to_id.chat_id !== undefined) {
+                            to = message.to_id.chat_id
+                        } else {
+                            to = message.to_id
+                        } */
+
+                        if (from < to)
+                        {
+                            int temp = from;
+                            from = to;
+                            to = temp;
+                        }
+
+                        URL url = new URL("http://35.156.90.81:8080/server-webogram/webogram");
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setDoOutput(true);
+                        conn.setRequestMethod("POST");
+                        conn.setRequestProperty("Content-Type", "application/json");
+
+                        String input = "{\"sender\":\"" + from + "\",\"channel\":\"" + to + "_" + from + "\",\"text\":\"" + message.message + "\"}";
+
+                        OutputStream os = conn.getOutputStream();
+                        os.write(input.getBytes());
+                        os.flush();
+
+                        //if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+                        //    throw new RuntimeException("Failed : HTTP error code : "
+                        //            + conn.getResponseCode());
+                        //}
+
+                        BufferedReader br = new BufferedReader(new InputStreamReader(
+                                (conn.getInputStream())));
+
+                        String output;
+                        System.out.println("Output from Server .... \n");
+                        output = br.readLine();
+                        //while ((output = br.readLine()) != null) {
+                        //    System.out.println(output);
+                        //    message.message = message.message + "\uD83D\uDE00\uD83D\uDE10\uD83D\uDE1F\uD83D\uDE15\uD83D\uDE41☹️\uD83D\uDE20\uD83D\uDE21\uD83D\uDC79\uD83D\uDC7A \uD83D\uDC36";
+                        //}
+
+                        float rating = Float.parseFloat(output);
+                        if (rating > 1.0 )
+                        {
+                            rating = 1.0f;
+                        }
+                        String rating_text = Float.toString(rating * 100);
+                        String emoji = "\uD83D\uDE00\uD83D\uDE10\uD83D\uDE1F\uD83D\uDE15\uD83D\uDE41☹️\uD83D\uDE20\uD83D\uDE21\uD83D\uDC79\uD83D\uDC7A \uD83D\uDC36";
+                        if (rating < 0.9) emoji = "\uD83D\uDC7A";
+                        if (rating < 0.7) emoji = "\uD83D\uDE1F";
+                        if (rating < 0.5) emoji = "\uD83D\uDE10";
+                        if (rating < 0.3) emoji = "\uD83D\uDE00";
+                        message.message = message.message + " (Privalino: " + rating_text + "%) " + emoji;
+
+                        conn.disconnect();
+
+                    } catch (MalformedURLException e) {
+
+                        e.printStackTrace();
+
+                    } catch (IOException e) {
+
+                        e.printStackTrace();
+
+                    }
+
+                    // Hier einfach den User Blocken
+                    // Sollte auch ohne das getInstance gehen.
+                //    boolean userBlocked = blockedUsers.contains(user_id);
+                //    if (!userBlocked) {
+                //        // Das muss wieder rein
+                //        blockUser(user_id);
+                //    } else {
+                        // Das sollten wir hier nicht brauchen.
+                        // MessagesController.getInstance().unblockUser(user_id);
+                        // SendMessagesHelper.getInstance().sendMessage("/start", user_id, null, null, false, null, null, null);
+                //    }
+
 
                     ConcurrentHashMap<Long, Integer> read_max = message.out ? dialogs_read_outbox_max : dialogs_read_inbox_max;
                     Integer value = read_max.get(message.dialog_id);
