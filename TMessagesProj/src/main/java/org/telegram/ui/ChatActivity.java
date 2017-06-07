@@ -5306,6 +5306,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 int approximateHeightSum = 0;
                 for (int a = 0; a < messArr.size(); a++) {
                     MessageObject obj = messArr.get(a);
+
+                    //Privalino Hier wird die Nachricht geladen, wenn man nicht im Chat ist.
+
                     approximateHeightSum += obj.getApproximateHeight();
                     if (currentUser != null) {
                         if (currentUser.self) {
@@ -5840,6 +5843,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     int placeToPaste = -1;
                     for (int a = 0; a < arr.size(); a++) {
                         MessageObject obj = arr.get(a);
+
+                        // Hier kommt die Message in der GUI an.
+                        float wow = obj.getPrivalino();
+                        createPrivalinoMenu();
+
+
                         if (a == 0) {
                             if (obj.messageOwner.id < 0) {
                                 placeToPaste = 0;
@@ -7971,6 +7980,24 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        showDialog(builder.create());
+    }
+
+    private void createPrivalinoMenu()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+        builder.setMessage("Test")
+                .setPositiveButton("A", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // FIRE ZE MISSILES!
+                    }
+                })
+                .setNegativeButton("B", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+        builder.setTitle(LocaleController.getString("Privalino", R.string.Message));
         showDialog(builder.create());
     }
 
