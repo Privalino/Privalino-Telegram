@@ -7209,7 +7209,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         MessageObject obj = arr.get(a);
 
                         float wow = obj.getPrivalino();
-                        createPrivalinoMenu();
+                        createPrivalinoMenu(obj.messageOwner.from_id);
 
                         if (currentUser != null && (currentUser.bot && obj.isOut() || currentUser.id == currentUserId)) {
                             obj.setIsRead();
@@ -9876,18 +9876,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         showDialog(builder.create());
     }
 
-    private void createPrivalinoMenu()
+    private void createPrivalinoMenu(final int user_id)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setMessage("Test")
-                .setPositiveButton("A", new DialogInterface.OnClickListener() {
+        builder.setMessage("Kennst du deinen Chatpartner wirklich?")
+                .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // FIRE ZE MISSILES!
+                        // Erst mal nichts die Antwort sollta aber an Privalino übermittelt werden.
                     }
                 })
-                .setNegativeButton("B", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Nein", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
+                        // Der Chatpartner wird gespert.
+                        MessagesController.getInstance().blockUser(user_id);
+                        // Hier fehlt auch noch die Meldung an Privalino.
                     }
                 });
         builder.setTitle(LocaleController.getString("Privalino", R.string.Message));
