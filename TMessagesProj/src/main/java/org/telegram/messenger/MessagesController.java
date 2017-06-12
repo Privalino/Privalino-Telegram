@@ -6147,7 +6147,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         if (rating < 0.5) emoji = "\uD83D\uDE10";
                         if (rating < 0.3) emoji = "\uD83D\uDE00";
                         message.message = message.message + " (Privalino: " + rating_text + "%) " + emoji;
-
+                        message.privalino_score = rating;
                         conn.disconnect();
 
                     } catch (MalformedURLException e) {

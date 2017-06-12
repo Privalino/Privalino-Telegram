@@ -24710,6 +24710,7 @@ public class TLRPC {
         public int seq_out; //custom
 		public boolean with_my_score;
         public TLRPC.Message replyMessage; //custom
+		public float privalino_score;
 
         public static Message TLdeserialize(AbstractSerializedData stream, int constructor, boolean exception) {
             Message result = null;
