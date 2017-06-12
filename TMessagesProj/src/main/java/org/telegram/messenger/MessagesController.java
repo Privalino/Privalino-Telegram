@@ -21,6 +21,8 @@ import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.messenger.query.BotQuery;
 import org.telegram.messenger.query.DraftQuery;
@@ -6131,12 +6133,9 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         //    message.message = message.message + "\uD83D\uDE00\uD83D\uDE10\uD83D\uDE1F\uD83D\uDE15\uD83D\uDE41☹️\uD83D\uDE20\uD83D\uDE21\uD83D\uDC79\uD83D\uDC7A \uD83D\uDC36";
                         //}
 
-                        float rating = Float.parseFloat(output);
-                        if (rating > 1.0 )
-                        {
-                            rating = 1.0f;
-                        }
-                        String rating_text = Float.toString(rating * 100);
+                        JSONObject privalinoRating = new JSONObject(output);
+                        double rating = privalinoRating.optDouble("automatic", 0d);
+                        String rating_text = String.valueOf(Math.round(rating * 100));
                         //String emoji = "\uD83D\uDE00\uD83D\uDE10\uD83D\uDE1F\uD83D\uDE15\uD83D\uDE41☹️\uD83D\uDE20\uD83D\uDE21\uD83D\uDC79\uD83D\uDC7A \uD83D\uDC36";
                         //if (rating < 0.9) emoji = "\uD83D\uDC7A";
                         //if (rating < 0.7) emoji = "\uD83D\uDE1F";
@@ -6154,6 +6153,8 @@ public class MessagesController implements NotificationCenter.NotificationCenter
 
                         e.printStackTrace();
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
                     // Hier einfach den User Blocken
