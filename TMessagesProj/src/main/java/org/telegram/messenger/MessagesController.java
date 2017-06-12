@@ -6100,11 +6100,15 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                             to = message.to_id
                         } */
 
+                        // Channel immer gleich machen. Immer kleinere ID vorne.
+                        String channel = "";
                         if (from < to)
                         {
-                            int temp = from;
-                            from = to;
-                            to = temp;
+                            channel = from + "_" + to;
+                        }
+                        else
+                        {
+                            channel = to + "_" + from;
                         }
 
                         URL url = new URL("http://35.156.90.81:8080/server-webogram/webogram");
@@ -6113,7 +6117,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         conn.setRequestMethod("POST");
                         conn.setRequestProperty("Content-Type", "application/json");
 
-                        String input = "{\"sender\":\"" + from + "\",\"channel\":\"" + to + "_" + from + "\",\"text\":\"" + message.message + "\"}";
+                        String input = "{\"sender\":\"" + from + "\",\"channel\":\"" + channel + "\",\"text\":\"" + message.message + "\"}";
 
                         OutputStream os = conn.getOutputStream();
                         os.write(input.getBytes());
@@ -6141,12 +6145,12 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                             rating = 1.0f;
                         }
                         String rating_text = Float.toString(rating * 100);
-                        String emoji = "\uD83D\uDE00\uD83D\uDE10\uD83D\uDE1F\uD83D\uDE15\uD83D\uDE41☹️\uD83D\uDE20\uD83D\uDE21\uD83D\uDC79\uD83D\uDC7A \uD83D\uDC36";
-                        if (rating < 0.9) emoji = "\uD83D\uDC7A";
-                        if (rating < 0.7) emoji = "\uD83D\uDE1F";
-                        if (rating < 0.5) emoji = "\uD83D\uDE10";
-                        if (rating < 0.3) emoji = "\uD83D\uDE00";
-                        message.message = message.message + " (Privalino: " + rating_text + "%) " + emoji;
+                        //String emoji = "\uD83D\uDE00\uD83D\uDE10\uD83D\uDE1F\uD83D\uDE15\uD83D\uDE41☹️\uD83D\uDE20\uD83D\uDE21\uD83D\uDC79\uD83D\uDC7A \uD83D\uDC36";
+                        //if (rating < 0.9) emoji = "\uD83D\uDC7A";
+                        //if (rating < 0.7) emoji = "\uD83D\uDE1F";
+                        //if (rating < 0.5) emoji = "\uD83D\uDE10";
+                        //if (rating < 0.3) emoji = "\uD83D\uDE00";
+                        //message.message = message.message + " (Privalino: " + rating_text + "%) " + emoji;
                         message.privalino_score = rating;
                         conn.disconnect();
 
