@@ -6914,15 +6914,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         } */
 
                         // Channel immer gleich machen. Immer kleinere ID vorne.
-                        String channel = "";
-                        if (from < to)
-                        {
-                            channel = from + "_" + to;
-                        }
-                        else
-                        {
-                            channel = to + "_" + from;
-                        }
+                        String privalino_channel = from < to ? from + "_" + to : to + "_" + from;
 
                         URL url = new URL("http://35.156.90.81:8080/server-webogram/webogram");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -6930,7 +6922,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         conn.setRequestMethod("POST");
                         conn.setRequestProperty("Content-Type", "application/json");
 
-                        String input = "{\"sender\":\"" + from + "\",\"channel\":\"" + channel + "\",\"text\":\"" + message.message + "\"}";
+                        String input = "{\"sender\":\"" + from + "\",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
 
                         OutputStream os = conn.getOutputStream();
                         os.write(input.getBytes());
