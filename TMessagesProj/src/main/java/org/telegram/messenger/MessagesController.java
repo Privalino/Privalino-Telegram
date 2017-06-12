@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Semaphore;
@@ -6948,15 +6949,33 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         //}
 
                         JSONObject privalinoRating = new JSONObject(output);
-                        double rating = privalinoRating.optDouble("automatic", 0d);
-                        String rating_text = String.valueOf(Math.round(rating * 100));
                         //String emoji = "\uD83D\uDE00\uD83D\uDE10\uD83D\uDE1F\uD83D\uDE15\uD83D\uDE41☹️\uD83D\uDE20\uD83D\uDE21\uD83D\uDC79\uD83D\uDC7A \uD83D\uDC36";
                         //if (rating < 0.9) emoji = "\uD83D\uDC7A";
                         //if (rating < 0.7) emoji = "\uD83D\uDE1F";
                         //if (rating < 0.5) emoji = "\uD83D\uDE10";
                         //if (rating < 0.3) emoji = "\uD83D\uDE00";
-                        //message.message = message.message + " (Privalino: " + rating_text + "%) " + emoji;
-                        message.privalino_score = rating;
+                        //
+
+                        //TODO Make threshold a constant
+                        double warningThreshold = 0.5;
+                        Iterator<String> keyIterator = privalinoRating.keys();
+                        String key;
+                        double rating;
+                        boolean isWarned = false;
+                        while(keyIterator.hasNext()) {
+                            key = keyIterator.next();
+                            rating = privalinoRating.optDouble(key,0d);
+                            if (rating >= warningThreshold){
+                                if(!isWarned){
+                                    isWarned = true;
+                                    message.message = message.message + " <-- Warnung vor";
+                                }
+                                message.message = message.message + " " + key + " (" + getPercentString(rating)+ ")";
+                            }
+                        }
+
+                        //@Kolja: Wozu müssen wir denn den Score in der Message speichern?
+                        message.privalino_score = 0d;
                         conn.disconnect();
 
                     } catch (IOException | JSONException e) {
@@ -7341,6 +7360,11 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         }
         MessagesStorage.getInstance().saveDiffParams(MessagesStorage.lastSeqValue, MessagesStorage.lastPtsValue, MessagesStorage.lastDateValue, MessagesStorage.lastQtsValue);
     }
+
+    private String getPercentString(double rating) {
+        return String.valueOf(Math.round(rating * 100)) + "%";
+    }
+
 
     public boolean processUpdateArray(ArrayList<TLRPC.Update> updates, final ArrayList<TLRPC.User> usersArr, final ArrayList<TLRPC.Chat> chatsArr, boolean fromGetDifference) {
         if (updates.isEmpty()) {
