@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.widget.Toast;
@@ -6958,16 +6959,11 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         message.privalino_score = rating;
                         conn.disconnect();
 
-                    } catch (MalformedURLException e) {
+                    } catch (IOException | JSONException e) {
+                        Log.e("Privalino Exception", e.getMessage());
 
-                        e.printStackTrace();
+                        //e.printStackTrace();
 
-                    } catch (IOException e) {
-
-                        e.printStackTrace();
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
 
                     // Hier einfach den User Blocken
