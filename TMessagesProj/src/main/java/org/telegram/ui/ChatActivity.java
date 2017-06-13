@@ -5845,8 +5845,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         MessageObject obj = arr.get(a);
 
                         // Hier kommt die Message in der GUI an.
-                        float wow = obj.getPrivalino();
-                        createPrivalinoMenu(obj.messageOwner.from_id);
+                        double privalino_score = obj.getPrivalino();
+                        if (privalino_score > 0.5d) {
+                            createPrivalinoMenu(obj.messageOwner.from_id);
+                        }
 
 
                         if (a == 0) {

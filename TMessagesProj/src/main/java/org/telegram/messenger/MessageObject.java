@@ -1473,6 +1473,10 @@ public class MessageObject {
         return messageOwner.id;
     }
 
+    public double getPrivalino() {
+        return messageOwner.privalino_score;
+    }
+
     public boolean isSecretPhoto() {
         return messageOwner instanceof TLRPC.TL_message_secret && messageOwner.media instanceof TLRPC.TL_messageMediaPhoto && messageOwner.ttl > 0 && messageOwner.ttl <= 60;
     }
