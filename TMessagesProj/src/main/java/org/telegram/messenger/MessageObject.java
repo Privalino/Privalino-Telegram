@@ -2623,6 +2623,10 @@ public class MessageObject {
                 message instanceof TLRPC.TL_message_secret && (message.media instanceof TLRPC.TL_messageMediaPhoto || isRoundVideoMessage(message) || isVideoMessage(message)) && message.ttl > 0 && message.ttl <= 60;
     }
 
+    public double getPrivalino() {
+        return messageOwner.privalino_score;
+    }
+
     public boolean isSecretPhoto() {
         return messageOwner instanceof TLRPC.TL_message && (messageOwner.media instanceof TLRPC.TL_messageMediaPhoto || messageOwner.media instanceof TLRPC.TL_messageMediaDocument) && messageOwner.media.ttl_seconds != 0 ||
                 messageOwner instanceof TLRPC.TL_message_secret && ((messageOwner.media instanceof TLRPC.TL_messageMediaPhoto || isVideo()) && messageOwner.ttl > 0 && messageOwner.ttl <= 60 || isRoundVideo());

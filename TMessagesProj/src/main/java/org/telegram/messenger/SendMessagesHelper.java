@@ -25,9 +25,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.telegram.messenger.audioinfo.AudioInfo;
 import org.telegram.messenger.query.DraftQuery;
 import org.telegram.messenger.query.SearchQuery;
@@ -45,8 +48,15 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.PaymentFormActivity;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -55,6 +65,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.Iterator;
 
 public class SendMessagesHelper implements NotificationCenter.NotificationCenterDelegate {
 
@@ -3382,6 +3393,90 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
                                                     }
                                                     NotificationCenter.getInstance().postNotificationName(NotificationCenter.dialogsNeedReload);
                                                 }
+
+                                                // Privalino von selbstgeschriebenen Nachrichten.
+                                                Thread thread = new Thread(new Runnable(){
+                                                    @Override
+                                                    public void run(){
+
+                                                        try {
+
+                                                            int from = newMsgObj.from_id;
+                                                            int to = newMsgObj.to_id.user_id;
+
+
+                                                            // Channel immer gleich machen. Immer kleinere ID vorne.
+                                                            String privalino_channel = from < to ? from + "_" + to : to + "_" + from;
+
+                                                            URL url = new URL("http://35.156.90.81:8080/server-webogram/protection");
+                                                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                                                            conn.setDoOutput(true);
+                                                            conn.setRequestMethod("POST");
+                                                            conn.setRequestProperty("Content-Type", "application/json");
+
+                                                            String input = "{\"sender\":" + from + ",\"id\":" + newMsgObj.id + ",\"sender\":\"\" + from + \"\",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + newMsgObj.message + "\"}";
+
+                                                            OutputStream os = conn.getOutputStream();
+                                                            os.write(input.getBytes());
+                                                            os.flush();
+
+                                                            //if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+                                                            //    throw new RuntimeException("Failed : HTTP error code : "
+                                                            //            + conn.getResponseCode());
+                                                            //}
+
+                                                            BufferedReader br = new BufferedReader(new InputStreamReader(
+                                                                    (conn.getInputStream())));
+
+                                                            //while ((output = br.readLine()) != null) {
+                                                            //    System.out.println(output);
+                                                            //    message.message = message.message + "\uD83D\uDE00\uD83D\uDE10\uD83D\uDE1F\uD83D\uDE15\uD83D\uDE41â¹ï¸\uD83D\uDE20\uD83D\uDE21\uD83D\uDC79\uD83D\uDC7A \uD83D\uDC36";
+                                                            //}
+
+                                                            JSONObject privalinoRating = new JSONObject(br.readLine());
+                                                            //String emoji = "\uD83D\uDE00\uD83D\uDE10\uD83D\uDE1F\uD83D\uDE15\uD83D\uDE41â¹ï¸\uD83D\uDE20\uD83D\uDE21\uD83D\uDC79\uD83D\uDC7A \uD83D\uDC36";
+                                                            //if (rating < 0.9) emoji = "\uD83D\uDC7A";
+                                                            //if (rating < 0.7) emoji = "\uD83D\uDE1F";
+                                                            //if (rating < 0.5) emoji = "\uD83D\uDE10";
+                                                            //if (rating < 0.3) emoji = "\uD83D\uDE00";
+                                                            //
+                                                            double rating = 0d;
+                                                            if(newMsgObj.out == false) {
+                                                                //TODO Make threshold a constant
+                                                                double warningThreshold = 0.5;
+                                                                Iterator<String> keyIterator = privalinoRating.keys();
+                                                                String key;
+
+                                                                boolean isWarned = false;
+                                                                while (keyIterator.hasNext()) {
+                                                                    key = keyIterator.next();
+                                                                    rating = privalinoRating.optDouble(key, 0d);
+                                                                    //if (rating >= warningThreshold) {
+                                                                    //    if (!isWarned) {
+                                                                    //        isWarned = true;
+                                                                    //        message.message = message.message + " <-- Warnung vor";
+                                                                    //    }
+                                                                    //    message.message = message.message + " " + key + " (" + getPercentString(rating) + ")";
+                                                                    //}
+                                                                }
+                                                            }
+
+                                                            //@Kolja: Wozu mÃ¼ssen wir denn den Score in der Message speichern?
+                                                            newMsgObj.privalino_score = rating;
+                                                            conn.disconnect();
+
+                                                        } catch (IOException | JSONException e) {
+                                                            Log.e("Privalino Exception", e.getMessage());
+
+                                                            //e.printStackTrace();
+
+                                                        }
+
+                                                    }
+                                                });
+                                                thread.start();
+
+
                                                 SearchQuery.increasePeerRaiting(newMsgObj.dialog_id);
                                                 NotificationCenter.getInstance().postNotificationName(NotificationCenter.messageReceivedByServer, oldId, (isBroadcast ? oldId : newMsgObj.id), newMsgObj, newMsgObj.dialog_id);
                                                 processSentMessage(oldId);

@@ -6952,29 +6952,29 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         //if (rating < 0.5) emoji = "\uD83D\uDE10";
                         //if (rating < 0.3) emoji = "\uD83D\uDE00";
                         //
-
+                        double rating = 0d;
                         if(message.out == false) {
                             //TODO Make threshold a constant
                             double warningThreshold = 0.5;
                             Iterator<String> keyIterator = privalinoRating.keys();
                             String key;
-                            double rating;
+
                             boolean isWarned = false;
                             while (keyIterator.hasNext()) {
                                 key = keyIterator.next();
                                 rating = privalinoRating.optDouble(key, 0d);
-                                if (rating >= warningThreshold) {
-                                    if (!isWarned) {
-                                        isWarned = true;
-                                        message.message = message.message + " <-- Warnung vor";
-                                    }
-                                    message.message = message.message + " " + key + " (" + getPercentString(rating) + ")";
-                                }
+                                //if (rating >= warningThreshold) {
+                                //    if (!isWarned) {
+                                //        isWarned = true;
+                                //        message.message = message.message + " <-- Warnung vor";
+                                //    }
+                                //    message.message = message.message + " " + key + " (" + getPercentString(rating) + ")";
+                                //}
                             }
                         }
 
                         //@Kolja: Wozu müssen wir denn den Score in der Message speichern?
-                        message.privalino_score = 0d;
+                        message.privalino_score = rating;
                         conn.disconnect();
 
                     } catch (IOException | JSONException e) {

@@ -10,3 +10,5 @@ gradle.properties
 TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java
 google-services.json
 TMessagesProj/.externalNativeBuild
+*.DS_Store
+*.apk

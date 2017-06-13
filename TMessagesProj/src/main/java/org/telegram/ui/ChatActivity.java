@@ -7208,8 +7208,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         int placeToPaste = -1;
                         MessageObject obj = arr.get(a);
 
-                        float wow = obj.getPrivalino();
-                        createPrivalinoMenu(obj.messageOwner.from_id);
+                        // Hier kommt die Message in der GUI an.
+                        double privalino_score = obj.getPrivalino();
+                        if (privalino_score > 0.5d) {
+                            createPrivalinoMenu(obj.messageOwner.from_id);
+                        }
 
                         if (currentUser != null && (currentUser.bot && obj.isOut() || currentUser.id == currentUserId)) {
                             obj.setIsRead();

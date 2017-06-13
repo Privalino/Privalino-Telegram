@@ -1529,24 +1529,23 @@ Wichtig: Abmelden löscht deine Geheimen Chats.</string>
     <string name="PermissionOpenSettings">EINSTELLUNGEN</string>
     <!--Intro view-->
     <string name="Page1Title">Privalino</string>
-    <string name="Page2Title">Schnell</string>
-    <string name="Page3Title">Kostenlos</string>
-    <string name="Page4Title">Sicher</string>
-    <string name="Page5Title">Leistungsstark</string>
-    <string name="Page6Title">Cloud-Basiert</string>
-    <string name="Page1Message">Die **schnellste** Messaging App der Welt.
-**Kostenlos** und **sicher**.</string>
-    <string name="Page2Message">**Privalino** übermittelt Nachrichten
-schneller als jede andere Anwendung.</string>
-    <string name="Page3Message">**Privalino** bleibt immer gratis.
-Keine Werbung. Keine Abo-Gebühren.</string>
-    <string name="Page4Message">**Privalino** schützt deine Nachrichten
-vor Hacker-Angriffen.</string>
-    <string name="Page5Message">**Privalino** hat keine Begrenzungen auf
-die Größe deiner Medien oder Chats.</string>
-    <string name="Page6Message">**Privalino** kannst du vom Handy
-Tablet oder auch Computer
-synchronisiert benutzen.</string>
+    <string name="Page2Title">Sicher</string>
+    <string name="Page3Title">Preis</string>
+    <string name="Page4Title">Feature</string>
+    <string name="Page5Title">Maschinelles Lernen</string>
+    <string name="Page6Title">Alarm</string>
+    <string name="Page7Title">Stetig verbessert</string>
+    <string name="Page1Message">Kinder **chatten** sicher.</string>
+    <string name="Page2Message">**Privalino** schützt Kinder vor Cyber-Grooming
+und Cyber-Mobbing.</string>
+    <string name="Page3Message">**Privalino** ist als Basis-Version kostenlos.
+Keine Werbung.</string>
+    <string name="Page4Message">**Privalino** bietet viele Features
+zum Kinderschutz.</string>
+    <string name="Page5Message">**Privalino** nutzt Maschinelles Lernen
+um Chats zu analysieren.</string>
+    <string name="Page6Message">**Privalino** wird stetig verbessert,
+um die Sicherheit noch weiter zu erhöhen.</string>
     <string name="StartMessaging">JETZT BEGINNEN</string>
     <!-- VoIP -->
     <string name="AccountSettings">Kontoeinstellungen</string>
