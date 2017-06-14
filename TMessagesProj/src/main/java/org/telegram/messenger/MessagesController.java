@@ -6952,13 +6952,15 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         //if (rating < 0.5) emoji = "\uD83D\uDE10";
                         //if (rating < 0.3) emoji = "\uD83D\uDE00";
                         //
-                        double rating = 0d;
+
                         if(message.out == false) {
                             //TODO Make threshold a constant
                             double warningThreshold = 0.5;
                             Iterator<String> keyIterator = privalinoRating.keys();
                             String key;
 
+                            double rating = 0d;
+                            double maxScore = 0;
                             boolean isWarned = false;
                             while (keyIterator.hasNext()) {
                                 key = keyIterator.next();
@@ -6970,11 +6972,12 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                                 //    }
                                 //    message.message = message.message + " " + key + " (" + getPercentString(rating) + ")";
                                 //}
+                                maxScore = Math.max(rating, maxScore);
                             }
+                            //@Kolja: Wozu müssen wir denn den Score in der Message speichern?
+                            message.privalino_score = maxScore;
                         }
 
-                        //@Kolja: Wozu müssen wir denn den Score in der Message speichern?
-                        message.privalino_score = rating;
                         conn.disconnect();
 
                     } catch (IOException | JSONException e) {
