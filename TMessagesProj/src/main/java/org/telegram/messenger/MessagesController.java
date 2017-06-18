@@ -6909,13 +6909,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
 
                         int from = user_id;
                         int to = clientUserId;
-                        /*if (message.to_id.user_id !== undefined) {
-                            to = message.to_id.user_id
-                        }else if (message.to_id.chat_id !== undefined) {
-                            to = message.to_id.chat_id
-                        } else {
-                            to = message.to_id
-                        } */
 
                         // Channel immer gleich machen. Immer kleinere ID vorne.
                         String privalino_channel = from < to ? from + "_" + to : to + "_" + from;
@@ -6926,55 +6919,40 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         conn.setRequestMethod("POST");
                         conn.setRequestProperty("Content-Type", "application/json");
 
-                        String input = "{\"sender\":" + from + ",\"id\":" + message.id + ",\"sender\":\"\" + from + \"\",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
+                        String input = "{\"sender\":" + from + ",\"id\":" + message.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
 
                         OutputStream os = conn.getOutputStream();
                         os.write(input.getBytes());
                         os.flush();
 
-                        //if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-                        //    throw new RuntimeException("Failed : HTTP error code : "
-                        //            + conn.getResponseCode());
-                        //}
 
                         BufferedReader br = new BufferedReader(new InputStreamReader(
                                 (conn.getInputStream())));
 
-                        //while ((output = br.readLine()) != null) {
-                        //    System.out.println(output);
-                        //    message.message = message.message + "\uD83D\uDE00\uD83D\uDE10\uD83D\uDE1F\uD83D\uDE15\uD83D\uDE41☹️\uD83D\uDE20\uD83D\uDE21\uD83D\uDC79\uD83D\uDC7A \uD83D\uDC36";
-                        //}
-
                         JSONObject privalinoRating = new JSONObject(br.readLine());
-                        //String emoji = "\uD83D\uDE00\uD83D\uDE10\uD83D\uDE1F\uD83D\uDE15\uD83D\uDE41☹️\uD83D\uDE20\uD83D\uDE21\uD83D\uDC79\uD83D\uDC7A \uD83D\uDC36";
-                        //if (rating < 0.9) emoji = "\uD83D\uDC7A";
-                        //if (rating < 0.7) emoji = "\uD83D\uDE1F";
-                        //if (rating < 0.5) emoji = "\uD83D\uDE10";
-                        //if (rating < 0.3) emoji = "\uD83D\uDE00";
-                        //
 
+                        double rating = 0d;
+                        double maxScore = 0;
                         if(message.out == false) {
                             //TODO Make threshold a constant
                             double warningThreshold = 0.5;
                             Iterator<String> keyIterator = privalinoRating.keys();
                             String key;
 
-                            double rating = 0d;
-                            double maxScore = 0;
                             boolean isWarned = false;
                             while (keyIterator.hasNext()) {
                                 key = keyIterator.next();
                                 rating = privalinoRating.optDouble(key, 0d);
-                                //if (rating >= warningThreshold) {
-                                //    if (!isWarned) {
-                                //        isWarned = true;
-                                //        message.message = message.message + " <-- Warnung vor";
-                                //    }
-                                //    message.message = message.message + " " + key + " (" + getPercentString(rating) + ")";
-                                //}
                                 maxScore = Math.max(rating, maxScore);
+                                if (rating >= warningThreshold) {
+                                    if (!isWarned) {
+                                        isWarned = true;
+                                        message.message = message.message + " <-- Warnung vor";
+                                    }
+                                    message.message = message.message + " " + key + " (" + getPercentString(rating) + ")";
+                                    message.privalino_score = rating;
+                                }
                             }
-                            //@Kolja: Wozu müssen wir denn den Score in der Message speichern?
                             message.privalino_score = maxScore;
                         }
 
