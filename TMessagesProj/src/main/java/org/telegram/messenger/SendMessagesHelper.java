@@ -2516,7 +2516,7 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
                                                                     //    message.message = message.message + " " + key + " (" + getPercentString(rating) + ")";
                                                                     //}
                                                                 }
-                                                                message.privalino_score = maxScore;
+                                                                newMsgObj.privalino_score = maxScore;
                                                             }
                                                             conn.disconnect();
 
