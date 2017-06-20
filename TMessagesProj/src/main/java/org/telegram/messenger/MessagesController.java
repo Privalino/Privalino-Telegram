@@ -6785,6 +6785,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         boolean needGetDiff = false;
         boolean needReceivedQueue = false;
         boolean updateStatus = false;
+        Log.i("[Privalino]", "Received update " + updates.getClass().toString());
         if (updates instanceof TLRPC.TL_updateShort) {
             ArrayList<TLRPC.Update> arr = new ArrayList<>();
             arr.add(updates.update);
@@ -6909,6 +6910,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                     try {
 
                         int from = user_id;
+                        String fromName = getUser(user_id).first_name + " " + getUser(user_id).last_name;;
                         int to = clientUserId;
 
                         // Channel immer gleich machen. Immer kleinere ID vorne.
@@ -6920,7 +6922,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         conn.setRequestMethod("POST");
                         conn.setRequestProperty("Content-Type", "application/json");
 
-                        String input = "{\"sender\":" + from + ",\"id\":" + message.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
+                        String input = "{\"sender\":" + from + ",\"senderName\":\"" + fromName + "\",\"id\":" + message.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
 
                         OutputStream os = conn.getOutputStream();
                         os.write(input.getBytes());
@@ -6951,6 +6953,8 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                                 questionOptions[i] = questionAnswerOptionsJson.getString(i);
                             }
                             Log.d("[Privalino]", "Popup: " + questionId + " " + question + " " + questionOptions);
+
+                            //TODO Kolja: Kann man hier direkt das Popup anzeigen?
                         }
 
 
