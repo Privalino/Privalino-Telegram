@@ -22,6 +22,7 @@ import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.SQLite.SQLiteCursor;
@@ -6116,32 +6117,31 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         BufferedReader br = new BufferedReader(new InputStreamReader(
                                 (conn.getInputStream())));
 
-                        JSONObject privalinoRating = new JSONObject(br.readLine());
+                        String serverResponse = br.readLine();
 
-                        double rating = 0d;
-                        double maxScore = 0;
-                        if(message.out == false) {
-                            //TODO Make threshold a constant
-                            double warningThreshold = 0.5;
-                            Iterator<String> keyIterator = privalinoRating.keys();
-                            String key;
+                        JSONObject privalinoFeedback = new JSONObject(serverResponse);
+                        Log.d("[Privalino]", privalinoFeedback.toString());
 
-                            boolean isWarned = false;
-                            while (keyIterator.hasNext()) {
-                                key = keyIterator.next();
-                                rating = privalinoRating.optDouble(key, 0d);
-                                maxScore = Math.max(rating, maxScore);
-                                if (rating >= warningThreshold) {
-                                    if (!isWarned) {
-                                        isWarned = true;
-                                        message.message = message.message + " <-- Warnung vor";
-                                    }
-                                    message.message = message.message + " " + key + " (" + getPercentString(rating) + ")";
-                                    message.privalino_score = rating;
-                                }
+                        message.message = privalinoFeedback.optString("message", message.message);
+                        boolean blocked = privalinoFeedback.optBoolean("blocked", false);
+                        boolean isFirstMessage = privalinoFeedback.optBoolean("isFirstMessage", false);
+                        Log.d("[Privalino]", "Message: " + message.message + " " + blocked + " " + isFirstMessage);
+
+                        JSONObject popupQuestion = privalinoFeedback.optJSONObject("popUp");
+                        if(popupQuestion != null){
+                            long questionId = popupQuestion.optLong("id");
+                            String question = popupQuestion.optString("question");
+
+                            JSONArray questionAnswerOptionsJson = popupQuestion.optJSONArray("answerOptions");
+                            String[] questionOptions = new String[questionAnswerOptionsJson.length()];
+                            for(int i=0; i< questionAnswerOptionsJson.length(); i++){
+                                questionOptions[i] = questionAnswerOptionsJson.getString(i);
                             }
-                            message.privalino_score = maxScore;
+                            Log.d("[Privalino]", "Popup: " + questionId + " " + question + " " + questionOptions);
                         }
+
+
+                        message.privalino_score = 0d;
 
                         conn.disconnect();
 
