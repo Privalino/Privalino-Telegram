@@ -6098,7 +6098,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         int to = clientUserId;
 
                         // Channel immer gleich machen. Immer kleinere ID vorne.
-                        String privalino_channel = from < to ? from + "_" + to : to + "_" + from;
+                        String privalino_channel = Math.min(from, to) + "_" + Math.max(from, to);
 
                         URL url = new URL("http://35.156.90.81:8080/server-webogram/protection");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
