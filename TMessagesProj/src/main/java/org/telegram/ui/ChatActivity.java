@@ -52,6 +52,7 @@ import android.text.style.CharacterStyle;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
@@ -171,6 +172,10 @@ import org.telegram.ui.Components.URLSpanUserMention;
 import org.telegram.ui.Components.voip.VoIPHelper;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7211,7 +7216,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         // Hier kommt die Message in der GUI an.
                         double privalino_score = obj.getPrivalino();
                         if (privalino_score > 0.5d) {
-                            createPrivalinoMenu(obj.messageOwner.from_id);
+                            createPrivalinoMenu(obj.messageOwner);
                         }
 
                         if (currentUser != null && (currentUser.bot && obj.isOut() || currentUser.id == currentUserId)) {
@@ -9879,20 +9884,82 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         showDialog(builder.create());
     }
 
-    private void createPrivalinoMenu(final int user_id)
-    {
+    private void createPrivalinoMenu(final TLRPC.Message message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setMessage("Kennst du deinen Chatpartner wirklich?")
-                .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+        builder.setMessage(message.privalino_question)
+                .setPositiveButton(message.privalino_questionOptions[0], new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // Erst mal nichts die Antwort sollta aber an Privalino übermittelt werden.
+
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    URL url = new URL("http://35.156.90.81:8080/server-webogram/popupanswer");
+                                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                                    conn.setDoOutput(true);
+                                    conn.setRequestMethod("POST");
+                                    conn.setRequestProperty("Content-Type", "application/json");
+
+                                    String input = "{\"id\":" + message.privalino_questionId + ",\"answer\":" + message.privalino_questionOptions[0] + " }";
+
+                                    OutputStream os = conn.getOutputStream();
+                                    os.write(input.getBytes());
+                                    os.flush();
+
+
+                                    //BufferedReader br = new BufferedReader(new InputStreamReader(
+                                    //        (conn.getInputStream())));
+
+                                    //JSONObject privalinoRating = new JSONObject(br.readLine());
+
+                                    conn.disconnect();
+
+                                } catch (IOException e) {
+                                    Log.e("Privalino Exception", e.getMessage());
+                                    //e.printStackTrace();
+                                }
+                            }
+                        });
+                        thread.start();
+
                     }
                 })
-                .setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+                .setNegativeButton(message.privalino_questionOptions[1], new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Der Chatpartner wird gespert.
-                        MessagesController.getInstance().blockUser(user_id);
-                        // Hier fehlt auch noch die Meldung an Privalino.
+                        MessagesController.getInstance().blockUser(message.from_id);
+                        
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    URL url = new URL("http://35.156.90.81:8080/server-webogram/popupanswer");
+                                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                                    conn.setDoOutput(true);
+                                    conn.setRequestMethod("POST");
+                                    conn.setRequestProperty("Content-Type", "application/json");
+
+                                    String input = "{\"id\":" + message.privalino_questionId + ",\"answer\":" + message.privalino_questionOptions[1] + " }";
+
+                                    OutputStream os = conn.getOutputStream();
+                                    os.write(input.getBytes());
+                                    os.flush();
+
+
+                                    //BufferedReader br = new BufferedReader(new InputStreamReader(
+                                    //        (conn.getInputStream())));
+
+                                    //JSONObject privalinoRating = new JSONObject(br.readLine());
+
+                                    conn.disconnect();
+
+                                } catch (IOException e) {
+                                    Log.e("Privalino Exception", e.getMessage());
+                                    //e.printStackTrace();
+                                }
+                            }
+                        });
+                        thread.start();
                     }
                 });
         builder.setTitle(LocaleController.getString("Privalino", R.string.Message));
