@@ -6141,7 +6141,10 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                             }
                             Log.d("[Privalino]", "Popup: " + questionId + " " + question + " " + questionOptions);
 
-                            //TODO Kolja: Kann man hier direkt das Popup anzeigen?
+                            message.privalino_questionId = questionId;
+                            message.privalino_question = question;
+                            message.privalino_questionOptions = questionOptions;
+                            //TODO Kolja: Kann man hier direkt das Popup anzeigen? Nein :(
                         }
 
 

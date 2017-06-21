@@ -24711,6 +24711,9 @@ public class TLRPC {
 		public boolean with_my_score;
         public TLRPC.Message replyMessage; //custom
 		public double privalino_score;
+		public long privalino_questionId;
+		public String privalino_question;
+		public String[] privalino_questionOptions;
 
         public static Message TLdeserialize(AbstractSerializedData stream, int constructor, boolean exception) {
             Message result = null;
