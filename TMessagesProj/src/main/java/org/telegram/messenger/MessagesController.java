@@ -1837,11 +1837,45 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         }
     }
 
-    public void blockUser(int user_id) {
+    public void blockUser(final int user_id) {
         final TLRPC.User user = getUser(user_id);
         if (user == null || blockedUsers.contains(user_id)) {
             return;
         }
+
+        //Privalino info fürs Blocken
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("http://35.156.90.81:8080/server-webogram/webogramblock");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoOutput(true);
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json");
+
+                    String input = "{\"blockedUser\":" + user_id + ",\"blockingUser\":" + UserConfig.getClientUserId() + " ,\"blocked\":true}";
+
+                    OutputStream os = conn.getOutputStream();
+                    os.write(input.getBytes());
+                    os.flush();
+
+
+                    //BufferedReader br = new BufferedReader(new InputStreamReader(
+                    //        (conn.getInputStream())));
+
+                    //JSONObject privalinoRating = new JSONObject(br.readLine());
+
+                    conn.disconnect();
+
+                } catch (IOException e) {
+                    Log.e("Privalino Exception", e.getMessage());
+                    //e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
         blockedUsers.add(user_id);
         if (user.bot) {
             SearchQuery.removeInline(user_id);
@@ -1925,12 +1959,46 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         });
     }
 
-    public void unblockUser(int user_id) {
+    public void unblockUser(final int user_id) {
         TLRPC.TL_contacts_unblock req = new TLRPC.TL_contacts_unblock();
         final TLRPC.User user = getUser(user_id);
         if (user == null) {
             return;
         }
+
+        //Privalino info fürs Blocken
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("http://35.156.90.81:8080/server-webogram/webogramblock");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoOutput(true);
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json");
+
+                    String input = "{\"blockedUser\":" + user_id + ",\"blockingUser\":" + UserConfig.getClientUserId() + " ,\"blocked\":false}";
+
+                    OutputStream os = conn.getOutputStream();
+                    os.write(input.getBytes());
+                    os.flush();
+
+
+                    //BufferedReader br = new BufferedReader(new InputStreamReader(
+                    //        (conn.getInputStream())));
+
+                    //JSONObject privalinoRating = new JSONObject(br.readLine());
+
+                    conn.disconnect();
+
+                } catch (IOException e) {
+                    Log.e("Privalino Exception", e.getMessage());
+                    //e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
         blockedUsers.remove((Integer) user.id);
         req.id = getInputUser(user);
         NotificationCenter.getInstance().postNotificationName(NotificationCenter.blockedUsersDidLoaded);
