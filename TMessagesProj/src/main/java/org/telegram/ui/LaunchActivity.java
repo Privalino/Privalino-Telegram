@@ -388,6 +388,11 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     presentFragment(new CallLogActivity());
                     drawerLayoutContainer.closeDrawer(false);
                 }
+                else if (id == 11) {
+                    //Privalino Bot und Kind hinzu fügen
+                    
+                    drawerLayoutContainer.closeDrawer(false);
+                }
             }
         });
 
