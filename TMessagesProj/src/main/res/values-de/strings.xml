@@ -1875,4 +1875,5 @@ um die Sicherheit noch weiter zu erhöhen.</string>
     <string name="formatterDay24H">HH:mm</string>
     <string name="formatterDay12H">h:mm a</string>
     <string name="formatDateAtTime">%1$s um %2$s</string>
+    <string name="SetupPrivalino">Privalino einrichten</string>
 </resources>
