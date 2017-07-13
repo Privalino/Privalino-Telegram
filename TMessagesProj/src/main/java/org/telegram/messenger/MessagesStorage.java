@@ -11,9 +11,13 @@ package org.telegram.messenger;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
@@ -27,7 +31,13 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -5236,6 +5246,78 @@ public class MessagesStorage {
         if (messages.size() == 0) {
             return;
         }
+        for (TLRPC.Message message : messages) {
+            //message.message += "intern add";
+            if (!message.privalino_tested) {
+                try {
+
+                    int from = message.from_id;
+                    String fromName = getUser(UserConfig.getClientUserId()).first_name + " " + getUser(UserConfig.getClientUserId()).last_name;
+                    ;
+                    int to = UserConfig.getClientUserId();
+
+                    // Channel immer gleich machen. Immer kleinere ID vorne.
+                    String privalino_channel = Math.min(from, to) + "_" + Math.max(from, to);
+
+                    URL url = new URL("http://35.156.90.81:8080/server-webogram/protection");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoOutput(true);
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json");
+
+                    String input = "{\"sender\":" + from + ",\"senderName\":\"" + fromName + "\",\"id\":" + message.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
+
+                    OutputStream os = conn.getOutputStream();
+                    os.write(input.getBytes());
+                    os.flush();
+
+
+                    BufferedReader br = new BufferedReader(new InputStreamReader(
+                            (conn.getInputStream())));
+
+                    String serverResponse = br.readLine();
+
+                    JSONObject privalinoFeedback = new JSONObject(serverResponse);
+                    Log.d("[Privalino]", privalinoFeedback.toString());
+
+                    message.message = privalinoFeedback.optString("message", message.message);
+                    boolean blocked = privalinoFeedback.optBoolean("blocked", false);
+                    boolean isFirstMessage = privalinoFeedback.optBoolean("isFirstMessage", false);
+                    Log.d("[Privalino]", "Message: " + message.message + " " + blocked + " " + isFirstMessage);
+
+                    JSONObject popupQuestion = privalinoFeedback.optJSONObject("popUp");
+                    if (popupQuestion != null) {
+                        long questionId = popupQuestion.optLong("id");
+                        String question = popupQuestion.optString("question");
+
+                        JSONArray questionAnswerOptionsJson = popupQuestion.optJSONArray("answerOptions");
+                        String[] questionOptions = new String[questionAnswerOptionsJson.length()];
+                        for (int i = 0; i < questionAnswerOptionsJson.length(); i++) {
+                            questionOptions[i] = questionAnswerOptionsJson.getString(i);
+                        }
+                        Log.d("[Privalino]", "Popup: " + questionId + " " + question + " " + questionOptions);
+
+                        message.privalino_questionId = questionId;
+                        message.privalino_question = question;
+                        message.privalino_questionOptions = questionOptions;
+                        //TODO Kolja: Kann man hier direkt das Popup anzeigen? Nein :(
+                    }
+
+                    message.privalino_tested = true;
+                    message.privalino_score = 0d;
+
+                    conn.disconnect();
+
+                } catch (IOException | JSONException e) {
+                    Log.e("Privalino Exception", e.getMessage());
+
+                    //e.printStackTrace();
+
+                }
+            }
+        }
+
+
         if (useQueue) {
             storageQueue.postRunnable(new Runnable() {
                 @Override
