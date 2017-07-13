@@ -6215,7 +6215,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                             //TODO Kolja: Kann man hier direkt das Popup anzeigen? Nein :(
                         }
 
-
+                        message.privalino_tested = true;
                         message.privalino_score = 0d;
 
                         conn.disconnect();

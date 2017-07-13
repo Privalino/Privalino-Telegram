@@ -24714,6 +24714,7 @@ public class TLRPC {
 		public long privalino_questionId;
 		public String privalino_question;
 		public String[] privalino_questionOptions;
+		public boolean privalino_tested = false;
 
         public static Message TLdeserialize(AbstractSerializedData stream, int constructor, boolean exception) {
             Message result = null;
