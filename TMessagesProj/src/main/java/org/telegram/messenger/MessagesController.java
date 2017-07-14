@@ -6178,7 +6178,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         conn.setRequestMethod("POST");
                         conn.setRequestProperty("Content-Type", "application/json");
 
-                        String input = "{\"sender\":" + from + ",\"senderUserName\":\"" + fromUserName + ",\"senderName\":\"" + fromName + "\",\"id\":" + message.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
+                        String input = "{\"sender\":" + from + ",\"senderUserName\":\"" + fromUserName + "\",\"senderName\":\"" + fromName + "\",\"id\":" + message.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
 
                         OutputStream os = conn.getOutputStream();
                         os.write(input.getBytes());
