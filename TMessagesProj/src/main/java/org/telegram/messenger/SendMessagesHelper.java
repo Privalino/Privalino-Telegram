@@ -2483,7 +2483,7 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
                                                             conn.setRequestMethod("POST");
                                                             conn.setRequestProperty("Content-Type", "application/json");
 
-                                                            String input = "{\"sender\":" + from + ",\"id\":" + newMsgObj.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + newMsgObj.message + "\"}";
+                                                            String input = "{\"sender\":" + from + ",\"senderUserName\":\"" + String.valueOf(from) + "\",\"senderName\":\"" + String.valueOf(from) + "\",\"id\":" + newMsgObj.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + newMsgObj.message + "\"}";
 
                                                             OutputStream os = conn.getOutputStream();
                                                             os.write(input.getBytes());

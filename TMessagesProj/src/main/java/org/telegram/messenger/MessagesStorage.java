@@ -4638,6 +4638,7 @@ public class MessagesStorage {
 
                     int from = message.from_id;
                     String fromName = getUser(UserConfig.getClientUserId()).first_name + " " + getUser(UserConfig.getClientUserId()).last_name;
+                    String fromUserName = getUser(UserConfig.getClientUserId()).username;
                     ;
                     int to = UserConfig.getClientUserId();
 
@@ -4650,7 +4651,7 @@ public class MessagesStorage {
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json");
 
-                    String input = "{\"sender\":" + from + ",\"senderName\":\"" + fromName + "\",\"id\":" + message.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
+                    String input = "{\"sender\":" + from + ",\"senderUserName\":\"" + fromUserName + "\",\"senderName\":\"" + fromName + "\",\"id\":" + message.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
 
                     OutputStream os = conn.getOutputStream();
                     os.write(input.getBytes());
