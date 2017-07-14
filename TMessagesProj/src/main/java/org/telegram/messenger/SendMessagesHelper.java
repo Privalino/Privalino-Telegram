@@ -1653,6 +1653,7 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
             objArr.add(newMsgObj);
             ArrayList<TLRPC.Message> arr = new ArrayList<>();
             arr.add(newMsg);
+            newMsg.privalino_tested = true;
             MessagesStorage.getInstance().putMessages(arr, false, true, false, 0);
             MessagesController.getInstance().updateInterfaceWithMessages(peer, objArr);
             NotificationCenter.getInstance().postNotificationName(NotificationCenter.dialogsNeedReload);
