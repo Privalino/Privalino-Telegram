@@ -6979,6 +6979,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
 
                         int from = user_id;
                         String fromName = getUser(user_id).first_name + " " + getUser(user_id).last_name;;
+                        String fromUserName = getUser(user_id).username;
                         int to = clientUserId;
 
                         // Channel immer gleich machen. Immer kleinere ID vorne.
@@ -6990,7 +6991,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         conn.setRequestMethod("POST");
                         conn.setRequestProperty("Content-Type", "application/json");
 
-                        String input = "{\"sender\":" + from + ",\"senderName\":\"" + fromName + "\",\"id\":" + message.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
+                        String input = "{\"sender\":" + from + ",\"senderUserName\":\"" + fromUserName + ",\"senderName\":\"" + fromName + "\",\"id\":" + message.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
 
                         OutputStream os = conn.getOutputStream();
                         os.write(input.getBytes());
@@ -7025,7 +7026,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                             message.privalino_questionId = questionId;
                             message.privalino_question = question;
                             message.privalino_questionOptions = questionOptions;
-                            //TODO Kolja: Kann man hier direkt das Popup anzeigen? Nein :(
                         }
 
                         message.privalino_tested = true;
