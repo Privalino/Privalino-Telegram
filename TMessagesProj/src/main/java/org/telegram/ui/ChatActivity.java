@@ -7213,9 +7213,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         int placeToPaste = -1;
                         MessageObject obj = arr.get(a);
 
-                        // Hier kommt die Message in der GUI an.
-                        double privalino_score = obj.getPrivalino();
-                        if (privalino_score > 0.5d) {
+                        // Hier kommt die Message in der GUI an
+                        if (obj.messageOwner.privalino_question != null) {
                             createPrivalinoMenu(obj.messageOwner);
                         }
 
