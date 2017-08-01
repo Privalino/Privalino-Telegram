@@ -47,6 +47,8 @@ import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicLong;
 
+import de.privalino.telegram.PrivalinoMessageHandler;
+
 public class MessagesStorage {
     private DispatchQueue storageQueue = new DispatchQueue("storageQueue");
     private SQLiteDatabase database;
@@ -4636,6 +4638,7 @@ public class MessagesStorage {
             if (!message.privalino_tested) {
                 try {
 
+                    JSONObject privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
                     int from = message.from_id;
                     String fromName = getUser(UserConfig.getClientUserId()).first_name + " " + getUser(UserConfig.getClientUserId()).last_name;
                     String fromUserName = getUser(UserConfig.getClientUserId()).username;
@@ -4663,6 +4666,8 @@ public class MessagesStorage {
 
                     String serverResponse = br.readLine();
 
+                    conn.disconnect();
+
                     JSONObject privalinoFeedback = new JSONObject(serverResponse);
                     Log.d("[Privalino]", privalinoFeedback.toString());
 
@@ -4686,13 +4691,12 @@ public class MessagesStorage {
                         message.privalino_questionId = questionId;
                         message.privalino_question = question;
                         message.privalino_questionOptions = questionOptions;
-                        //TODO Kolja: Kann man hier direkt das Popup anzeigen? Nein :(
                     }
 
                     message.privalino_tested = true;
                     message.privalino_score = 0d;
 
-                    conn.disconnect();
+
 
                 } catch (IOException | JSONException e) {
                     Log.e("Privalino Exception", e.getMessage());

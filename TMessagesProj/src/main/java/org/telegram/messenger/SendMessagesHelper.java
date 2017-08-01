@@ -62,6 +62,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import de.privalino.telegram.PrivalinoMessageHandler;
+
 public class SendMessagesHelper implements NotificationCenter.NotificationCenterDelegate {
 
     private TLRPC.ChatFull currentChatInfo = null;
@@ -2470,56 +2472,8 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
 
                                                         try {
 
-                                                            int from = newMsgObj.from_id;
-                                                            int to = newMsgObj.to_id.user_id;
-
-
-                                                            // Channel immer gleich machen. Immer kleinere ID vorne.
-                                                            String privalino_channel = from < to ? from + "_" + to : to + "_" + from;
-
-                                                            URL url = new URL("http://35.156.90.81:8080/server-webogram/protection");
-                                                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                                                            conn.setDoOutput(true);
-                                                            conn.setRequestMethod("POST");
-                                                            conn.setRequestProperty("Content-Type", "application/json");
-
-                                                            String input = "{\"sender\":" + from + ",\"senderUserName\":\"" + String.valueOf(from) + "\",\"senderName\":\"" + String.valueOf(from) + "\",\"id\":" + newMsgObj.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + newMsgObj.message + "\"}";
-
-                                                            OutputStream os = conn.getOutputStream();
-                                                            os.write(input.getBytes());
-                                                            os.flush();
-
-
-                                                            BufferedReader br = new BufferedReader(new InputStreamReader(
-                                                                    (conn.getInputStream())));
-
-
-                                                            JSONObject privalinoRating = new JSONObject(br.readLine());
-
-                                                            double rating = 0d;
-                                                            double maxScore = 0;
-                                                            if(newMsgObj.out == false) {
-                                                                //TODO Make threshold a constant
-                                                                double warningThreshold = 0.5;
-                                                                Iterator<String> keyIterator = privalinoRating.keys();
-                                                                String key;
-
-                                                                boolean isWarned = false;
-                                                                while (keyIterator.hasNext()) {
-                                                                    key = keyIterator.next();
-                                                                    rating = privalinoRating.optDouble(key, 0d);
-                                                                    maxScore = Math.max(rating, maxScore);
-                                                                    //if (rating >= warningThreshold) {
-                                                                    //    if (!isWarned) {
-                                                                    //        isWarned = true;
-                                                                    //        message.message = message.message + " <-- Warnung vor";
-                                                                    //    }
-                                                                    //    message.message = message.message + " " + key + " (" + getPercentString(rating) + ")";
-                                                                    //}
-                                                                }
-                                                                newMsgObj.privalino_score = maxScore;
-                                                            }
-                                                            conn.disconnect();
+                                                            JSONObject privalinoRating = PrivalinoMessageHandler.handleOutgoingMessage(newMsgObj);
+                                                            newMsgObj.message = privalinoRating.getString("message");
 
                                                         } catch (IOException | JSONException e) {
                                                             Log.e("Privalino Exception", e.getMessage());
