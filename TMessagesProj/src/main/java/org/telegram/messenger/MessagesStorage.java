@@ -5249,42 +5249,10 @@ public class MessagesStorage {
             return;
         }
         for (TLRPC.Message message : messages) {
-            //message.message += "intern add";
             if (!message.privalino_tested) {
                 try {
 
                     JSONObject privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
-                    int from = message.from_id;
-                    String fromName = getUser(UserConfig.getClientUserId()).first_name + " " + getUser(UserConfig.getClientUserId()).last_name;
-                    String fromUserName = getUser(UserConfig.getClientUserId()).username;
-                    ;
-                    int to = UserConfig.getClientUserId();
-
-                    // Channel immer gleich machen. Immer kleinere ID vorne.
-                    String privalino_channel = Math.min(from, to) + "_" + Math.max(from, to);
-
-                    URL url = new URL("http://35.156.90.81:8080/server-webogram/protection");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setDoOutput(true);
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json");
-
-                    String input = "{\"sender\":" + from + ",\"senderUserName\":\"" + fromUserName + "\",\"senderName\":\"" + fromName + "\",\"id\":" + message.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
-
-                    OutputStream os = conn.getOutputStream();
-                    os.write(input.getBytes());
-                    os.flush();
-
-
-                    BufferedReader br = new BufferedReader(new InputStreamReader(
-                            (conn.getInputStream())));
-
-                    String serverResponse = br.readLine();
-
-                    conn.disconnect();
-
-                    JSONObject privalinoFeedback = new JSONObject(serverResponse);
-                    Log.d("[Privalino]", privalinoFeedback.toString());
 
                     message.message = privalinoFeedback.optString("message", message.message);
                     boolean blocked = privalinoFeedback.optBoolean("blocked", false);

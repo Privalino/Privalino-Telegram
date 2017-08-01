@@ -48,7 +48,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Semaphore;
@@ -59,8 +58,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+
+import de.privalino.telegram.PrivalinoMessageHandler;
 
 
 public class MessagesController implements NotificationCenter.NotificationCenterDelegate {
@@ -1843,38 +1843,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             return;
         }
 
-        //Privalino info fürs Blocken
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL("http://35.156.90.81:8080/server-webogram/webogramblock");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setDoOutput(true);
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json");
-
-                    String input = "{\"blockedUser\":" + user_id + ",\"blockingUser\":" + UserConfig.getClientUserId() + " ,\"blocked\":true}";
-
-                    OutputStream os = conn.getOutputStream();
-                    os.write(input.getBytes());
-                    os.flush();
-
-
-                    //BufferedReader br = new BufferedReader(new InputStreamReader(
-                    //        (conn.getInputStream())));
-
-                    //JSONObject privalinoRating = new JSONObject(br.readLine());
-
-                    conn.disconnect();
-
-                } catch (IOException e) {
-                    Log.e("Privalino Exception", e.getMessage());
-                    //e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
+        PrivalinoMessageHandler.blockUser(user_id);
 
         blockedUsers.add(user_id);
         if (user.bot) {
@@ -1966,38 +1935,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             return;
         }
 
-        //Privalino info fürs Blocken
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL("http://35.156.90.81:8080/server-webogram/webogramblock");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setDoOutput(true);
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json");
-
-                    String input = "{\"blockedUser\":" + user_id + ",\"blockingUser\":" + UserConfig.getClientUserId() + " ,\"blocked\":false}";
-
-                    OutputStream os = conn.getOutputStream();
-                    os.write(input.getBytes());
-                    os.flush();
-
-
-                    //BufferedReader br = new BufferedReader(new InputStreamReader(
-                    //        (conn.getInputStream())));
-
-                    //JSONObject privalinoRating = new JSONObject(br.readLine());
-
-                    conn.disconnect();
-
-                } catch (IOException e) {
-                    Log.e("Privalino Exception", e.getMessage());
-                    //e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
+        PrivalinoMessageHandler.unblockUser(user_id);
 
         blockedUsers.remove((Integer) user.id);
         req.id = getInputUser(user);
@@ -6976,35 +6914,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                     message.media = new TLRPC.TL_messageMediaEmpty();
 
                     try {
-
-                        int from = user_id;
-                        String fromName = getUser(user_id).first_name + " " + getUser(user_id).last_name;;
-                        String fromUserName = getUser(user_id).username;
-                        int to = clientUserId;
-
-                        // Channel immer gleich machen. Immer kleinere ID vorne.
-                        String privalino_channel = Math.min(from, to) + "_" + Math.max(from, to);
-
-                        URL url = new URL("http://35.156.90.81:8080/server-webogram/protection");
-                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                        conn.setDoOutput(true);
-                        conn.setRequestMethod("POST");
-                        conn.setRequestProperty("Content-Type", "application/json");
-
-                        String input = "{\"sender\":" + from + ",\"senderUserName\":\"" + fromUserName + "\",\"senderName\":\"" + fromName + "\",\"id\":" + message.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + message.message + "\"}";
-
-                        OutputStream os = conn.getOutputStream();
-                        os.write(input.getBytes());
-                        os.flush();
-
-
-                        BufferedReader br = new BufferedReader(new InputStreamReader(
-                                (conn.getInputStream())));
-
-                        String serverResponse = br.readLine();
-
-                        JSONObject privalinoFeedback = new JSONObject(serverResponse);
-                        Log.d("[Privalino]", privalinoFeedback.toString());
+                        JSONObject privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
 
                         message.message = privalinoFeedback.optString("message", message.message);
                         boolean blocked = privalinoFeedback.optBoolean("blocked", false);
@@ -7031,7 +6941,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         message.privalino_tested = true;
                         message.privalino_score = 0d;
 
-                        conn.disconnect();
 
                     } catch (IOException | JSONException e) {
                         Log.e("Privalino Exception", e.getMessage());

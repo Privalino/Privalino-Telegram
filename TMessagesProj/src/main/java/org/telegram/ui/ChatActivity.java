@@ -184,6 +184,8 @@ import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 
+import de.privalino.telegram.PrivalinoMessageHandler;
+
 @SuppressWarnings("unchecked")
 public class ChatActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate, LocationActivity.LocationActivityDelegate {
 
@@ -7215,7 +7217,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
                         // Hier kommt die Message in der GUI an
                         if (obj.messageOwner.privalino_question != null) {
-                            createPrivalinoMenu(obj.messageOwner);
+                            showDialog(PrivalinoMessageHandler.createPrivalinoMenu(obj.messageOwner, getParentActivity()));
                         }
 
                         if (currentUser != null && (currentUser.bot && obj.isOut() || currentUser.id == currentUserId)) {
@@ -9883,89 +9885,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         showDialog(builder.create());
     }
 
-    private void createPrivalinoMenu(final TLRPC.Message message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setMessage(message.privalino_question)
-                .setPositiveButton(message.privalino_questionOptions[0], new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        Thread thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-
-                                    //TODO Move to PrivalinoMessageHandler
-                                    URL url = new URL("http://35.156.90.81:8080/server-webogram/popupanswer");
-                                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                                    conn.setDoOutput(true);
-                                    conn.setRequestMethod("POST");
-                                    conn.setRequestProperty("Content-Type", "application/json");
-
-                                    String input = "{\"id\":" + message.privalino_questionId + ",\"answer\":" + message.privalino_questionOptions[0] + " }";
-
-                                    OutputStream os = conn.getOutputStream();
-                                    os.write(input.getBytes());
-                                    os.flush();
-
-
-                                    //BufferedReader br = new BufferedReader(new InputStreamReader(
-                                    //        (conn.getInputStream())));
-
-                                    //JSONObject privalinoRating = new JSONObject(br.readLine());
-
-                                    conn.disconnect();
-
-                                } catch (IOException e) {
-                                    Log.e("Privalino Exception", e.getMessage());
-                                    //e.printStackTrace();
-                                }
-                            }
-                        });
-                        thread.start();
-
-                    }
-                })
-                .setNegativeButton(message.privalino_questionOptions[1], new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Der Chatpartner wird gespert.
-                        MessagesController.getInstance().blockUser(message.from_id);
-                        
-                        Thread thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    URL url = new URL("http://35.156.90.81:8080/server-webogram/popupanswer");
-                                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                                    conn.setDoOutput(true);
-                                    conn.setRequestMethod("POST");
-                                    conn.setRequestProperty("Content-Type", "application/json");
-
-                                    String input = "{\"id\":" + message.privalino_questionId + ",\"answer\":" + message.privalino_questionOptions[1] + " }";
-
-                                    OutputStream os = conn.getOutputStream();
-                                    os.write(input.getBytes());
-                                    os.flush();
-
-
-                                    //BufferedReader br = new BufferedReader(new InputStreamReader(
-                                    //        (conn.getInputStream())));
-
-                                    //JSONObject privalinoRating = new JSONObject(br.readLine());
-
-                                    conn.disconnect();
-
-                                } catch (IOException e) {
-                                    Log.e("Privalino Exception", e.getMessage());
-                                    //e.printStackTrace();
-                                }
-                            }
-                        });
-                        thread.start();
-                    }
-                });
-        builder.setTitle(LocaleController.getString("Privalino", R.string.Message));
-        showDialog(builder.create());
-    }
 
     private void createMenu(View v, boolean single, boolean listView) {
         createMenu(v, single, listView, true);
