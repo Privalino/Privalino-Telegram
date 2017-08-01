@@ -9893,6 +9893,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             @Override
                             public void run() {
                                 try {
+
+                                    //TODO Move to PrivalinoMessageHandler
                                     URL url = new URL("http://35.156.90.81:8080/server-webogram/popupanswer");
                                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                                     conn.setDoOutput(true);
