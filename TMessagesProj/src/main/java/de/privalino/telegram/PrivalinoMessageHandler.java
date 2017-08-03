@@ -25,6 +25,14 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import de.privalino.telegram.model.PrivalinoFeedback;
+import de.privalino.telegram.model.PrivalinoMessageContainer;
+import de.privalino.telegram.rest.PrivalinoMessageContainerApi;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 import static android.R.id.message;
 import static android.app.PendingIntent.getActivity;
 
@@ -33,34 +41,45 @@ import static android.app.PendingIntent.getActivity;
  */
 
 public class PrivalinoMessageHandler extends DialogFragment {
-    public static JSONObject handleOutgoingMessage(TLRPC.Message messageObject) throws IOException, JSONException {
+
+    public static PrivalinoFeedback handleOutgoingMessage(TLRPC.Message messageObject) throws IOException, JSONException {
         int toChatId = messageObject.to_id.chat_id;
         int toUserId = messageObject.to_id.user_id;
         int from = messageObject.from_id;
         int messageId = messageObject.id;
         boolean outgoingMessage = true;
-        String privalino_channel = from < toUserId ? from + "_" + toUserId : toUserId + "_" + from;
 
-        URL url = new URL("http://35.156.90.81:8080/server-webogram/protection");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setDoOutput(true);
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/json");
+        PrivalinoMessageContainer messageContainer = new PrivalinoMessageContainer();
+        messageContainer.setIncoming(false);
+        messageContainer.setChatId(messageObject.to_id.chat_id);
+        messageContainer.setChannelId(messageObject.to_id.channel_id);
+        messageContainer.setText(messageObject.message);
+        //TODO und so kann es weitergehen: Alle Variablen befüllen und bei Bedarf noch mehr hinzufügen
 
-        String input = "{\"sender\":" + from + ",\"senderUserName\":\"" + String.valueOf(from) + "\",\"senderName\":\"" + String.valueOf(from) + "\",\"id\":" + messageObject.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + messageObject.message + "\"}";
+        Log.i("[Privalino]", "Prepared message: " + messageContainer.toString());
 
-        OutputStream os = conn.getOutputStream();
-        os.write(input.getBytes());
-        os.flush();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://35.156.90.81:8080/server-webogram/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
+        // prepare call in Retrofit 2.0
+        PrivalinoMessageContainerApi protectionApi = retrofit.create(PrivalinoMessageContainerApi.class);
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                (conn.getInputStream())));
+        Log.i("[Privalino]", "Sending message: " + messageContainer.toString());
+        Call<PrivalinoFeedback> call = protectionApi.analyze(messageContainer);
+        Log.i("[Privalino]", "Call: " + call.request().url());
 
+        //synchronous call
+        Response<PrivalinoFeedback> response = call.execute();
+        Log.i("[Privalino]", "Response: " + response.isSuccessful());
+        Log.i("[Privalino]", "Response: " + response.code());
+        Log.i("[Privalino]", "Response: " + response.raw());
+        PrivalinoFeedback feedback = response.body();
 
-        JSONObject privalinoRating = new JSONObject(br.readLine());
-        conn.disconnect();
-        return privalinoRating;
+        Log.i("[Privalino]", "Received feedback: " + feedback.toString());
+
+        return feedback;
     }
 
     public static JSONObject handleIncomingMessage(TLRPC.Message messageObject) throws IOException, JSONException {
@@ -96,6 +115,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
         JSONObject privalinoFeedback = new JSONObject(serverResponse);
         Log.d("[Privalino]", privalinoFeedback.toString());
+
 
         return privalinoFeedback;
     }

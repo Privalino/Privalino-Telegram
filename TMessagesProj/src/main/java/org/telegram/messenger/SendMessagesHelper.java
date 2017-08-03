@@ -63,6 +63,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import de.privalino.telegram.PrivalinoMessageHandler;
+import de.privalino.telegram.model.PrivalinoFeedback;
 
 public class SendMessagesHelper implements NotificationCenter.NotificationCenterDelegate {
 
@@ -2472,8 +2473,8 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
 
                                                         try {
 
-                                                            JSONObject privalinoRating = PrivalinoMessageHandler.handleOutgoingMessage(newMsgObj);
-                                                            newMsgObj.message = privalinoRating.getString("message");
+                                                            PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleOutgoingMessage(newMsgObj);
+                                                            newMsgObj.message = privalinoFeedback.getMessage();
 
                                                         } catch (IOException | JSONException e) {
                                                             Log.e("Privalino Exception", e.getMessage());
