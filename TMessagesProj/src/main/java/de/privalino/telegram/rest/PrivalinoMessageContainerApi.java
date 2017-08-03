@@ -11,6 +11,6 @@ import de.privalino.telegram.model.PrivalinoMessageContainer;
  * Created by nico on 29/03/16.
  */
 public interface PrivalinoMessageContainerApi {
-    @POST("protection/")
+    @POST("message/")
     Call<PrivalinoFeedback> analyze(@Body PrivalinoMessageContainer messageContainer);
 }
