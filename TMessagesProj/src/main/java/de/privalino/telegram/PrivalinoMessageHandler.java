@@ -59,7 +59,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
         Log.i("[Privalino]", "Prepared message: " + messageContainer.toString());
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://localhost:8080/server-webogram/protection/")
+                .baseUrl("http://35.156.90.81:8080/server-webogram/protection/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
