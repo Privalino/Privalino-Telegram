@@ -44,6 +44,8 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
     private static final String API_URL = "http://35.156.90.81:8080/server-webogram/protection/";
 
+    private static PrivalinoMessageContainerApi protectionApi = null;
+
     private static PrivalinoMessageContainer initPrivalinoMessageContainer(PrivalinoMessageContainer messageContainer, TLRPC.Message messageObject)
     {
         int senderId = messageObject.from_id;
@@ -95,17 +97,10 @@ public class PrivalinoMessageHandler extends DialogFragment {
     }
 
     private static PrivalinoFeedback callServer(PrivalinoMessageContainer messageContainer) throws IOException {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        // prepare call in Retrofit 2.0
-        PrivalinoMessageContainerApi protectionApi = retrofit.create(PrivalinoMessageContainerApi.class);
 
         String bla = messageContainer.toString();
         Log.i("[Privalino]", "Sending message: " + messageContainer.toString());
-        Call<PrivalinoFeedback> call = protectionApi.analyze(messageContainer);
+        Call<PrivalinoFeedback> call = getProtectionApi().analyze(messageContainer);
         Log.i("[Privalino]", "Call: " + call.request().url());
 
         //synchronous call
@@ -114,6 +109,19 @@ public class PrivalinoMessageHandler extends DialogFragment {
         Log.i("[Privalino]", "Response: " + response.code());
         Log.i("[Privalino]", "Response: " + response.raw());
         return response.body();
+    }
+
+    private static PrivalinoMessageContainerApi getProtectionApi() {
+        if(protectionApi == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(API_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            // prepare call in Retrofit 2.0
+            protectionApi = retrofit.create(PrivalinoMessageContainerApi.class);
+        }
+        return protectionApi;
     }
 
     public static void blockUser(final int user_id)
