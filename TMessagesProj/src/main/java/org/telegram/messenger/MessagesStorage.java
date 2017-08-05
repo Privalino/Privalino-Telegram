@@ -48,6 +48,8 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicLong;
 
 import de.privalino.telegram.PrivalinoMessageHandler;
+import de.privalino.telegram.model.PrivalinoFeedback;
+import de.privalino.telegram.model.PrivalinoPopUp;
 
 public class MessagesStorage {
 
@@ -5251,40 +5253,28 @@ public class MessagesStorage {
         for (TLRPC.Message message : messages) {
             if (!message.privalino_tested) {
                 try {
+                    PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
 
-                    JSONObject privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
+                    message.message = privalinoFeedback.getMessage();
+                    boolean blocked = privalinoFeedback.isBlocked();
 
-                    message.message = privalinoFeedback.optString("message", message.message);
-                    boolean blocked = privalinoFeedback.optBoolean("blocked", false);
-                    boolean isFirstMessage = privalinoFeedback.optBoolean("isFirstMessage", false);
-                    Log.d("[Privalino]", "Message: " + message.message + " " + blocked + " " + isFirstMessage);
+                    PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
+                    if(popupQuestion.getQuestion() != null){
+                        //long questionId = popupQuestion.optLong("id");
+                        String question = popupQuestion.getQuestion();
 
-                    JSONObject popupQuestion = privalinoFeedback.optJSONObject("popUp");
-                    if (popupQuestion != null) {
-                        long questionId = popupQuestion.optLong("id");
-                        String question = popupQuestion.optString("question");
+                        String[] questionOptions = popupQuestion.getAnswerOptions();
 
-                        JSONArray questionAnswerOptionsJson = popupQuestion.optJSONArray("answerOptions");
-                        String[] questionOptions = new String[questionAnswerOptionsJson.length()];
-                        for (int i = 0; i < questionAnswerOptionsJson.length(); i++) {
-                            questionOptions[i] = questionAnswerOptionsJson.getString(i);
-                        }
-                        Log.d("[Privalino]", "Popup: " + questionId + " " + question + " " + questionOptions);
-
-                        message.privalino_questionId = questionId;
+                        //message.privalino_questionId = questionId;
                         message.privalino_question = question;
                         message.privalino_questionOptions = questionOptions;
                     }
 
                     message.privalino_tested = true;
-                    message.privalino_score = 0d;
-
 
 
                 } catch (IOException | JSONException e) {
                     Log.e("Privalino Exception", e.getMessage());
-
-                    //e.printStackTrace();
 
                 }
             }

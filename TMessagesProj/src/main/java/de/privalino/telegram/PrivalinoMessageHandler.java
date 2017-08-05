@@ -42,19 +42,34 @@ import static android.app.PendingIntent.getActivity;
 
 public class PrivalinoMessageHandler extends DialogFragment {
 
-    public static PrivalinoFeedback handleOutgoingMessage(TLRPC.Message messageObject) throws IOException, JSONException {
-        int toChatId = messageObject.to_id.chat_id;
-        int toUserId = messageObject.to_id.user_id;
-        int from = messageObject.from_id;
-        int messageId = messageObject.id;
-        boolean outgoingMessage = true;
+    private static PrivalinoMessageContainer initPrivalinoMessageContainer(PrivalinoMessageContainer messageContainer, TLRPC.Message messageObject)
+    {
+        int senderId = messageObject.from_id;
+        int receiverId = messageObject.to_id.user_id;
 
-        PrivalinoMessageContainer messageContainer = new PrivalinoMessageContainer();
-        messageContainer.setIncoming(false);
+        // Channel immer gleich machen. Immer kleinere ID vorne.
+        //String privalino_channel = Math.min(from, to) + "_" + Math.max(from, to);
+
         messageContainer.setChatId(messageObject.to_id.chat_id);
         messageContainer.setChannelId(messageObject.to_id.channel_id);
         messageContainer.setText(messageObject.message);
-        //TODO und so kann es weitergehen: Alle Variablen befüllen und bei Bedarf noch mehr hinzufügen
+        messageContainer.setChatId(messageObject.to_id.chat_id);
+        messageContainer.setReceiverId(receiverId);
+        messageContainer.setSenderId(senderId);
+        messageContainer.setMessageId(messageObject.id);
+        MessagesStorage mstore = MessagesStorage.getInstance();
+        messageContainer.setSenderNickName(mstore.getUser(senderId).username);
+        messageContainer.setSenderName(mstore.getUser(senderId).first_name + " " + mstore.getUser(senderId).last_name);
+        messageContainer.setReceiverNickName(mstore.getUser(receiverId).username);
+        messageContainer.setReceiverName(mstore.getUser(receiverId).first_name + " " + mstore.getUser(receiverId).last_name);
+        return messageContainer;
+    }
+
+    public static PrivalinoFeedback handleOutgoingMessage(TLRPC.Message messageObject) throws IOException, JSONException
+    {
+        PrivalinoMessageContainer messageContainer = new PrivalinoMessageContainer();
+        messageContainer.setIncoming(false);
+        messageContainer = initPrivalinoMessageContainer(messageContainer, messageObject);
 
         Log.i("[Privalino]", "Prepared message: " + messageContainer.toString());
 
@@ -66,6 +81,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
         // prepare call in Retrofit 2.0
         PrivalinoMessageContainerApi protectionApi = retrofit.create(PrivalinoMessageContainerApi.class);
 
+        String bla = messageContainer.toString();
         Log.i("[Privalino]", "Sending message: " + messageContainer.toString());
         Call<PrivalinoFeedback> call = protectionApi.analyze(messageContainer);
         Log.i("[Privalino]", "Call: " + call.request().url());
@@ -77,48 +93,46 @@ public class PrivalinoMessageHandler extends DialogFragment {
         Log.i("[Privalino]", "Response: " + response.raw());
         PrivalinoFeedback feedback = response.body();
 
-        Log.i("[Privalino]", "Received feedback: " + feedback.toString());
+        if (feedback != null)
+            Log.i("[Privalino]", "Received feedback: " + feedback.toString());
 
         return feedback;
     }
 
-    public static JSONObject handleIncomingMessage(TLRPC.Message messageObject) throws IOException, JSONException {
+    public static PrivalinoFeedback handleIncomingMessage(TLRPC.Message messageObject) throws IOException, JSONException
+    {
+        PrivalinoMessageContainer messageContainer = new PrivalinoMessageContainer();
+        messageContainer.setIncoming(true);
+        messageContainer = initPrivalinoMessageContainer(messageContainer, messageObject);
 
-        int from = messageObject.from_id;
-        String fromName = MessagesStorage.getInstance().getUser(UserConfig.getClientUserId()).first_name + " " + MessagesStorage.getInstance().getUser(UserConfig.getClientUserId()).last_name;
-        String fromUserName = MessagesStorage.getInstance().getUser(UserConfig.getClientUserId()).username;
+        Log.i("[Privalino]", "Prepared message: " + messageContainer.toString());
 
-        int to = UserConfig.getClientUserId();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://35.156.90.81:8080/server-webogram/protection/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        // Channel immer gleich machen. Immer kleinere ID vorne.
-        String privalino_channel = Math.min(from, to) + "_" + Math.max(from, to);
+        // prepare call in Retrofit 2.0
+        PrivalinoMessageContainerApi protectionApi = retrofit.create(PrivalinoMessageContainerApi.class);
 
-        URL url = new URL("http://35.156.90.81:8080/server-webogram/protection");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setDoOutput(true);
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/json");
+        String bla = messageContainer.toString();
+        Log.i("[Privalino]", "Sending message: " + messageContainer.toString());
+        Call<PrivalinoFeedback> call = protectionApi.analyze(messageContainer);
+        Log.i("[Privalino]", "Call: " + call.request().url());
 
-        String input = "{\"sender\":" + from + ",\"senderUserName\":\"" + fromUserName + "\",\"senderName\":\"" + fromName + "\",\"id\":" + messageObject.id + ",\"channel\":\"" + privalino_channel + "\",\"text\":\"" + messageObject.message + "\"}";
+        //synchronous call
+        Response<PrivalinoFeedback> response = call.execute();
+        Log.i("[Privalino]", "Response: " + response.isSuccessful());
+        Log.i("[Privalino]", "Response: " + response.code());
+        Log.i("[Privalino]", "Response: " + response.raw());
+        PrivalinoFeedback feedback = response.body();
 
-        OutputStream os = conn.getOutputStream();
-        os.write(input.getBytes());
-        os.flush();
+        if (feedback != null)
+            Log.i("[Privalino]", "Received feedback: " + feedback.toString());
 
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                (conn.getInputStream())));
-
-        String serverResponse = br.readLine();
-
-        conn.disconnect();
-
-        JSONObject privalinoFeedback = new JSONObject(serverResponse);
-        Log.d("[Privalino]", privalinoFeedback.toString());
-
-
-        return privalinoFeedback;
+        return feedback;
     }
+
 
     public static void blockUser(final int user_id)
     {
