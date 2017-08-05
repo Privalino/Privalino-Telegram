@@ -69,24 +69,18 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
     public static PrivalinoFeedback handleOutgoingMessage(TLRPC.Message messageObject) throws IOException, JSONException
     {
-        PrivalinoMessageContainer messageContainer = new PrivalinoMessageContainer();
-        messageContainer.setIncoming(false);
-        messageContainer = initPrivalinoMessageContainer(messageContainer, messageObject);
-
-        Log.i("[Privalino]", "Prepared message: " + messageContainer.toString());
-
-        PrivalinoFeedback feedback = callServer(messageContainer);
-
-        if (feedback != null)
-            Log.i("[Privalino]", "Received feedback: " + feedback.toString());
-
-        return feedback;
+        return handleMessage(messageObject, false);
     }
 
     public static PrivalinoFeedback handleIncomingMessage(TLRPC.Message messageObject) throws IOException, JSONException
     {
+        return handleMessage(messageObject, true);
+    }
+
+    private static PrivalinoFeedback handleMessage(TLRPC.Message messageObject, boolean isIncoming) throws IOException, JSONException
+    {
         PrivalinoMessageContainer messageContainer = new PrivalinoMessageContainer();
-        messageContainer.setIncoming(true);
+        messageContainer.setIncoming(isIncoming);
         messageContainer = initPrivalinoMessageContainer(messageContainer, messageObject);
 
         Log.i("[Privalino]", "Prepared message: " + messageContainer.toString());
