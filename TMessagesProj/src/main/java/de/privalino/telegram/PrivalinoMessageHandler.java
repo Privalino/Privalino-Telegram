@@ -51,21 +51,18 @@ public class PrivalinoMessageHandler extends DialogFragment {
         int senderId = messageObject.from_id;
         int receiverId = messageObject.to_id.user_id;
 
-        // Channel immer gleich machen. Immer kleinere ID vorne.
-        //String privalino_channel = Math.min(from, to) + "_" + Math.max(from, to);
-
-        messageContainer.setChatId(messageObject.to_id.chat_id);
         messageContainer.setChannelId(messageObject.to_id.channel_id);
         messageContainer.setText(messageObject.message);
         messageContainer.setChatId(messageObject.to_id.chat_id);
         messageContainer.setReceiverId(receiverId);
         messageContainer.setSenderId(senderId);
         messageContainer.setMessageId(messageObject.id);
-        MessagesStorage mstore = MessagesStorage.getInstance();
-        messageContainer.setSenderNickName(mstore.getUser(senderId).username);
-        messageContainer.setSenderName(mstore.getUser(senderId).first_name + " " + mstore.getUser(senderId).last_name);
-        messageContainer.setReceiverNickName(mstore.getUser(receiverId).username);
-        messageContainer.setReceiverName(mstore.getUser(receiverId).first_name + " " + mstore.getUser(receiverId).last_name);
+
+        MessagesStorage messagesStore = MessagesStorage.getInstance();
+        messageContainer.setSenderNickName(messagesStore.getUser(senderId).username);
+        messageContainer.setSenderName(messagesStore.getUser(senderId).first_name + " " + messagesStore.getUser(senderId).last_name);
+        messageContainer.setReceiverNickName(messagesStore.getUser(receiverId).username);
+        messageContainer.setReceiverName(messagesStore.getUser(receiverId).first_name + " " + messagesStore.getUser(receiverId).last_name);
         return messageContainer;
     }
 
