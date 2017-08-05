@@ -14,6 +14,10 @@ public class PrivalinoMessageContainer {
     private String senderUser;
     private String receiverUser;
     private String text;
+    private String senderNickName;
+    private String senderName;
+    private String receiverNickName;
+    private String receiverName;
 
 
     public boolean isIncoming() {
@@ -69,6 +73,30 @@ public class PrivalinoMessageContainer {
     }
     public void setText(String text) {
         this.text = text;
+    }
+    public String getSenderNickName() {
+        return senderNickName;
+    }
+    public void setSenderNickName(String senderNickName) {
+        this.senderNickName = senderNickName;
+    }
+    public String getSenderName() {
+        return senderName;
+    }
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+    public String getReceiverNickName() {
+        return receiverNickName;
+    }
+    public void setReceiverNickName(String receiverNickName) {
+        this.receiverNickName = receiverNickName;
+    }
+    public String getReceiverName() {
+        return receiverName;
+    }
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 
     @Override
