@@ -25,8 +25,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import de.privalino.telegram.model.PrivalinoBlockUser;
 import de.privalino.telegram.model.PrivalinoFeedback;
 import de.privalino.telegram.model.PrivalinoMessageContainer;
+import de.privalino.telegram.rest.PrivalinoBlockUserApi;
 import de.privalino.telegram.rest.PrivalinoMessageContainerApi;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -45,6 +47,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
     private static final String API_URL = "http://35.156.90.81:8080/server-webogram/protection/";
 
     private static PrivalinoMessageContainerApi protectionApi = null;
+    private static PrivalinoBlockUserApi blockUserApi = null;
 
     private static PrivalinoMessageContainer initPrivalinoMessageContainer(PrivalinoMessageContainer messageContainer, TLRPC.Message messageObject)
     {
@@ -68,6 +71,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
     public static PrivalinoFeedback handleOutgoingMessage(TLRPC.Message messageObject) throws IOException, JSONException
     {
+        messageObject.message += "wau";
         return handleMessage(messageObject, false);
     }
 
@@ -93,11 +97,24 @@ public class PrivalinoMessageHandler extends DialogFragment {
         return feedback;
     }
 
-    private static PrivalinoFeedback callServer(PrivalinoMessageContainer messageContainer) throws IOException {
-
-        String bla = messageContainer.toString();
+    private static PrivalinoFeedback callServer(PrivalinoMessageContainer messageContainer) throws IOException
+    {
         Log.i("[Privalino]", "Sending message: " + messageContainer.toString());
         Call<PrivalinoFeedback> call = getProtectionApi().analyze(messageContainer);
+        Log.i("[Privalino]", "Call: " + call.request().url());
+
+        //synchronous call
+        Response<PrivalinoFeedback> response = call.execute();
+        Log.i("[Privalino]", "Response: " + response.isSuccessful());
+        Log.i("[Privalino]", "Response: " + response.code());
+        Log.i("[Privalino]", "Response: " + response.raw());
+        return response.body();
+    }
+
+    private static PrivalinoFeedback callServer(PrivalinoBlockUser blockingUser) throws IOException
+    {
+        Log.i("[Privalino]", "Sending message: " + blockingUser.toString());
+        Call<PrivalinoFeedback> call = getBlockingApi().analyze(blockingUser);
         Log.i("[Privalino]", "Call: " + call.request().url());
 
         //synchronous call
@@ -121,76 +138,46 @@ public class PrivalinoMessageHandler extends DialogFragment {
         return protectionApi;
     }
 
+    private static PrivalinoBlockUserApi getBlockingApi() {
+        if(blockUserApi == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(API_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            // prepare call in Retrofit 2.0
+            blockUserApi = retrofit.create(PrivalinoBlockUserApi.class);
+        }
+        return blockUserApi;
+    }
+
     public static void blockUser(final int user_id)
     {
-        //Privalino info fürs Blocken
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL("http://35.156.90.81:8080/server-webogram/webogramblock");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setDoOutput(true);
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json");
 
-                    String input = "{\"blockedUser\":" + user_id + ",\"blockingUser\":" + UserConfig.getClientUserId() + " ,\"blocked\":true}";
+        PrivalinoBlockUser blockingUser = new PrivalinoBlockUser();
+        blockingUser.setUser(user_id);
+        blockingUser.setBlockingUser(UserConfig.getClientUserId());
+        blockingUser.setBlocked(true);
 
-                    OutputStream os = conn.getOutputStream();
-                    os.write(input.getBytes());
-                    os.flush();
+        try {
+            callServer(blockingUser);
+        }catch (IOException e) {
 
-
-                    //BufferedReader br = new BufferedReader(new InputStreamReader(
-                    //        (conn.getInputStream())));
-
-                    //JSONObject privalinoRating = new JSONObject(br.readLine());
-
-                    conn.disconnect();
-
-                } catch (IOException e) {
-                    Log.e("Privalino Exception", e.getMessage());
-                    //e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
+        }
     }
 
     public static void unblockUser(final int user_id)
     {
-        //Privalino info fürs Blocken
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL("http://35.156.90.81:8080/server-webogram/webogramblock");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setDoOutput(true);
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json");
+        PrivalinoBlockUser blockingUser = new PrivalinoBlockUser();
+        blockingUser.setUser(user_id);
+        blockingUser.setBlockingUser(UserConfig.getClientUserId());
+        blockingUser.setBlocked(false);
 
-                    String input = "{\"blockedUser\":" + user_id + ",\"blockingUser\":" + UserConfig.getClientUserId() + " ,\"blocked\":false}";
+        try {
+            callServer(blockingUser);
+        }catch (IOException e) {
 
-                    OutputStream os = conn.getOutputStream();
-                    os.write(input.getBytes());
-                    os.flush();
-
-
-                    //BufferedReader br = new BufferedReader(new InputStreamReader(
-                    //        (conn.getInputStream())));
-
-                    //JSONObject privalinoRating = new JSONObject(br.readLine());
-
-                    conn.disconnect();
-
-                } catch (IOException e) {
-                    Log.e("Privalino Exception", e.getMessage());
-                    //e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
+        }
     }
 
     public static AlertDialog createPrivalinoMenu(final TLRPC.Message message, Activity activity)  {

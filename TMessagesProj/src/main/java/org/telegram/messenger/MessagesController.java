@@ -1845,7 +1845,9 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             return;
         }
 
-        PrivalinoMessageHandler.blockUser(user_id);
+
+            PrivalinoMessageHandler.blockUser(user_id);
+
 
         blockedUsers.add(user_id);
         if (user.bot) {
@@ -6922,13 +6924,13 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         boolean blocked = privalinoFeedback.isBlocked();
 
                         PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
-                        if(popupQuestion.getQuestion() != null){
-                            //long questionId = popupQuestion.optLong("id");
+                        if(popupQuestion != null){
+                            long questionId = popupQuestion.getId();
                             String question = popupQuestion.getQuestion();
 
                             String[] questionOptions = popupQuestion.getAnswerOptions();
 
-                            //message.privalino_questionId = questionId;
+                            message.privalino_questionId = questionId;
                             message.privalino_question = question;
                             message.privalino_questionOptions = questionOptions;
                         }
