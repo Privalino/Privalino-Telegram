@@ -75,25 +75,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
         Log.i("[Privalino]", "Prepared message: " + messageContainer.toString());
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        // prepare call in Retrofit 2.0
-        PrivalinoMessageContainerApi protectionApi = retrofit.create(PrivalinoMessageContainerApi.class);
-
-        String bla = messageContainer.toString();
-        Log.i("[Privalino]", "Sending message: " + messageContainer.toString());
-        Call<PrivalinoFeedback> call = protectionApi.analyze(messageContainer);
-        Log.i("[Privalino]", "Call: " + call.request().url());
-
-        //synchronous call
-        Response<PrivalinoFeedback> response = call.execute();
-        Log.i("[Privalino]", "Response: " + response.isSuccessful());
-        Log.i("[Privalino]", "Response: " + response.code());
-        Log.i("[Privalino]", "Response: " + response.raw());
-        PrivalinoFeedback feedback = response.body();
+        PrivalinoFeedback feedback = callServer(messageContainer);
 
         if (feedback != null)
             Log.i("[Privalino]", "Received feedback: " + feedback.toString());
@@ -109,6 +91,16 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
         Log.i("[Privalino]", "Prepared message: " + messageContainer.toString());
 
+
+        PrivalinoFeedback feedback = callServer(messageContainer);
+
+        if (feedback != null)
+            Log.i("[Privalino]", "Received feedback: " + feedback.toString());
+
+        return feedback;
+    }
+
+    private static PrivalinoFeedback callServer(PrivalinoMessageContainer messageContainer) throws IOException {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -127,14 +119,8 @@ public class PrivalinoMessageHandler extends DialogFragment {
         Log.i("[Privalino]", "Response: " + response.isSuccessful());
         Log.i("[Privalino]", "Response: " + response.code());
         Log.i("[Privalino]", "Response: " + response.raw());
-        PrivalinoFeedback feedback = response.body();
-
-        if (feedback != null)
-            Log.i("[Privalino]", "Received feedback: " + feedback.toString());
-
-        return feedback;
+        return response.body();
     }
-
 
     public static void blockUser(final int user_id)
     {
