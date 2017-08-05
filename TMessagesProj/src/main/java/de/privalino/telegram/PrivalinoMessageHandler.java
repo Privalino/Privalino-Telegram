@@ -42,6 +42,8 @@ import static android.app.PendingIntent.getActivity;
 
 public class PrivalinoMessageHandler extends DialogFragment {
 
+    private static final String API_URL = "http://35.156.90.81:8080/server-webogram/protection/";
+
     private static PrivalinoMessageContainer initPrivalinoMessageContainer(PrivalinoMessageContainer messageContainer, TLRPC.Message messageObject)
     {
         int senderId = messageObject.from_id;
@@ -74,7 +76,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
         Log.i("[Privalino]", "Prepared message: " + messageContainer.toString());
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://35.156.90.81:8080/server-webogram/protection/")
+                .baseUrl(API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -108,7 +110,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
         Log.i("[Privalino]", "Prepared message: " + messageContainer.toString());
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://35.156.90.81:8080/server-webogram/protection/")
+                .baseUrl(API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
