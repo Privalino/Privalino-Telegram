@@ -34,6 +34,7 @@
    Provide custom version here. */
 #include_next <link.h>
 
+/*
 // TODO(rmcilroy): Remove this file once the ndk is updated for other
 // architectures - crbug.com/358831
 #if !defined(__aarch64__) && !defined(__x86_64__) && \
@@ -67,5 +68,6 @@ struct link_map {
 #endif  // __cplusplus
 
 #endif  // !defined(__aarch64__) && !defined(__x86_64__)
+ */
 
 #endif /* GOOGLE_BREAKPAD_ANDROID_INCLUDE_LINK_H */
