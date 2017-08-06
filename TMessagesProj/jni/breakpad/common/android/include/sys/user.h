@@ -42,6 +42,7 @@
 
 #include_next <sys/user.h>
 
+/*
 #ifdef __i386__
 #ifdef __cplusplus
 extern "C" {
@@ -71,5 +72,6 @@ struct user_fpsimd_struct {
 }  // extern "C"
 #endif  // __cplusplus
 #endif  // __aarch64__
+*/
 
 #endif  // GOOGLE_BREAKPAD_COMMON_ANDROID_INCLUDE_SYS_USER_H
