@@ -73,7 +73,6 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
     public static PrivalinoFeedback handleOutgoingMessage(TLRPC.Message messageObject) throws IOException, JSONException
     {
-        messageObject.message += "wau";
         return handleMessage(messageObject, false);
     }
 
@@ -108,8 +107,6 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
         //synchronous call
         Response<PrivalinoFeedback> response = call.execute();
-        Log.i("[Privalino]", "Response: " + response.isSuccessful());
-        Log.i("[Privalino]", "Response: " + response.code());
         Log.i("[Privalino]", "Response: " + response.raw());
         return response.body();
     }
