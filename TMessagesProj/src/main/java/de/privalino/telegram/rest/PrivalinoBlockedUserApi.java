@@ -13,6 +13,6 @@ import de.privalino.telegram.model.PrivalinoMessageContainer;
  */
 
 public interface PrivalinoBlockedUserApi {
-    @POST("message/")
-    Call<Void> analyze(@Body PrivalinoBlockedUser messageContainer);
+    @POST("block/")
+    Call<Void> analyze(@Body PrivalinoBlockedUser blockedUser);
 }
