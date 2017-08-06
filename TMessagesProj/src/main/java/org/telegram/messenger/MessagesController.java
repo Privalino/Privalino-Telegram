@@ -1730,8 +1730,12 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             return;
         }
 
-
+try{
             PrivalinoMessageHandler.blockUser(user_id);
+} catch (IOException e) {
+    Log.e("Privalino Exception", e.getMessage());
+    //e.printStackTrace();
+}
 
 
         blockedUsers.add(user_id);
@@ -1824,7 +1828,12 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             return;
         }
 
-        PrivalinoMessageHandler.unblockUser(user_id);
+        try{
+            PrivalinoMessageHandler.unblockUser(user_id);
+        } catch (IOException e) {
+            Log.e("Privalino Exception", e.getMessage());
+            //e.printStackTrace();
+        }
 
         blockedUsers.remove((Integer) user.id);
         req.id = getInputUser(user);

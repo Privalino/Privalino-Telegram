@@ -5,22 +5,22 @@ package de.privalino.telegram.model;
  */
 public class PrivalinoMessageContainer {
 
-    private boolean isIncoming;
+	private boolean isIncoming;
     private int senderId;
     private int receiverId;
     private int chatId;
     private int channelId;
     private int messageId;
-    private String senderUser;
-    private String receiverUser;
+    private String senderUserName;
+    private String receiverUserName;
     private String text;
-    private String senderNickName;
-    private String senderName;
-    private String receiverNickName;
-    private String receiverName;
+    private String senderFirstName;
+    private String senderLastName;
+    private String receiverFirstName;
+    private String receiverLastName;
 
 
-    public boolean isIncoming() {
+ 	public boolean isIncoming() {
         return isIncoming;
     }
     public void setIncoming(boolean isIncoming) {
@@ -56,17 +56,17 @@ public class PrivalinoMessageContainer {
     public void setMessageId(int messageId) {
         this.messageId = messageId;
     }
-    public String getSenderUser() {
-        return senderUser;
+    public String getSenderUserName() {
+        return senderUserName;
     }
-    public void setSenderUser(String senderUser) {
-        this.senderUser = senderUser;
+    public void setSenderUserName(String senderUserName) {
+        this.senderUserName = senderUserName;
     }
-    public String getReceiverUser() {
-        return receiverUser;
+    public String getReceiverUserName() {
+        return receiverUserName;
     }
-    public void setReceiverUser(String receiverUser) {
-        this.receiverUser = receiverUser;
+    public void setReceiverUserName(String receiverUserName) {
+        this.receiverUserName = receiverUserName;
     }
     public String getText() {
         return text;
@@ -74,32 +74,32 @@ public class PrivalinoMessageContainer {
     public void setText(String text) {
         this.text = text;
     }
-    public String getSenderNickName() {
-        return senderNickName;
-    }
-    public void setSenderNickName(String senderNickName) {
-        this.senderNickName = senderNickName;
-    }
-    public String getSenderName() {
-        return senderName;
-    }
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
-    public String getReceiverNickName() {
-        return receiverNickName;
-    }
-    public void setReceiverNickName(String receiverNickName) {
-        this.receiverNickName = receiverNickName;
-    }
-    public String getReceiverName() {
-        return receiverName;
-    }
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
-    }
-
-    @Override
+    public String getSenderFirstName() {
+ 		return senderFirstName;
+ 	}
+ 	public void setSenderFirstName(String senderFirstName) {
+ 		this.senderFirstName = senderFirstName;
+ 	}
+ 	public String getSenderLastName() {
+ 		return senderLastName;
+ 	}
+ 	public void setSenderLastName(String senderLastName) {
+ 		this.senderLastName = senderLastName;
+ 	}
+ 	public String getReceiverFirstName() {
+ 		return receiverFirstName;
+ 	}
+ 	public void setReceiverFirstName(String receiverFirstName) {
+ 		this.receiverFirstName = receiverFirstName;
+ 	}
+ 	public String getReceiverLastName() {
+ 		return receiverLastName;
+ 	}
+ 	public void setReceiverLastName(String receiverLastName) {
+ 		this.receiverLastName = receiverLastName;
+ 	}
+	
+	@Override
     public String toString()
     {
         StringBuffer buffer = new StringBuffer();
@@ -107,17 +107,50 @@ public class PrivalinoMessageContainer {
         buffer.append(this.getClass().getSimpleName());
         buffer.append("]");
 
+        buffer.append("\tIsIncoming: ");
+        buffer.append(isIncoming);
+
         buffer.append("\tMessage: ");
-        buffer.append(text.toString());
-//
-//        buffer.append("\tCorrect?: ");
-//        buffer.append(isCorrect);
-//
-//        buffer.append("\tRejected?: ");
-//        buffer.append(isRejected);
-//
-//        buffer.append("\tDeviceId: ");
-//        buffer.append(deviceId);
+        buffer.append(getText());
+
+        buffer.append("\tsenderId: ");
+        buffer.append(getSenderId());
+
+        buffer.append("\tReceiverId: ");
+        buffer.append(getReceiverId());
+
+        buffer.append("\tChatId: ");
+        buffer.append(getChatId());
+
+        buffer.append("\tChannel: ");
+        buffer.append(getChannelId());
+
+        buffer.append("\tMessageId: ");
+        buffer.append(getMessageId());
+
+        if(getSenderUserName() != null){
+        	buffer.append("\tSenderUserName: " + getSenderUserName());
+        }
+        
+        if(getReceiverUserName() != null){
+        	buffer.append("\tReceiverUserName: " + getReceiverUserName());
+        }
+        if(getSenderFirstName() != null){
+        	buffer.append("\tSenderFirstName: " + getSenderFirstName());
+        }
+        
+         if(getSenderLastName() != null){
+        	buffer.append("\tSenderLastName: " + getSenderLastName());
+        }
+        
+         if(getReceiverFirstName() != null){
+         	buffer.append("\tReceiveFirstName: " + getReceiverFirstName());
+         }
+         
+        if(getReceiverLastName() != null){
+        	buffer.append("\tReceiveLastName: " + getReceiverLastName());
+        }
+        
 
         return buffer.toString();
     }
