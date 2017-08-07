@@ -49,20 +49,19 @@ android {
         javaMaxHeapSize "4g"
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
     signingConfigs {
-        debug {
-            storeFile file("config/keystore.jks")
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
-            v2SigningEnabled false
-        }
-
         release {
             storeFile file("config/keystore.jks")
             storePassword RELEASE_STORE_PASSWORD
@@ -169,6 +168,9 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         versionName "4.2.1"
+
+        // Enabling multidex support.
+        multiDexEnabled true
 
         externalNativeBuild {
             ndkBuild {
