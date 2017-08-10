@@ -2,8 +2,6 @@ package de.privalino.telegram.model;
 
 import java.util.Date;
 
-import org.apache.commons.lang3.StringUtils;
-
 public class PrivalinoPopUp {
 	
 	private long id;
@@ -45,7 +43,7 @@ public class PrivalinoPopUp {
 		}
 
 		if(getAnswerOptions() != null){
-			buffer.append("\tAnswerOptions: " + StringUtils.join(getAnswerOptions(), ", "));
+			buffer.append("\tAnswerOptions: " + getAnswerOptions());
 		}
 
 		return buffer.toString();
