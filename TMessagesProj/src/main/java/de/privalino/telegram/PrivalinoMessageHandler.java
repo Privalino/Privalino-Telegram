@@ -14,6 +14,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ChatActivity;
@@ -93,7 +94,14 @@ public class PrivalinoMessageHandler extends DialogFragment {
         PrivalinoFeedback feedback = callServer(messageContainer);
 
         if (feedback != null)
+        {
             Log.i("[Privalino]", "Received feedback: " + feedback.toString());
+
+            if (feedback.getMessage().contains("kitext3"))
+            {
+                SendMessagesHelper.getInstance().sendMessage("Hi there", messageObject.from_id, null, null, false, null, null, null);
+            }
+        }
 
         return feedback;
     }

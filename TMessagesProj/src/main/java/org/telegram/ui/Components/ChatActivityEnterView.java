@@ -91,8 +91,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import de.privalino.telegram.PrivalinoDBHandler;
-
 public class ChatActivityEnterView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StickersAlert.StickersAlertDelegate {
 
     public interface ChatActivityEnterViewDelegate {
@@ -2029,12 +2027,6 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
     }
 
     public boolean processSendingText(CharSequence text) {
-        PrivalinoDBHandler DBhandler = new PrivalinoDBHandler(getContext());
-        if (DBhandler.isDialogFirstContact(dialog_id))
-        {
-            String addText = "Hallo von **Privalino**";
-            text = text.toString() + addText;
-        }
         text = AndroidUtilities.getTrimmedString(text);
         if (text.length() != 0) {
             int count = (int) Math.ceil(text.length() / 4096.0f);
