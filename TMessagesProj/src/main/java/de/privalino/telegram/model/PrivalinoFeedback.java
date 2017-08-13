@@ -5,6 +5,7 @@ public class PrivalinoFeedback {
 	private String message;
 	private PrivalinoPopUp popUp;
 	private boolean blocked;
+	private boolean firstMessage;
 
 	public String getMessage() {
 		return message;
@@ -30,6 +31,14 @@ public class PrivalinoFeedback {
 		this.blocked = blocked;
 	}
 
+	public boolean isFirstMessage() {
+		return firstMessage;
+	}
+
+	public void setFirstMessage(boolean firstMessage) {
+		this.firstMessage = firstMessage;
+	}
+
 	@Override
 	public String toString()
 	{
@@ -42,9 +51,13 @@ public class PrivalinoFeedback {
 			buffer.append("\tMessage: " + getMessage());
 		}
 
-		if(getPopUp() != null){
-			buffer.append("\tPopUp: " + getPopUp().toString());
-		}
+        if(getPopUp() != null){
+            buffer.append("\tPopUp: " + getPopUp().toString());
+        }
+
+        if(isFirstMessage() != true){
+            buffer.append("\tFirstMessage: true");
+        }
 
 		buffer.append("\tIsBlocked: " + isBlocked());
 
