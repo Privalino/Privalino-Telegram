@@ -1780,4 +1780,5 @@
     <string name="formatterDay24H">HH:mm</string>
     <string name="formatterDay12H">h:mm a</string>
     <string name="formatDateAtTime">%1$s at %2$s</string>
+    <string name="PrivalinoTerms">This chat will be stored and analyzed by Privalino. If you continue to send messages, you agree to these terms. Find more information at http://www.privalino.de/agb-messenger/</string>
 </resources>
