@@ -103,9 +103,9 @@ public class PrivalinoMessageHandler extends DialogFragment {
         {
             Log.i("[Privalino]", "Received feedback: " + feedback.toString());
 
-            if (feedback.getMessage().contains("kitext3"))
+            if (feedback.isFirstMessage())
             {
-                SendMessagesHelper.getInstance().sendMessage(PRIVALINO_AGB, messageObject.from_id, null, null, false, null, null, null);
+                SendMessagesHelper.getInstance().sendMessage(LocaleController.getString("PrivalinoTerms", R.string.PrivalinoTerms), messageObject.from_id, null, null, false, null, null, null);
             }
         }
 
