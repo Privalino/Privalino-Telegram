@@ -1721,4 +1721,5 @@
     <string name="formatterDay12H">h:mm a</string>
     <string name="formatDateAtTime">%1$s um %2$s</string>
     <string name="SetupPrivalino">Privalino einrichten</string>
+    <string name="PrivalinoTerms">Dieses Gespräch wird durch Privalino gespeichert und ausgewertet. Mit dem weiteren Senden von Nachrichten stimmen Sie einer Speicherung und Auswertung zu. Weitere Informationen erhalten Sie unter http://www.privalino.de/agb-messenger/ (edited)</string>
 </resources>
