@@ -7,19 +7,6 @@ public class PrivalinoBlockedUser {
 	private long user;
 	private long blockingUser;
 	private Boolean blocked;
-	private Date date;
-	
-	public PrivalinoBlockedUser(){
-		date = new Date();
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
 
 	public Boolean getBlocked() {
 		return blocked;
