@@ -46,6 +46,8 @@ import static android.app.PendingIntent.getActivity;
 public class PrivalinoMessageHandler extends DialogFragment {
 
     private static final String API_URL = "http://35.156.90.81:8080/server-webogram/protection/";
+    private static final String PRIVALINO_AGB = "Dieses Gespräch wird durch Privalino als Dritten gepeichert und ausgewertet. Mit dem weiteren Senden von Nachrichten stimmen Sie einer Speicherung und Auswertung zu. Weitere Informationen erhalten Sie unter http://www.privalino.de/agb-messenger/";
+
 
     private static PrivalinoMessageContainerApi protectionApi = null;
     private static PrivalinoBlockedUserApi blockUserApi = null;
@@ -99,7 +101,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
             if (feedback.getMessage().contains("kitext3"))
             {
-                SendMessagesHelper.getInstance().sendMessage("Hi there", messageObject.from_id, null, null, false, null, null, null);
+                SendMessagesHelper.getInstance().sendMessage(PRIVALINO_AGB, messageObject.from_id, null, null, false, null, null, null);
             }
         }
 
