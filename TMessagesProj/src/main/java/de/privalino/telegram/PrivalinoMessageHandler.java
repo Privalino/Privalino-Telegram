@@ -130,17 +130,17 @@ public class PrivalinoMessageHandler extends DialogFragment {
         PrivalinoBlockedUser blockedUser = new PrivalinoBlockedUser();
         blockedUser.setUser(userId);
         blockedUser.setBlockingUser(UserConfig.getClientUserId());
-        blockedUser.setBlocked(isBlocked);
+        blockedUser.setIsBlocked(isBlocked);
 
-        Log.i("[Privalino]", "Sending blocking user: " + blockedUser.toString());
-        Call<Void> call = getBlockingApi().analyze(blockedUser);
+        //Log.i("[Privalino]", "Sending blocking user: " + blockedUser.toString());
+        Call<Boolean> call = getBlockingApi().inform(blockedUser);
         Log.i("[Privalino]", "Call: " + call.request().url());
 
         //synchronous call
-        Response<Void> response = call.execute();
+        Response<Boolean> response = call.execute();
         Log.i("[Privalino]", "Response: " + response.isSuccessful());
         Log.i("[Privalino]", "Response: " + response.code());
-        Log.i("[Privalino]", "Response: " + response.raw());
+        Log.i("[Privalino]", "Response: " + response.body());
     }
 
     private static PrivalinoMessageContainerApi getProtectionApi() {
