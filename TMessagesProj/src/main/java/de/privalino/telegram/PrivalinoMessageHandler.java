@@ -56,6 +56,10 @@ public class PrivalinoMessageHandler extends DialogFragment {
     {
         int senderId = messageObject.from_id;
         int receiverId = messageObject.to_id.user_id;
+        if (messageContainer.isIncoming())
+        {
+            receiverId = UserConfig.getClientUserId();
+        }
 
         messageContainer.setChannelId(messageObject.to_id.channel_id);
         messageContainer.setText(messageObject.message);
