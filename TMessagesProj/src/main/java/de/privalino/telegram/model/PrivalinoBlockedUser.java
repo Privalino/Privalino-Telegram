@@ -1,34 +1,46 @@
 package de.privalino.telegram.model;
 
-import java.util.Date;
-
 public class PrivalinoBlockedUser {
 
-	private long user;
-	private long blockingUser;
-	private Boolean blocked;
+	private int user;
+	private int blockingUser;
+	private Boolean isBlocked;
 
-	public Boolean getBlocked() {
-		return blocked;
+	public Boolean getIsBlocked() {
+		return isBlocked;
 	}
 
-	public void setBlocked(Boolean blocked) {
-		this.blocked = blocked;
+	public void setIsBlocked(Boolean isBlocked) {
+		this.isBlocked = isBlocked;
 	}
 
-	public long getUser() {
+	public int getUser() {
 		return user;
 	}
 
-	public long getBlockingUser() {
+	public int getBlockingUser() {
 		return blockingUser;
 	}
 
-	public void setUser(long user) {
+	public void setUser(int user) {
 		this.user = user;
 	}
 
-	public void setBlockingUser(long blockingUser) {
+	public void setBlockingUser(int blockingUser) {
 		this.blockingUser = blockingUser;
+	}
+
+	@Override
+	public String toString(){
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("[");
+		buffer.append(this.getClass().getSimpleName());
+		buffer.append("]");
+
+		buffer.append("\tBlockingUser: " + getBlockingUser());
+		buffer.append("\tUser: " + getUser());
+		buffer.append("\tIsBlocked: " + getIsBlocked());
+
+		return buffer.toString();
 	}
 }
