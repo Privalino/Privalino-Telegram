@@ -180,58 +180,29 @@ public class PrivalinoMessageHandler extends DialogFragment {
     public static AlertDialog createPrivalinoMenu(final TLRPC.Message message, Activity activity)  {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setMessage(message.privalino_question)
-                .setPositiveButton(message.privalino_questionOptions[0], new DialogInterface.OnClickListener() {
+                .setNegativeButton(message.privalino_questionOptions[1], new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        // Der Chatpartner wird gespert.
+                        MessagesController.getInstance().blockUser(message.from_id);
+                        try {
+                            Log.e("[Privalino]", "Trying to block user " + message.from_id);
+                            //TODO It might help to open another thread for it
+                            blockUser(message.from_id);
+                        } catch (IOException e) {
+                            Log.e("Privalino Exception", e.getMessage());
+                            //e.printStackTrace();
+                        }
 
-                        Thread thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-
-                                    //TODO Move to PrivalinoMessageHandler
-                                    URL url = new URL("http://35.156.90.81:8080/server-webogram/popupanswer");
-                                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                                    conn.setDoOutput(true);
-                                    conn.setRequestMethod("POST");
-                                    conn.setRequestProperty("Content-Type", "application/json");
-
-                                    String input = "{\"id\":" + message.privalino_questionId + ",\"answer\":" + message.privalino_questionOptions[0] + " }";
-
-                                    OutputStream os = conn.getOutputStream();
-                                    os.write(input.getBytes());
-                                    os.flush();
-
-
-                                    //BufferedReader br = new BufferedReader(new InputStreamReader(
-                                    //        (conn.getInputStream())));
-
-                                    //JSONObject privalinoRating = new JSONObject(br.readLine());
-
-                                    conn.disconnect();
-
-                                } catch (IOException e) {
-                                    Log.e("Privalino Exception", e.getMessage());
-                                    //e.printStackTrace();
-                                }
-                            }
-                        });
-                        thread.start();
 
                     }
                 })
-                .setNegativeButton(message.privalino_questionOptions[1], new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // Der Chatpartner wird gespert.
-                                MessagesController.getInstance().blockUser(message.from_id);
-                                try {
-                                    blockUser(message.from_id);
-                                } catch (IOException e) {
-                                    Log.e("Privalino Exception", e.getMessage());
-                                    //e.printStackTrace();
-                                }
-                            }
-                        });
-                        builder.setTitle(LocaleController.getString("Privalino", R.string.Message));
+                .setPositiveButton(message.privalino_questionOptions[0], new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Der Chatpartner wird nicht mehr gesperrt.
+                        Log.i("[Privalino]", "Do nothing because they know each other");
+                    }
+                });
+        builder.setTitle(LocaleController.getString("Privalino", R.string.Message));
         return builder.create();
     }
 
