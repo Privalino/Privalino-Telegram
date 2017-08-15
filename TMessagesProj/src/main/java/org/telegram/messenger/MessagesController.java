@@ -1942,14 +1942,7 @@ try{
         if (user == null) {
             return;
         }
-
-        try{
-            PrivalinoMessageHandler.unblockUser(user_id);
-        } catch (IOException e) {
-            Log.e("Privalino Exception", e.getMessage());
-            //e.printStackTrace();
-        }
-
+        
         blockedUsers.remove((Integer) user.id);
         req.id = getInputUser(user);
         NotificationCenter.getInstance().postNotificationName(NotificationCenter.blockedUsersDidLoaded);
