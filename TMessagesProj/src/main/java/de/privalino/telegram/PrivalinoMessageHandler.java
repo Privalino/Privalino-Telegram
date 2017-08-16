@@ -133,8 +133,14 @@ public class PrivalinoMessageHandler extends DialogFragment {
         return response.body();
     }
 
-    private static void callServer(int userId, boolean isBlocked) throws IOException {
+    private static void callServer(final int userId, final boolean isBlocked) throws IOException
+    {
 
+        Thread thread = new Thread(new Runnable(){
+            @Override
+            public void run(){
+
+                try {
         PrivalinoBlockedUser blockedUser = new PrivalinoBlockedUser();
         blockedUser.setUser(userId);
         blockedUser.setBlockingUser(UserConfig.getClientUserId());
@@ -149,6 +155,18 @@ public class PrivalinoMessageHandler extends DialogFragment {
         Log.i("[Privalino]", "Response: " + response.isSuccessful());
         Log.i("[Privalino]", "Response: " + response.code());
         Log.i("[Privalino]", "Response: " + response.body());
+
+                } catch (IOException e) {
+                    Log.e("Privalino Exception", e.getMessage());
+
+                    //e.printStackTrace();
+
+                }
+
+            }
+        });
+        thread.start();
+
     }
 
     private static PrivalinoMessageContainerApi getProtectionApi() {
