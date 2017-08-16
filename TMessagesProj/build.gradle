@@ -132,7 +132,7 @@ android {
                 manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
             }
             minSdkVersion 23
-            versionCode = 4
+            versionCode = 5
         }
         armv7_SDK23 {
             ndk {
@@ -145,7 +145,7 @@ android {
                 manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
             }
             minSdkVersion 23
-            versionCode = 3
+            versionCode = 5
         }
         fat {
             sourceSets.debug {
@@ -166,7 +166,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
-        versionName "4.2.1"
+        versionName "4.2.2"
 
         // Enabling multidex support.
         multiDexEnabled true
