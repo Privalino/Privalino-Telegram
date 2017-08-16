@@ -135,7 +135,7 @@ android {
                 manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
             }
             minSdkVersion 23
-            versionCode = 4
+            versionCode = 5
         }
         armv7_SDK23 {
             ndk {
@@ -148,7 +148,7 @@ android {
                 manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
             }
             minSdkVersion 23
-            versionCode = 3
+            versionCode = 5
         }
         fat {
             sourceSets.debug {
