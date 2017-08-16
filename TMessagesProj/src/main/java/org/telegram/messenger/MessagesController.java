@@ -6409,19 +6409,6 @@ try{
 
                     }
 
-                    // Hier einfach den User Blocken
-                    // Sollte auch ohne das getInstance gehen.
-                //    boolean userBlocked = blockedUsers.contains(user_id);
-                //    if (!userBlocked) {
-                //        // Das muss wieder rein
-                //        blockUser(user_id);
-                //    } else {
-                        // Das sollten wir hier nicht brauchen.
-                        // MessagesController.getInstance().unblockUser(user_id);
-                        // SendMessagesHelper.getInstance().sendMessage("/start", user_id, null, null, false, null, null, null);
-                //    }
-
-
                     ConcurrentHashMap<Long, Integer> read_max = message.out ? dialogs_read_outbox_max : dialogs_read_inbox_max;
                     Integer value = read_max.get(message.dialog_id);
                     if (value == null) {
