@@ -1730,14 +1730,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             return;
         }
 
-try{
-            PrivalinoMessageHandler.blockUser(user_id);
-} catch (IOException e) {
-    Log.e("Privalino Exception", e.getMessage());
-    //e.printStackTrace();
-}
-
-
         blockedUsers.add(user_id);
         if (user.bot) {
             SearchQuery.removeInline(user_id);
@@ -1827,7 +1819,7 @@ try{
         if (user == null) {
             return;
         }
-        
+
         blockedUsers.remove((Integer) user.id);
         req.id = getInputUser(user);
         NotificationCenter.getInstance().postNotificationName(NotificationCenter.blockedUsersDidLoaded);
@@ -6387,7 +6379,9 @@ try{
                         PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
 
                         message.message = privalinoFeedback.getMessage();
-                        boolean blocked = privalinoFeedback.isBlocked();
+                        if(privalinoFeedback.isBlocked()){
+                            //blockUser(user_id);
+                        }
 
                         PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
                         if(popupQuestion != null){
