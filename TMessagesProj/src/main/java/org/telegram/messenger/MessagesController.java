@@ -1738,7 +1738,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         }
 
         //TODO Re-enable notification for blocking users
-        //NotificationCenter.getInstance().postNotificationName(NotificationCenter.blockedUsersDidLoaded);
+        NotificationCenter.getInstance().postNotificationName(NotificationCenter.blockedUsersDidLoaded);
         TLRPC.TL_contacts_block req = new TLRPC.TL_contacts_block();
         req.id = getInputUser(user);
         ConnectionsManager.getInstance().sendRequest(req, new RequestDelegate() {
@@ -1833,6 +1833,11 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                 MessagesStorage.getInstance().deleteBlockedUser(user.id);
             }
         });
+        try {
+            PrivalinoMessageHandler.unblockUser(user.id);
+        } catch (IOException e) {
+            Log.e("Privalino",e.getMessage());
+        }
     }
 
     public void getBlockedUsers(boolean cache) {
