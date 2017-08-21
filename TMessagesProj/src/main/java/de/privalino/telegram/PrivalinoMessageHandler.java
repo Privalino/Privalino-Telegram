@@ -87,10 +87,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
     {
         PrivalinoFeedback feedback = handleMessage(messageObject, true);
         if (feedback != null && feedback.isBlocked()) {
-            // User Blocken
-            boolean userBlocked = MessagesController.getInstance().blockedUsers.contains(messageObject.from_id);
-            if (!userBlocked) //{
-                blockUser(messageObject.from_id);
+            // TODO Block user in client
         }
 
         return feedback;
@@ -158,9 +155,6 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
                 } catch (IOException e) {
                     Log.e("Privalino Exception", e.getMessage());
-
-                    //e.printStackTrace();
-
                 }
 
             }
@@ -210,16 +204,6 @@ public class PrivalinoMessageHandler extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         // Der Chatpartner wird gespert.
                         MessagesController.getInstance().blockUser(message.from_id);
-                        try {
-                            Log.e("[Privalino]", "Trying to block user " + message.from_id);
-                            //TODO It might help to open another thread for it
-                            blockUser(message.from_id);
-                        } catch (IOException e) {
-                            Log.e("Privalino Exception", e.getMessage());
-                            //e.printStackTrace();
-                        }
-
-
                     }
                 })
                 .setPositiveButton(message.privalino_questionOptions[0], new DialogInterface.OnClickListener() {

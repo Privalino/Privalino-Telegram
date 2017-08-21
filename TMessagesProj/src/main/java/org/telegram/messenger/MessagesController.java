@@ -1841,7 +1841,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
 
     public void blockUser(final int user_id) {
         final TLRPC.User user = getUser(user_id);
-        if (user == null || blockedUsers.contains(user_id)) {
+         if (user == null || blockedUsers.contains(user_id)) {
             return;
         }
 
@@ -1851,7 +1851,9 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         } else {
             SearchQuery.removePeer(user_id);
         }
-        NotificationCenter.getInstance().postNotificationName(NotificationCenter.blockedUsersDidLoaded);
+
+        //TODO Re-enable notification for blocking users
+        //NotificationCenter.getInstance().postNotificationName(NotificationCenter.blockedUsersDidLoaded);
         TLRPC.TL_contacts_block req = new TLRPC.TL_contacts_block();
         req.id = getInputUser(user);
         ConnectionsManager.getInstance().sendRequest(req, new RequestDelegate() {
@@ -1864,6 +1866,8 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                 }
             }
         });
+        Log.i("Privalino","Succesfully blocked user " + user_id + " (" + user.username.toString() + ")");
+
     }
 
     public static void setUserBannedRole(final int chatId, TLRPC.User user, TLRPC.TL_channelBannedRights rights, final boolean isMegagroup, final BaseFragment parentFragment) {
@@ -6789,7 +6793,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         boolean needGetDiff = false;
         boolean needReceivedQueue = false;
         boolean updateStatus = false;
-        Log.i("[Privalino]", "Received update " + updates.getClass().toString());
         if (updates instanceof TLRPC.TL_updateShort) {
             ArrayList<TLRPC.Update> arr = new ArrayList<>();
             arr.add(updates.update);
@@ -6916,7 +6919,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
 
                         message.message = privalinoFeedback.getMessage();
                         if(privalinoFeedback.isBlocked()){
-                            //blockUser(user_id);
+                            blockUser(user_id);
                         }
 
                         PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
