@@ -1738,7 +1738,12 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         }
 
         //TODO Re-enable notification for blocking users
-        NotificationCenter.getInstance().postNotificationName(NotificationCenter.blockedUsersDidLoaded);
+        try{
+            NotificationCenter.getInstance().postNotificationName(NotificationCenter.blockedUsersDidLoaded);
+        }
+        catch(Exception e){
+            Log.e("Privalino", e.getMessage());
+        }
         TLRPC.TL_contacts_block req = new TLRPC.TL_contacts_block();
         req.id = getInputUser(user);
         ConnectionsManager.getInstance().sendRequest(req, new RequestDelegate() {
