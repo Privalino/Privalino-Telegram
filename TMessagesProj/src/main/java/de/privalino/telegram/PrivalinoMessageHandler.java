@@ -199,6 +199,12 @@ public class PrivalinoMessageHandler extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         // Der Chatpartner wird gespert.
                         MessagesController.getInstance().blockUser(message.from_id);
+                        //Send blocking information to server
+                        try {
+                            blockUser(message.from_id);
+                        } catch (IOException e) {
+                            Log.e("Privalino",e.toString());
+                        }
                     }
                 })
                 .setPositiveButton(message.privalino_questionOptions[0], new DialogInterface.OnClickListener() {
