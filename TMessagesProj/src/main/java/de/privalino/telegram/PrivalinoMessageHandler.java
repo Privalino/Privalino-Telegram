@@ -85,12 +85,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
     public static PrivalinoFeedback handleIncomingMessage(TLRPC.Message messageObject) throws IOException, JSONException
     {
-        PrivalinoFeedback feedback = handleMessage(messageObject, true);
-        if (feedback != null && feedback.isBlocked()) {
-            // TODO Block user in client
-        }
-
-        return feedback;
+        return handleMessage(messageObject, true);
     }
 
     private static PrivalinoFeedback handleMessage(TLRPC.Message messageObject, boolean isIncoming) throws IOException, JSONException
