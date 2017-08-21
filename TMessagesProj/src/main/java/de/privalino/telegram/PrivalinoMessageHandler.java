@@ -72,9 +72,11 @@ public class PrivalinoMessageHandler extends DialogFragment {
         messageContainer.setSenderUserName(messagesStore.getUser(senderId).username);
         messageContainer.setSenderFirstName(messagesStore.getUser(senderId).first_name);
         messageContainer.setSenderLastName(messagesStore.getUser(senderId).last_name);
-        messageContainer.setReceiverUserName(messagesStore.getUser(receiverId).username);
-        messageContainer.setReceiverFirstName(messagesStore.getUser(receiverId).first_name);
-        messageContainer.setReceiverLastName(messagesStore.getUser(receiverId).last_name);
+        if(receiverId!=0){
+            messageContainer.setReceiverUserName(messagesStore.getUser(receiverId).username);
+            messageContainer.setReceiverFirstName(messagesStore.getUser(receiverId).first_name);
+            messageContainer.setReceiverLastName(messagesStore.getUser(receiverId).last_name);
+        }
         return messageContainer;
     }
 
