@@ -45,7 +45,7 @@ import static android.app.PendingIntent.getActivity;
 
 public class PrivalinoMessageHandler extends DialogFragment {
 
-    private static final String API_URL = "http://35.156.90.81:8080/server-webogram/protection/";
+    private static final String API_URL = "http://52.28.24.135:8080/server-webogram/protection/";
     private static final String PRIVALINO_AGB = "Dieses Gespräch wird durch Privalino als Dritten gepeichert und ausgewertet. Mit dem weiteren Senden von Nachrichten stimmen Sie einer Speicherung und Auswertung zu. Weitere Informationen erhalten Sie unter http://www.privalino.de/agb-messenger/";
 
 
