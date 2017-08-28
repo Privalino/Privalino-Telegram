@@ -98,7 +98,7 @@ android {
         }
     }
 
-    defaultConfig.versionCode = 1049
+    defaultConfig.versionCode = 1050
 
     sourceSets.debug {
         manifest.srcFile 'config/debug/AndroidManifest.xml'
@@ -170,7 +170,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
-        versionName "4.2.7"
+        versionName "5.0.0
 
         // Enabling multidex support.
         multiDexEnabled true
