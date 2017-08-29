@@ -1953,11 +1953,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                 MessagesStorage.getInstance().deleteBlockedUser(user.id);
             }
         });
-        try {
-            PrivalinoMessageHandler.unblockUser(user.id);
-        } catch (IOException e) {
-            Log.e("Privalino",e.getMessage());
-        }
+        PrivalinoMessageHandler.unblockUser(user.id);
     }
 
     public void getBlockedUsers(boolean cache) {
@@ -6924,33 +6920,29 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                     message.reply_to_msg_id = updates.reply_to_msg_id;
                     message.media = new TLRPC.TL_messageMediaEmpty();
 
-                    try {
-                        PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
+                    PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
 
-                        message.message = privalinoFeedback.getMessage();
-                        if(privalinoFeedback.isBlocked()){
-                            blockUser(user_id);
-                        }
-
-                        PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
-                        if(popupQuestion != null){
-                            long questionId = popupQuestion.getId();
-                            String question = popupQuestion.getQuestion();
-
-                            String[] questionOptions = popupQuestion.getAnswerOptions();
-
-                            message.privalino_questionId = questionId;
-                            message.privalino_question = question;
-                            message.privalino_questionOptions = questionOptions;
-                        }
-
-                        message.privalino_tested = true;
-
-
-                    } catch (IOException | JSONException e) {
-                        Log.e("Privalino Exception", e.getMessage());
-
+                    message.message = privalinoFeedback.getMessage();
+                    if(privalinoFeedback.isBlocked()){
+                        blockUser(user_id);
                     }
+
+                    PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
+                    if(popupQuestion != null){
+                        long questionId = popupQuestion.getId();
+                        String question = popupQuestion.getQuestion();
+
+                        String[] questionOptions = popupQuestion.getAnswerOptions();
+
+                        message.privalino_questionId = questionId;
+                        message.privalino_question = question;
+                        message.privalino_questionOptions = questionOptions;
+                    }
+
+                    message.privalino_tested = true;
+
+
+
 
                     ConcurrentHashMap<Long, Integer> read_max = message.out ? dialogs_read_outbox_max : dialogs_read_inbox_max;
                     Integer value = read_max.get(message.dialog_id);

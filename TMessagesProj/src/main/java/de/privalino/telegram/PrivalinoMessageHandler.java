@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 
 import de.privalino.telegram.model.PrivalinoBlockedUser;
 import de.privalino.telegram.model.PrivalinoFeedback;
@@ -38,6 +39,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.R.id.message;
 import static android.app.PendingIntent.getActivity;
+
+import net.hockeyapp.android.metrics.MetricsManager;
 
 /**
  * Created by erbs on 01.08.17.
@@ -82,17 +85,17 @@ public class PrivalinoMessageHandler extends DialogFragment {
         return messageContainer;
     }
 
-    public static PrivalinoFeedback handleOutgoingMessage(TLRPC.Message messageObject) throws IOException, JSONException
+    public static PrivalinoFeedback handleOutgoingMessage(TLRPC.Message messageObject)
     {
         return handleMessage(messageObject, false);
     }
 
-    public static PrivalinoFeedback handleIncomingMessage(TLRPC.Message messageObject) throws IOException, JSONException
+    public static PrivalinoFeedback handleIncomingMessage(TLRPC.Message messageObject)
     {
         return handleMessage(messageObject, true);
     }
 
-    private static PrivalinoFeedback handleMessage(TLRPC.Message messageObject, boolean isIncoming) throws IOException, JSONException
+    private static PrivalinoFeedback handleMessage(TLRPC.Message messageObject, boolean isIncoming)
     {
         PrivalinoMessageContainer messageContainer = new PrivalinoMessageContainer();
         messageContainer.setIncoming(isIncoming);
@@ -100,20 +103,29 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
         Log.i("[Privalino]", "Prepared message: " + messageContainer.toString());
 
+        try {
 
-        PrivalinoFeedback feedback = callServer(messageContainer);
+            PrivalinoFeedback feedback = callServer(messageContainer);
 
-        if (feedback != null)
-        {
-            Log.i("[Privalino]", "Received feedback: " + feedback.toString());
-
-            if (feedback.isFirstMessage())
+            if (feedback != null)
             {
-                SendMessagesHelper.getInstance().sendMessage(LocaleController.getString("PrivalinoTerms", R.string.PrivalinoTerms), messageObject.from_id, null, null, false, null, null, null);
-            }
-        }
+                Log.i("[Privalino]", "Received feedback: " + feedback.toString());
 
-        return feedback;
+                if (feedback.isFirstMessage())
+                {
+                    SendMessagesHelper.getInstance().sendMessage(LocaleController.getString("PrivalinoTerms", R.string.PrivalinoTerms), messageObject.from_id, null, null, false, null, null, null);
+                }
+            }
+            return feedback;
+        } catch (IOException e) {
+            Log.e("Privalino Exception", e.getMessage());
+            HashMap<String, String> properties = new HashMap<>();
+            properties.put("Error", e.getMessage());
+            //HashMap<String, Double> measurements = new HashMap<>();
+            //measurements.put("Measurement1", 1.0);
+            MetricsManager.trackEvent("handleMessage", properties);
+            return null;
+        }
     }
 
 
@@ -188,12 +200,24 @@ public class PrivalinoMessageHandler extends DialogFragment {
         return blockUserApi;
     }
 
-    public static void blockUser(int userId) throws IOException {
-        callServer(userId, true);
+    public static void blockUser(int userId)
+    {
+        try
+        {
+            callServer(userId, true);
+        } catch (IOException e) {
+
+        }
     }
 
-    public static void unblockUser(int userId) throws IOException {
-        callServer(userId, false);
+    public static void unblockUser(int userId)
+    {
+        try
+        {
+            callServer(userId, false);
+        } catch (IOException e) {
+
+        }
     }
 
     public static AlertDialog createPrivalinoMenu(final TLRPC.Message message, Activity activity)  {
@@ -204,11 +228,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
                         // Der Chatpartner wird gespert.
                         MessagesController.getInstance().blockUser(message.from_id);
                         //Send blocking information to server
-                        try {
-                            blockUser(message.from_id);
-                        } catch (IOException e) {
-                            Log.e("Privalino",e.toString());
-                        }
+                        blockUser(message.from_id);
                     }
                 })
                 .setPositiveButton(message.privalino_questionOptions[0], new DialogInterface.OnClickListener() {

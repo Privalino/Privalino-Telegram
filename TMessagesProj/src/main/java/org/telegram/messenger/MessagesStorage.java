@@ -5252,33 +5252,26 @@ public class MessagesStorage {
         }
         for (TLRPC.Message message : messages) {
             if (!message.privalino_tested) {
-                try {
-                    PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
+                PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
 
-                    if (privalinoFeedback != null) {
-                        message.message = privalinoFeedback.getMessage();
-                        boolean blocked = privalinoFeedback.isBlocked();
+                if (privalinoFeedback != null) {
+                    message.message = privalinoFeedback.getMessage();
+                    boolean blocked = privalinoFeedback.isBlocked();
 
-                        PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
-                        if (popupQuestion != null) {
-                            long questionId = popupQuestion.getId();
-                            String question = popupQuestion.getQuestion();
+                    PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
+                    if (popupQuestion != null) {
+                        long questionId = popupQuestion.getId();
+                        String question = popupQuestion.getQuestion();
 
-                            String[] questionOptions = popupQuestion.getAnswerOptions();
+                        String[] questionOptions = popupQuestion.getAnswerOptions();
 
-                            message.privalino_questionId = questionId;
-                            message.privalino_question = question;
-                            message.privalino_questionOptions = questionOptions;
-                        }
+                        message.privalino_questionId = questionId;
+                        message.privalino_question = question;
+                        message.privalino_questionOptions = questionOptions;
                     }
-
-                    message.privalino_tested = true;
-
-
-                } catch (IOException | JSONException e) {
-                    Log.e("Privalino Exception", e.getMessage());
-
                 }
+
+                message.privalino_tested = true;
             }
         }
 

@@ -60,13 +60,13 @@ public class PrivalinoMessageContainer {
         return senderUserName;
     }
     public void setSenderUserName(String senderUserName) {
-        this.senderUserName = senderUserName;
+        this.senderUserName = (senderUserName != null) ? senderUserName : "";
     }
     public String getReceiverUserName() {
         return receiverUserName;
     }
     public void setReceiverUserName(String receiverUserName) {
-        this.receiverUserName = receiverUserName;
+        this.receiverUserName = (receiverUserName != null) ? receiverUserName : "";
     }
     public String getText() {
         return text;
@@ -78,25 +78,25 @@ public class PrivalinoMessageContainer {
  		return senderFirstName;
  	}
  	public void setSenderFirstName(String senderFirstName) {
- 		this.senderFirstName = senderFirstName;
+        this.senderFirstName = (senderFirstName != null) ? senderFirstName : "";
  	}
  	public String getSenderLastName() {
  		return senderLastName;
  	}
  	public void setSenderLastName(String senderLastName) {
- 		this.senderLastName = senderLastName;
+ 		this.senderLastName = (senderLastName != null) ? senderLastName : "";
  	}
  	public String getReceiverFirstName() {
  		return receiverFirstName;
  	}
  	public void setReceiverFirstName(String receiverFirstName) {
- 		this.receiverFirstName = receiverFirstName;
+ 		this.receiverFirstName = (receiverFirstName != null) ? receiverFirstName : "";
  	}
  	public String getReceiverLastName() {
  		return receiverLastName;
  	}
  	public void setReceiverLastName(String receiverLastName) {
- 		this.receiverLastName = receiverLastName;
+ 		this.receiverLastName = (receiverLastName != null) ? receiverLastName : "";
  	}
 	
 	@Override

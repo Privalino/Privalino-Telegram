@@ -3401,24 +3401,12 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
                                                 Thread thread = new Thread(new Runnable(){
                                                     @Override
                                                     public void run(){
-
-                                                        try {
-
-                                                            PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleOutgoingMessage(newMsgObj);
-                                                            Log.i("Privalino",privalinoFeedback.toString());
-                                                            newMsgObj.message = privalinoFeedback.getMessage();
-
-                                                        } catch (IOException | JSONException e) {
-                                                            Log.e("Privalino Exception", e.getMessage());
-
-                                                            //e.printStackTrace();
-
-                                                        }
-
+                                                    PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleOutgoingMessage(newMsgObj);
+                                                    Log.i("Privalino", privalinoFeedback.toString());
+                                                    newMsgObj.message = privalinoFeedback.getMessage();
                                                     }
                                                 });
                                                 thread.start();
-
 
                                                 SearchQuery.increasePeerRaiting(newMsgObj.dialog_id);
                                                 NotificationCenter.getInstance().postNotificationName(NotificationCenter.messageReceivedByServer, oldId, (isBroadcast ? oldId : newMsgObj.id), newMsgObj, newMsgObj.dialog_id);
