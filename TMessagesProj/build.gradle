@@ -180,7 +180,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
-        versionName "5.0.0
+        versionName "5.0.0"
 
         // Enabling multidex support.
         multiDexEnabled true
