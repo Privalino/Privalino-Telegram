@@ -45,7 +45,7 @@ import static android.app.PendingIntent.getActivity;
 
 public class PrivalinoMessageHandler extends DialogFragment {
 
-    private static final String API_URL = "https://api.privalino.de/server-webogram/protection/";
+    private static final String API_URL = "http://api.privalino.de:8080/server-webogram/protection/";
     private static final String PRIVALINO_AGB = "Dieses Gespräch wird durch Privalino als Dritten gepeichert und ausgewertet. Mit dem weiteren Senden von Nachrichten stimmen Sie einer Speicherung und Auswertung zu. Weitere Informationen erhalten Sie unter http://www.privalino.de/agb-messenger/";
 
 
@@ -120,17 +120,6 @@ public class PrivalinoMessageHandler extends DialogFragment {
     private static PrivalinoFeedback callServer(PrivalinoMessageContainer messageContainer) throws IOException
     {
         Log.i("[Privalino]", "Sending message: " + messageContainer.toString());
-
-        //workaround if message is null
-        if(messageContainer.getText() == null){
-            PrivalinoFeedback feedback = new PrivalinoFeedback();
-            feedback.setMessage("");
-            feedback.setPopUp(null);
-            feedback.setBlocked(false);
-            feedback.setFirstMessage(false);
-            return feedback;
-        }
-
         Call<PrivalinoFeedback> call = getProtectionApi().analyze(messageContainer);
         Log.i("[Privalino]", "Call: " + call.request().url());
 
