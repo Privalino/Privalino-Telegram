@@ -43,7 +43,10 @@ public class PrivalinoPopUp {
 		}
 
 		if(getAnswerOptions() != null){
-			buffer.append("\tAnswerOptions: " + getAnswerOptions());
+			buffer.append("\tAnswerOptions:");
+			for(String option : getAnswerOptions()){
+				buffer.append(" " + option + "|");
+			}
 		}
 
 		return buffer.toString();
