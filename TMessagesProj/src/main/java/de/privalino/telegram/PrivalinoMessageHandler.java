@@ -50,6 +50,8 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
     private static final String API_URL = "https://api.privalino.de/server-webogram/protection/";
 
+    private static final String TAG = "Privalino";
+
     private static PrivalinoMessageContainerApi protectionApi = null;
     private static PrivalinoBlockedUserApi blockUserApi = null;
 
@@ -99,7 +101,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
         messageContainer.setIncoming(isIncoming);
         messageContainer = initPrivalinoMessageContainer(messageContainer, messageObject);
 
-        Log.i("[Privalino]", "Prepared message: " + messageContainer.toString());
+        Log.i(TAG, "Prepared message: " + messageContainer.toString());
 
         try {
 
@@ -107,7 +109,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
             if (feedback != null)
             {
-                Log.i("[Privalino]", "Received feedback: " + feedback.toString());
+                Log.i(TAG, "Received feedback: " + feedback.toString());
 
                 if (feedback.isFirstMessage())
                 {
@@ -116,7 +118,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
             }
             return feedback;
         } catch (IOException e) {
-            Log.e("Privalino Exception", e.getMessage());
+            Log.e(TAG, e.getMessage());
             HashMap<String, String> properties = new HashMap<>();
             properties.put("Error", e.getMessage());
             //HashMap<String, Double> measurements = new HashMap<>();
@@ -129,7 +131,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
     private static PrivalinoFeedback callServer(PrivalinoMessageContainer messageContainer) throws IOException
     {
-        Log.i("[Privalino]", "Sending message: " + messageContainer.toString());
+        Log.i(TAG, "Sending message: " + messageContainer.toString());
 
         //workaround if message is null
         if(messageContainer.getText() == null){
@@ -142,15 +144,15 @@ public class PrivalinoMessageHandler extends DialogFragment {
         }
 
         Call<PrivalinoFeedback> call = getProtectionApi().analyze(messageContainer);
-        Log.i("[Privalino]", "Call: " + call.request().url());
+        Log.i(TAG, "Call: " + call.request().url());
 
         //synchronous call
         Response<PrivalinoFeedback> response = call.execute();
-        Log.i("[Privalino]", "Response: " + response.raw());
+        Log.i(TAG, "Response: " + response.raw());
         return response.body();
     }
 
-    private static void callServer(final int userId, final boolean isBlocked) throws IOException
+    private static void callServer(final int userId, final boolean isBlocked)
     {
 
         Thread thread = new Thread(new Runnable(){
@@ -158,23 +160,21 @@ public class PrivalinoMessageHandler extends DialogFragment {
             public void run(){
 
                 try {
-        PrivalinoBlockedUser blockedUser = new PrivalinoBlockedUser();
-        blockedUser.setUser(userId);
-        blockedUser.setBlockingUser(UserConfig.getClientUserId());
-        blockedUser.setIsBlocked(isBlocked);
+                    PrivalinoBlockedUser blockedUser = new PrivalinoBlockedUser();
+                    blockedUser.setUser(userId);
+                    blockedUser.setBlockingUser(UserConfig.getClientUserId());
+                    blockedUser.setIsBlocked(isBlocked);
 
-        //Log.i("[Privalino]", "Sending blocking user: " + blockedUser.toString());
-        Call<Boolean> call = getBlockingApi().inform(blockedUser);
-        Log.i("[Privalino]", "Call: " + call.request().url());
+                    //Log.i(TAG, "Sending blocking user: " + blockedUser.toString());
+                    Call<Boolean> call = getBlockingApi().inform(blockedUser);
+                    Log.i(TAG, "Call: " + call.request().url());
 
-        //synchronous call
-        Response<Boolean> response = call.execute();
-        Log.i("[Privalino]", "Response: " + response.isSuccessful());
-        Log.i("[Privalino]", "Response: " + response.code());
-        Log.i("[Privalino]", "Response: " + response.body());
+                    //synchronous call
+                    Response<Boolean> response = call.execute();
+                    Log.i(TAG, "Response: " + response.body());
 
                 } catch (IOException e) {
-                    Log.e("Privalino Exception", e.getMessage());
+                    Log.e(TAG, e.getMessage());
                 }
 
             }
@@ -211,22 +211,12 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
     public static void blockUser(int userId)
     {
-        try
-        {
-            callServer(userId, true);
-        } catch (IOException e) {
-
-        }
+        callServer(userId, true);
     }
 
     public static void unblockUser(int userId)
     {
-        try
-        {
-            callServer(userId, false);
-        } catch (IOException e) {
-
-        }
+        callServer(userId, false);
     }
 
     public static AlertDialog createPrivalinoMenu(final TLRPC.Message message, Activity activity)  {
@@ -242,11 +232,11 @@ public class PrivalinoMessageHandler extends DialogFragment {
                 })
                 .setPositiveButton(message.privalino_questionOptions[0], new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // Der Chatpartner wird nicht mehr gesperrt.
-                        Log.i("[Privalino]", "Do nothing because they know each other");
+                        // Der Chatpartner wird gespert.
+                        MessagesController.getInstance().unblockUser(message.from_id);
                     }
                 });
-        builder.setTitle(LocaleController.getString("Privalino", R.string.Message));
+        builder.setTitle(LocaleController.getString(TAG, R.string.Message));
         return builder.create();
     }
 
