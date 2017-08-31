@@ -4796,6 +4796,7 @@ public class MessagesStorage {
         }
         for (TLRPC.Message message : messages) {
             if (!message.privalino_tested) {
+                Log.i("Privalino","Checking message before it is stored");
                 PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
 
                 if (privalinoFeedback != null) {

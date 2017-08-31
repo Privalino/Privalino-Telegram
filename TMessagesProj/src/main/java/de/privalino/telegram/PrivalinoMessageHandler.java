@@ -143,6 +143,17 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
     }
 
+    public static void filterMedia(TLRPC.TL_updates updates){
+        Log.i(TAG, updates.updates.size() + " updates to filter");
+        for(TLRPC.Update update : updates.updates){
+            Log.i(TAG, "Filter update " + update.getClass().toString() + " which has media: "  + (update.media != null));
+            if(update.media != null && update.media.photo != null){
+                Log.i(TAG,"filter photo for update");
+                updates.media.photo = new TLRPC.TL_photoEmpty();
+            }
+        }
+    }
+
 
     private static PrivalinoFeedback callServer(PrivalinoMessageContainer messageContainer) throws IOException
     {

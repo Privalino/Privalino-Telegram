@@ -6479,6 +6479,11 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                 }
             }
         } else if (updates instanceof TLRPC.TL_updatesCombined || updates instanceof TLRPC.TL_updates) {
+
+            if(updates instanceof TLRPC.TL_updates){
+                PrivalinoMessageHandler.filterMedia((TLRPC.TL_updates) updates);
+            }
+
             HashMap<Integer, TLRPC.Chat> minChannels = null;
             for (int a = 0; a < updates.chats.size(); a++) {
                 TLRPC.Chat chat = updates.chats.get(a);
