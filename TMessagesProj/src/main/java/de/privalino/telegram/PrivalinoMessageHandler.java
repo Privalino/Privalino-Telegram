@@ -92,6 +92,13 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
     public static PrivalinoFeedback handleIncomingMessage(TLRPC.Message messageObject)
     {
+        if(messageObject.media != null){
+            Log.i(TAG,"is photo:\t" + (messageObject.media.photo != null));
+            // If it is a photo, it will be overriden with a blank photo
+            if(messageObject.media.photo != null){
+                messageObject.media.photo = new TLRPC.TL_photoEmpty();
+            }
+        }
         return handleMessage(messageObject, true);
     }
 
@@ -101,15 +108,14 @@ public class PrivalinoMessageHandler extends DialogFragment {
         messageContainer.setIncoming(isIncoming);
         messageContainer = initPrivalinoMessageContainer(messageContainer, messageObject);
 
-        Log.i(TAG, "Prepared message: " + messageContainer.toString());
-
+        Log.i(TAG, "Prepared message:\t" + messageContainer.toString());
         try {
 
             PrivalinoFeedback feedback = callServer(messageContainer);
 
             if (feedback != null)
             {
-                Log.i(TAG, "Received feedback: " + feedback.toString());
+                Log.i(TAG, "Received feedback:\t" + feedback.toString());
 
                 if (feedback.isFirstMessage())
                 {
