@@ -6928,7 +6928,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                             blockUser(user_id);
                         }
 
-
                         PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
                         if (popupQuestion != null) {
                             long questionId = popupQuestion.getId();
