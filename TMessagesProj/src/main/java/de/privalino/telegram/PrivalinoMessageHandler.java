@@ -127,8 +127,9 @@ public class PrivalinoMessageHandler extends DialogFragment {
             Log.e(TAG, e.getMessage());
             HashMap<String, String> properties = new HashMap<>();
             properties.put("Error", e.getMessage());
-            //HashMap<String, Double> measurements = new HashMap<>();
-            //measurements.put("Measurement1", 1.0);
+            properties.put("IsIncoming", String.valueOf(isIncoming));
+            properties.put("FromId", String.valueOf(messageObject.from_id));
+            properties.put("Message", messageObject.message);
             MetricsManager.trackEvent("handleMessage", properties);
             return null;
         }
