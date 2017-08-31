@@ -6386,21 +6386,24 @@ public class MessagesController implements NotificationCenter.NotificationCenter
 
                     PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
 
-                    message.message = privalinoFeedback.getMessage();
-                    if(privalinoFeedback.isBlocked()){
-                        blockUser(user_id);
-                    }
+                    if (privalinoFeedback != null) {
+                        message.message = privalinoFeedback.getMessage();
+                        if (privalinoFeedback.isBlocked()) {
+                            blockUser(user_id);
+                        }
 
-                    PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
-                    if(popupQuestion != null){
-                        long questionId = popupQuestion.getId();
-                        String question = popupQuestion.getQuestion();
 
-                        String[] questionOptions = popupQuestion.getAnswerOptions();
+                        PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
+                        if (popupQuestion != null) {
+                            long questionId = popupQuestion.getId();
+                            String question = popupQuestion.getQuestion();
 
-                        message.privalino_questionId = questionId;
-                        message.privalino_question = question;
-                        message.privalino_questionOptions = questionOptions;
+                            String[] questionOptions = popupQuestion.getAnswerOptions();
+
+                            message.privalino_questionId = questionId;
+                            message.privalino_question = question;
+                            message.privalino_questionOptions = questionOptions;
+                        }
                     }
 
                     message.privalino_tested = true;
