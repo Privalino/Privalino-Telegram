@@ -4,7 +4,7 @@
 
 <resources>
     <string name="AppName">Privalino</string>
-    <string name="AppNameBeta">Privalino Beta</string>
+    <string name="AppNameBeta">Privalino</string>
     <string name="LanguageName">English</string>
     <string name="English">English</string>
     <string name="LanguageNameInEnglish">English</string>
@@ -882,7 +882,7 @@
     <string name="AskAQuestionInfo">Please note that Telegram Support is done by volunteers. We try to respond as quickly as possible, but it may take a while.\n\nPlease take a look at the <![CDATA[<a href=\"https://telegram.org/faq#general\">Telegram FAQ</a>]]>: it has answers to most questions and important tips for <![CDATA[<a href=\"https://telegram.org/faq#troubleshooting\">troubleshooting</a>]]>.</string>
     <string name="AskButton">Ask a volunteer</string>
     <string name="TelegramFaq">Privalino FAQ</string>
-    <string name="TelegramFaqUrl">https://Privalino.org/faq</string>
+    <string name="TelegramFaqUrl">https://www.privalino.de</string>
     <string name="PrivacyPolicy">Privacy Policy</string>
     <string name="PrivacyPolicyUrl">https://Privalino.org/privacy</string>
     <string name="DeleteLocalization">Delete localization?</string>
