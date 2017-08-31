@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  */
 public class PrivalinoMessageHandlerTest {
 
-    private static final String API_URL = "http://35.156.90.81:8080/server-webogram/protection/";
+    private static final String API_URL = "http://pi.privalino.de:8080/server-webogram/protection/";
 
     @Before
     public void setUp() throws Exception {
