@@ -5,7 +5,7 @@ package de.privalino.telegram.model;
  */
 public class PrivalinoMessageContainer {
 
-	private boolean isIncoming;
+    private boolean isIncoming;
     private int senderId;
     private int receiverId;
     private int chatId;
@@ -20,7 +20,7 @@ public class PrivalinoMessageContainer {
     private String receiverLastName;
 
 
- 	public boolean isIncoming() {
+    public boolean isIncoming() {
         return isIncoming;
     }
     public void setIncoming(boolean isIncoming) {
@@ -60,13 +60,13 @@ public class PrivalinoMessageContainer {
         return senderUserName;
     }
     public void setSenderUserName(String senderUserName) {
-        this.senderUserName = (senderUserName != null) ? senderUserName : "";
+        this.senderUserName = senderUserName;
     }
     public String getReceiverUserName() {
         return receiverUserName;
     }
     public void setReceiverUserName(String receiverUserName) {
-        this.receiverUserName = (receiverUserName != null) ? receiverUserName : "";
+        this.receiverUserName = receiverUserName;
     }
     public String getText() {
         return text;
@@ -75,31 +75,31 @@ public class PrivalinoMessageContainer {
         this.text = text;
     }
     public String getSenderFirstName() {
- 		return senderFirstName;
- 	}
- 	public void setSenderFirstName(String senderFirstName) {
-        this.senderFirstName = (senderFirstName != null) ? senderFirstName : "";
- 	}
- 	public String getSenderLastName() {
- 		return senderLastName;
- 	}
- 	public void setSenderLastName(String senderLastName) {
- 		this.senderLastName = (senderLastName != null) ? senderLastName : "";
- 	}
- 	public String getReceiverFirstName() {
- 		return receiverFirstName;
- 	}
- 	public void setReceiverFirstName(String receiverFirstName) {
- 		this.receiverFirstName = (receiverFirstName != null) ? receiverFirstName : "";
- 	}
- 	public String getReceiverLastName() {
- 		return receiverLastName;
- 	}
- 	public void setReceiverLastName(String receiverLastName) {
- 		this.receiverLastName = (receiverLastName != null) ? receiverLastName : "";
- 	}
-	
-	@Override
+        return senderFirstName;
+    }
+    public void setSenderFirstName(String senderFirstName) {
+        this.senderFirstName = senderFirstName;
+    }
+    public String getSenderLastName() {
+        return senderLastName;
+    }
+    public void setSenderLastName(String senderLastName) {
+        this.senderLastName = senderLastName;
+    }
+    public String getReceiverFirstName() {
+        return receiverFirstName;
+    }
+    public void setReceiverFirstName(String receiverFirstName) {
+        this.receiverFirstName = receiverFirstName;
+    }
+    public String getReceiverLastName() {
+        return receiverLastName;
+    }
+    public void setReceiverLastName(String receiverLastName) {
+        this.receiverLastName = receiverLastName;
+    }
+
+    @Override
     public String toString()
     {
         StringBuffer buffer = new StringBuffer();
@@ -129,28 +129,28 @@ public class PrivalinoMessageContainer {
         buffer.append(getMessageId());
 
         if(getSenderUserName() != null){
-        	buffer.append("\tSenderUserName: " + getSenderUserName());
+            buffer.append("\tSenderUserName: " + getSenderUserName());
         }
-        
+
         if(getReceiverUserName() != null){
-        	buffer.append("\tReceiverUserName: " + getReceiverUserName());
+            buffer.append("\tReceiverUserName: " + getReceiverUserName());
         }
         if(getSenderFirstName() != null){
-        	buffer.append("\tSenderFirstName: " + getSenderFirstName());
+            buffer.append("\tSenderFirstName: " + getSenderFirstName());
         }
-        
-         if(getSenderLastName() != null){
-        	buffer.append("\tSenderLastName: " + getSenderLastName());
+
+        if(getSenderLastName() != null){
+            buffer.append("\tSenderLastName: " + getSenderLastName());
         }
-        
-         if(getReceiverFirstName() != null){
-         	buffer.append("\tReceiveFirstName: " + getReceiverFirstName());
-         }
-         
+
+        if(getReceiverFirstName() != null){
+            buffer.append("\tReceiveFirstName: " + getReceiverFirstName());
+        }
+
         if(getReceiverLastName() != null){
-        	buffer.append("\tReceiveLastName: " + getReceiverLastName());
+            buffer.append("\tReceiveLastName: " + getReceiverLastName());
         }
-        
+
 
         return buffer.toString();
     }
