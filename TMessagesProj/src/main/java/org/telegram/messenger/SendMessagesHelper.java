@@ -3402,8 +3402,10 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
                                                     @Override
                                                     public void run(){
                                                     PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleOutgoingMessage(newMsgObj);
-                                                    Log.i("Privalino", privalinoFeedback.toString());
-                                                    newMsgObj.message = privalinoFeedback.getMessage();
+                                                    if (privalinoFeedback != null) {
+                                                        Log.i("Privalino", privalinoFeedback.toString());
+                                                        newMsgObj.message = privalinoFeedback.getMessage();
+                                                    }
                                                     }
                                                 });
                                                 thread.start();
