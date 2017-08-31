@@ -6,6 +6,7 @@ public class PrivalinoFeedback {
 	private PrivalinoPopUp popUp;
 	private boolean blocked;
 	private boolean firstMessage;
+	private boolean isWhitelisted;
 
 	public String getMessage() {
 		return message;
@@ -39,6 +40,14 @@ public class PrivalinoFeedback {
 		this.firstMessage = firstMessage;
 	}
 
+	public boolean isWhitelisted() {
+		return isWhitelisted;
+	}
+
+	public void setIsWhitelisted(boolean isWhitelisted) {
+		this.isWhitelisted = isWhitelisted;
+	}
+
 	@Override
 	public String toString()
 	{
@@ -59,8 +68,10 @@ public class PrivalinoFeedback {
             buffer.append("\tFirstMessage: true");
         }
 
-		buffer.append("\tIsBlocked: " + isBlocked());
+        buffer.append("\tIsBlocked: " + isBlocked());
 
-		return buffer.toString();
+        buffer.append("\tIsWhitelisted: " + isWhitelisted());
+
+        return buffer.toString();
 	}
 }

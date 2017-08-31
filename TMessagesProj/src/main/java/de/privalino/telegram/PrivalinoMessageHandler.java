@@ -92,13 +92,6 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
     public static PrivalinoFeedback handleIncomingMessage(TLRPC.Message messageObject)
     {
-        if(messageObject.media != null){
-            Log.i(TAG,"is photo:\t" + (messageObject.media.photo != null));
-            // If it is a photo, it will be overriden with a blank photo
-            if(messageObject.media.photo != null){
-                messageObject.media.photo = new TLRPC.TL_photoEmpty();
-            }
-        }
         return handleMessage(messageObject, true);
     }
 
@@ -122,6 +115,10 @@ public class PrivalinoMessageHandler extends DialogFragment {
                     SendMessagesHelper.getInstance().sendMessage(LocaleController.getString("PrivalinoTerms", R.string.PrivalinoTerms), messageObject.from_id, null, null, false, null, null, null);
                 }
             }
+
+            if(!feedback.isWhitelisted()){
+                filterMedia(messageObject);
+            }
             return feedback;
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
@@ -133,6 +130,17 @@ public class PrivalinoMessageHandler extends DialogFragment {
             MetricsManager.trackEvent("handleMessage", properties);
             return null;
         }
+    }
+
+    private static void filterMedia(TLRPC.Message messageObject){
+        if(messageObject.media != null){
+            Log.i(TAG,"is photo:\t" + (messageObject.media.photo != null));
+            // If it is a photo, it will be overriden with a blank photo
+            if(messageObject.media.photo != null){
+                messageObject.media.photo = new TLRPC.TL_photoEmpty();
+            }
+        }
+
     }
 
 
