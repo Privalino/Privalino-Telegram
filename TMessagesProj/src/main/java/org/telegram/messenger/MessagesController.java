@@ -6913,27 +6913,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                     message.reply_to_msg_id = updates.reply_to_msg_id;
                     message.media = new TLRPC.TL_messageMediaEmpty();
 
-                    PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
-
-                    if (privalinoFeedback != null) {
-                        message.message = privalinoFeedback.getMessage();
-                        if (privalinoFeedback.isBlocked()) {
-                            blockUser(user_id);
-                        }
-
-                        PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
-                        if (popupQuestion != null) {
-                            long questionId = popupQuestion.getId();
-                            String question = popupQuestion.getQuestion();
-
-                            String[] questionOptions = popupQuestion.getAnswerOptions();
-
-                            message.privalino_questionId = questionId;
-                            message.privalino_question = question;
-                            message.privalino_questionOptions = questionOptions;
-                        }
-                    }
-                    message.privalino_tested = true;
+                    processUpdateWithPrivalino(message, user_id);
 
                     ConcurrentHashMap<Long, Integer> read_max = message.out ? dialogs_read_outbox_max : dialogs_read_inbox_max;
                     Integer value = read_max.get(message.dialog_id);
@@ -7016,8 +6996,10 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             }
         } else if (updates instanceof TLRPC.TL_updatesCombined || updates instanceof TLRPC.TL_updates) {
 
-            if(updates instanceof TLRPC.TL_updates){
-                PrivalinoMessageHandler.filterMedia((TLRPC.TL_updates) updates);
+            if(updates instanceof TLRPC.TL_updates) {
+                for (TLRPC.Update update : updates.updates) {
+                    processUpdateWithPrivalino(((TLRPC.TL_updateNewMessage) update).message, update.user_id);
+                }
             }
 
             HashMap<Integer, TLRPC.Chat> minChannels = null;
@@ -7303,12 +7285,40 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         MessagesStorage.getInstance().saveDiffParams(MessagesStorage.lastSeqValue, MessagesStorage.lastPtsValue, MessagesStorage.lastDateValue, MessagesStorage.lastQtsValue);
     }
 
+    private void processUpdateWithPrivalino(TLRPC.Message message, int userId) {
+        PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
+
+        if (privalinoFeedback != null) {
+            message.message = privalinoFeedback.getMessage();
+            if (privalinoFeedback.isBlocked()) {
+                blockUser(userId);
+            }
+
+            PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
+            if (popupQuestion != null) {
+                long questionId = popupQuestion.getId();
+                String question = popupQuestion.getQuestion();
+
+                String[] questionOptions = popupQuestion.getAnswerOptions();
+
+                message.privalino_questionId = questionId;
+                message.privalino_question = question;
+                message.privalino_questionOptions = questionOptions;
+            }
+        }
+        message.privalino_tested = true;
+    }
+
     private String getPercentString(double rating) {
         return String.valueOf(Math.round(rating * 100)) + "%";
     }
 
 
     public boolean processUpdateArray(ArrayList<TLRPC.Update> updates, final ArrayList<TLRPC.User> usersArr, final ArrayList<TLRPC.Chat> chatsArr, boolean fromGetDifference) {
+        Log.i("Privalino", "Process update array\t" + updates.getClass().toString());
+        for(TLRPC.Update update : updates){
+            Log.i("Privalino", "\t" + update.getClass().toString());
+        }
         if (updates.isEmpty()) {
             if (usersArr != null || chatsArr != null) {
                 AndroidUtilities.runOnUIThread(new Runnable() {
