@@ -153,7 +153,7 @@
     <string name="Bold">Fett</string>
     <string name="Italic">Kursiv</string>
     <string name="Regular">Normal</string>
-    <string name="ContactsPermissionAlert">Um dich nahtlos mit jedem zu verbinden, den du kennst, erlaube <![CDATA[<b>]]>Telegram<![CDATA[</b>]]> Zugriff auf deine Kontakte.</string>
+    <string name="ContactsPermissionAlert">Um dich nahtlos mit jedem zu verbinden, den du kennst, erlaube <![CDATA[<b>]]>Privalino<![CDATA[</b>]]> Zugriff auf deine Kontakte.</string>
     <string name="ContactsPermissionAlertNotNow">JETZT NICHT</string>
     <string name="ContactsPermissionAlertContinue">WEITER</string>
     <!--channels-->
@@ -881,9 +881,9 @@
     <string name="AskAQuestionInfo">Bedenke bitte, dass der Telegram Support von ehrenamtlichen Helfern betreut wird. Wir versuchen so schnell wie möglich zu antworten, dies kann jedoch manchmal ein bisschen dauern.\n\nBitte schau auch in den  <![CDATA[<a href="https://telegram.org/faq/de#allgemeine-fragen">Telegram FAQ</a>]]> nach. Dort findest du Antworten auf die meisten Fragen und wichtige Tipps zur <![CDATA[<a href="https://telegram.org/faq/de#problembehandlung">Problembehandlung</a>]]>.</string>
     <string name="AskButton">Eine Frage stellen</string>
     <string name="TelegramFaq">Fragen und Antworten</string>
-    <string name="TelegramFaqUrl">https://Privalino.org/faq/de</string>
+    <string name="TelegramFaqUrl">https://www.privalino.de</string>
     <string name="PrivacyPolicy">Datenschutzerklärung</string>
-    <string name="PrivacyPolicyUrl">https://Privalino.org/privacy</string>
+    <string name="PrivacyPolicyUrl">https://www.privalino.de/datenschutz</string>
     <string name="DeleteLocalization">Lokalisierung löschen?</string>
     <string name="IncorrectLocalization">Falsche Sprachdatei</string>
     <string name="Enabled">Aktiviert</string>
