@@ -52,14 +52,6 @@ import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Semaphore;
 
-//Privalino
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import de.privalino.telegram.PrivalinoMessageHandler;
 import de.privalino.telegram.model.PrivalinoFeedback;
 import de.privalino.telegram.model.PrivalinoPopUp;
@@ -6941,11 +6933,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                             message.privalino_questionOptions = questionOptions;
                         }
                     }
-
                     message.privalino_tested = true;
-
-
-
 
                     ConcurrentHashMap<Long, Integer> read_max = message.out ? dialogs_read_outbox_max : dialogs_read_inbox_max;
                     Integer value = read_max.get(message.dialog_id);

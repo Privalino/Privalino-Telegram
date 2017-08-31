@@ -101,7 +101,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
         messageContainer.setIncoming(isIncoming);
         messageContainer = initPrivalinoMessageContainer(messageContainer, messageObject);
 
-        Log.i(TAG, "Prepared message:\t" + messageContainer.toString());
+        Log.d(TAG, "Prepared message:\t" + messageContainer.toString());
         try {
 
             PrivalinoFeedback feedback = callServer(messageContainer);
