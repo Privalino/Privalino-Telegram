@@ -711,7 +711,7 @@ Dein Privalino Team</string>
     <!--contacts view-->
     <string name="SelectContact">Kontakt auswählen</string>
     <string name="NoContacts">Noch keine Kontakte</string>
-    <string name="InviteText2">Hi, ich benutze Privalino zum Chatten. Hier kannst du es herunterladen: %1$s</string>
+    <string name="InviteText2">Hi, ich benutze Privalino zum Chatten. Hier kannst du es herunterladen: https://www.privalino.de/</string>
     <string name="TodayAt">um</string>
     <string name="YesterdayAt">gestern um</string>
     <string name="Online">online</string>
@@ -1368,7 +1368,7 @@ Wenn du dich bei Privalino anmeldest, brauchst du dein Kennwort.</string>
     <string name="InviteToChannelError">Du kannst diesen Nutzer nicht hinzufügen, weil er das nicht erlaubt.</string>
     <string name="CreateGroupError">Du kannst mit diesen Nutzern keine Gruppe erstellen, weil sie es nicht erlauben.</string>
     <string name="PrivacyCallsP2PTitle">Peer-to-Peer</string>
-    <string name="PrivacyCallsP2PHelp">Deaktivierst du Peer-to-Peer, werden alle Anrufe über die Telegram Server geleitet. Dadurch ist deine IP-Adresse nicht mehr sichtbar, die Gesprächsqualität wird jedoch leicht abnehmen.</string>
+    <string name="PrivacyCallsP2PHelp">Deaktivierst du Peer-to-Peer, werden alle Anrufe über die Privalino Server geleitet. Dadurch ist deine IP-Adresse nicht mehr sichtbar, die Gesprächsqualität wird jedoch leicht abnehmen.</string>
     <!--edit video view-->
     <string name="SendingVideo">Sende Video...</string>
     <string name="SendingGif">Sende GIF...</string>
@@ -1502,7 +1502,7 @@ Wichtig: Abmelden löscht deine Geheimen Chats.</string>
     <string name="SendContactToGroup">Kontakt senden an %1$s?</string>
     <string name="NoUsernameFound">Kein Konto mit diesem Benutzernamen</string>
     <string name="BotCantJoinGroups">Keine Gruppen mit diesem Bot möglich</string>
-    <string name="SecretLinkPreviewAlert">Möchtest du die erweiterte Linkvorschau in Geheimen Chats aktivieren? Die Vorschau wird auf den Telegram Servern generiert.</string>
+    <string name="SecretLinkPreviewAlert">Möchtest du die erweiterte Linkvorschau in Geheimen Chats aktivieren? Die Vorschau wird auf den Privalino Servern generiert.</string>
     <string name="SecretChatContextBotAlert">Inline Bots werden von Drittentwicklern erstellt. Symbole, die du nach dem Botnamen eingibst, werden an den jeweiligen Entwickler geschickt, damit der Bot funktioniert.</string>
     <string name="EditMessageError">Du kannst diese Nachricht nicht bearbeiten.</string>
     <string name="AllowReadSms">Bitte erlaube Privalino den Zugriff auf SMS, so dass wir den Code automatisch in der App für dich eingeben können.</string>
