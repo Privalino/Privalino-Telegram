@@ -6462,7 +6462,9 @@ public class MessagesController implements NotificationCenter.NotificationCenter
 
             if(updates instanceof TLRPC.TL_updates) {
                 for (TLRPC.Update update : updates.updates) {
-                    processUpdateWithPrivalino(((TLRPC.TL_updateNewMessage) update).message, update.user_id);
+                    if (update instanceof TLRPC.TL_updateNewMessage) {
+                        processUpdateWithPrivalino(((TLRPC.TL_updateNewMessage) update).message, update.user_id);
+                    }
                 }
             }
 
