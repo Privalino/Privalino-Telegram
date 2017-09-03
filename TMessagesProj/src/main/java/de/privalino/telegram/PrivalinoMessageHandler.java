@@ -133,11 +133,15 @@ public class PrivalinoMessageHandler extends DialogFragment {
     }
 
     private static void filterMedia(TLRPC.Message messageObject){
-        if(messageObject.media != null){
-            Log.i(TAG,"is photo:\t" + (messageObject.media.photo != null));
+        if(messageObject.media != null) {
+            Log.i(TAG, "is photo:\t" + (messageObject.media.photo != null));
             // If it is a photo, it will be overriden with a blank photo
-            if(messageObject.media.photo != null){
+            if (messageObject.media.photo != null) {
                 messageObject.media.photo = new TLRPC.TL_photoEmpty();
+            }
+            if (messageObject.media.document != null)
+            {
+                messageObject.media.document = new TLRPC.TL_documentEmpty();
             }
         }
 
