@@ -1514,7 +1514,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                                 fragment.showDialog(new JoinGroupAlert(LaunchActivity.this, invite, group, fragment));
                                             } else {
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
-                                                builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                                builder.setTitle("Privalino");
                                                 if (!invite.megagroup && invite.channel || ChatObject.isChannel(invite.chat) && !invite.chat.megagroup) {
                                                     builder.setMessage(LocaleController.formatString("ChannelJoinTo", R.string.ChannelJoinTo, invite.chat != null ? invite.chat.title : invite.title));
                                                 } else {
@@ -1532,7 +1532,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                         }
                                     } else {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
-                                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                        builder.setTitle("Privalino");
                                         if (error.text.startsWith("FLOOD_WAIT")) {
                                             builder.setMessage(LocaleController.getString("FloodWait", R.string.FloodWait));
                                         } else {
@@ -1585,7 +1585,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                         }
                                     } else {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
-                                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                        builder.setTitle("Privalino");
                                         if (error.text.startsWith("FLOOD_WAIT")) {
                                             builder.setMessage(LocaleController.getString("FloodWait", R.string.FloodWait));
                                         } else if (error.text.equals("USERS_TOO_MUCH")) {
@@ -1879,7 +1879,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             }
             if (showAlert) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                builder.setTitle("Privalino");
                 if (requestCode == 3) {
                     builder.setMessage(LocaleController.getString("PermissionNoAudio", R.string.PermissionNoAudio));
                 } else if (requestCode == 4) {
@@ -2117,7 +2117,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         } else if (id == NotificationCenter.needShowAlert) {
             final Integer reason = (Integer) args[0];
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder.setTitle("Privalino");
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             if (reason != 2) {
                 builder.setNegativeButton(LocaleController.getString("MoreInfo", R.string.MoreInfo), new DialogInterface.OnClickListener() {
@@ -2142,7 +2142,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         } else if (id == NotificationCenter.wasUnableToFindCurrentLocation) {
             final HashMap<String, MessageObject> waitingForLocation = (HashMap<String, MessageObject>) args[0];
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder.setTitle("Privalino");
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             builder.setNegativeButton(LocaleController.getString("ShareYouLocationUnableManually", R.string.ShareYouLocationUnableManually), new DialogInterface.OnClickListener() {
                 @Override

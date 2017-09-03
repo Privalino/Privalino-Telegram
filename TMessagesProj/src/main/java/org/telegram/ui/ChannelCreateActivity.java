@@ -245,7 +245,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                         if (!isPrivate) {
                             if (nameTextView.length() == 0) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                                builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                builder.setTitle("Privalino");
                                 builder.setMessage(LocaleController.getString("ChannelPublicEmptyUsername", R.string.ChannelPublicEmptyUsername));
                                 builder.setPositiveButton(LocaleController.getString("Close", R.string.Close), null);
                                 showDialog(builder.create());
@@ -763,7 +763,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                                         AdminedChannelCell cell = (AdminedChannelCell) view.getParent();
                                         final TLRPC.Chat channel = cell.getCurrentChannel();
                                         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                        builder.setTitle("Privalino");
                                         if (channel.megagroup) {
                                             builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlert", R.string.RevokeLinkAlert, MessagesController.getInstance().linkPrefix + "/" + channel.username, channel.title)));
                                         } else {
@@ -911,7 +911,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+        builder.setTitle("Privalino");
         switch (error) {
             case "USERNAME_INVALID":
                 builder.setMessage(LocaleController.getString("LinkInvalid", R.string.LinkInvalid));

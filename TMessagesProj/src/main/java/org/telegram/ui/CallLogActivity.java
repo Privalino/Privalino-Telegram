@@ -441,7 +441,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
 		if(getParentActivity()==null)
 			return;
 		new AlertDialog.Builder(getParentActivity())
-				.setTitle(LocaleController.getString("AppName", R.string.AppName))
+				.setTitle("Privalino")
 				.setMessage(LocaleController.getString("ConfirmDeleteCallLog", R.string.ConfirmDeleteCallLog))
 				.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() {
 					@Override

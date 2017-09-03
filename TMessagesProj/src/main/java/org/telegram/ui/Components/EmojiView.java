@@ -846,7 +846,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         }
                         final TLRPC.Document searchImage = recentGifs.get(position);
                         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                        builder.setTitle("Privalino");
                         builder.setMessage(LocaleController.getString("DeleteGif", R.string.DeleteGif));
                         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK).toUpperCase(), new DialogInterface.OnClickListener() {
                             @Override

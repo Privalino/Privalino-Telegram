@@ -312,7 +312,7 @@ public class MediaActivity extends BaseFragment implements NotificationCenter.No
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                     builder.setMessage(LocaleController.formatString("AreYouSureDeleteMessages", R.string.AreYouSureDeleteMessages, LocaleController.formatPluralString("items", selectedFiles[0].size() + selectedFiles[1].size())));
-                    builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                    builder.setTitle("Privalino");
 
                     final boolean deleteForAll[] = new boolean[1];
                     int lower_id = (int) dialog_id;
@@ -1199,7 +1199,7 @@ public class MediaActivity extends BaseFragment implements NotificationCenter.No
                                     presentFragment(new ThemePreviewActivity(f, themeInfo));
                                 } else {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                                    builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                    builder.setTitle("Privalino");
                                     builder.setMessage(LocaleController.getString("IncorrectTheme", R.string.IncorrectTheme));
                                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                                     showDialog(builder.create());
@@ -1245,7 +1245,7 @@ public class MediaActivity extends BaseFragment implements NotificationCenter.No
                                         return;
                                     }
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                                    builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                    builder.setTitle("Privalino");
                                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                                     builder.setMessage(LocaleController.formatString("NoHandleAppInstalled", R.string.NoHandleAppInstalled, message.getDocument().mime_type));
                                     showDialog(builder.create());

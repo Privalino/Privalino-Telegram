@@ -72,7 +72,7 @@ public class VideoEncodingService extends Service implements NotificationCenter.
             builder = new NotificationCompat.Builder(ApplicationLoader.applicationContext);
             builder.setSmallIcon(android.R.drawable.stat_sys_upload);
             builder.setWhen(System.currentTimeMillis());
-            builder.setContentTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder.setContentTitle("Privalino");
             if (isGif) {
                 builder.setTicker(LocaleController.getString("SendingGif", R.string.SendingGif));
                 builder.setContentText(LocaleController.getString("SendingGif", R.string.SendingGif));

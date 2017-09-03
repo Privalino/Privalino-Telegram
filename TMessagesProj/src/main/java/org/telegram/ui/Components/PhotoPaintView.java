@@ -462,7 +462,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
             builder.setMessage(LocaleController.getString("DiscardChanges", R.string.DiscardChanges));
-            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder.setTitle("Privalino");
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {

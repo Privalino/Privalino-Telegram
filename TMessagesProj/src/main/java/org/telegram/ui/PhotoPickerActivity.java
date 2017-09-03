@@ -322,7 +322,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 public boolean onItemClick(View view, int position) {
                     if (searchResult.isEmpty() && lastSearchString == null) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                        builder.setTitle("Privalino");
                         builder.setMessage(LocaleController.getString("ClearSearch", R.string.ClearSearch));
                         builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton).toUpperCase(), new DialogInterface.OnClickListener() {
                             @Override

@@ -1229,7 +1229,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 parentActivity.startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
-                builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                builder.setTitle("Privalino");
                 builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                 builder.setMessage(LocaleController.getString("PleaseDownload", R.string.PleaseDownload));
                 showAlertDialog(builder);
@@ -1485,7 +1485,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         MediaController.saveFile(f.toString(), parentActivity, currentMessageObject != null && currentMessageObject.isVideo() ? 1 : 0, null, null);
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
-                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                        builder.setTitle("Privalino");
                         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                         builder.setMessage(LocaleController.getString("PleaseDownload", R.string.PleaseDownload));
                         showAlertDialog(builder);
@@ -1549,7 +1549,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     } else {
                         builder.setMessage(LocaleController.formatString("AreYouSureDeletePhoto", R.string.AreYouSureDeletePhoto));
                     }
-                    builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                    builder.setTitle("Privalino");
 
                     final boolean deleteForAll[] = new boolean[1];
                     if (currentMessageObject != null) {
@@ -2562,7 +2562,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 Object object = mentionsAdapter.getItem(position);
                 if (object instanceof String) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
-                    builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                    builder.setTitle("Privalino");
                     builder.setMessage(LocaleController.getString("ClearSearch", R.string.ClearSearch));
                     builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton).toUpperCase(), new DialogInterface.OnClickListener() {
                         @Override
@@ -3258,7 +3258,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             }
                             AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
                             builder.setMessage(LocaleController.getString("DiscardChanges", R.string.DiscardChanges));
-                            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                            builder.setTitle("Privalino");
                             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {

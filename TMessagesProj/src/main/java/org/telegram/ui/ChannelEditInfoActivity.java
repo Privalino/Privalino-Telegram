@@ -677,7 +677,7 @@ public class ChannelEditInfoActivity extends BaseFragment implements AvatarUpdat
                     } else {
                         builder.setMessage(LocaleController.getString("ChannelDeleteAlert", R.string.ChannelDeleteAlert));
                     }
-                    builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                    builder.setTitle("Privalino");
                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -835,7 +835,7 @@ public class ChannelEditInfoActivity extends BaseFragment implements AvatarUpdat
                                         AdminedChannelCell cell = (AdminedChannelCell) view.getParent();
                                         final TLRPC.Chat channel = cell.getCurrentChannel();
                                         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                        builder.setTitle("Privalino");
                                         if (channel.megagroup) {
                                             builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinkAlert", R.string.RevokeLinkAlert, MessagesController.getInstance().linkPrefix + "/" + channel.username, channel.title)));
                                         } else {

@@ -276,7 +276,7 @@ public class NotificationsController {
 
                     PendingIntent contentIntent = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
-                    String name = LocaleController.getString("AppName", R.string.AppName);
+                    String name = "Privalino";
 
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ApplicationLoader.applicationContext)
                             .setContentTitle(name)
@@ -1736,7 +1736,7 @@ public class NotificationsController {
             String name;
             boolean replace = true;
             if ((int) dialog_id == 0 || pushDialogs.size() > 1 || AndroidUtilities.needShowPasscode(false) || UserConfig.isWaitingForPasscodeEnter) {
-                name = LocaleController.getString("AppName", R.string.AppName);
+                name = "Privalino";
                 replace = false;
             } else {
                 if (chat != null) {
@@ -1953,7 +1953,7 @@ public class NotificationsController {
             }
             TLRPC.FileLocation photoPath = null;
             if (AndroidUtilities.needShowPasscode(false) || UserConfig.isWaitingForPasscodeEnter) {
-                name = LocaleController.getString("AppName", R.string.AppName);
+                name = "Privalino";
             } else {
                 if (chat != null) {
                     name = chat.title;

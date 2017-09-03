@@ -1223,7 +1223,7 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
                                             return;
                                         }
                                         AlertDialog.Builder builder = new AlertDialog.Builder(parentFragment.getParentActivity());
-                                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                        builder.setTitle("Privalino");
                                         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                                         builder.setMessage(res.message);
                                         parentFragment.showDialog(builder.create());

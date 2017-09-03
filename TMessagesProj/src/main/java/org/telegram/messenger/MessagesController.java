@@ -4392,7 +4392,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                                     FileLog.e(e);
                                 }
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                builder.setTitle("Privalino");
                                 builder.setMessage(LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
                                 builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                                 builder.show().setCanceledOnTouchOutside(true);
@@ -8234,7 +8234,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getParentActivity());
-        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+        builder.setTitle("Privalino");
         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
         builder.setMessage(reason);
         fragment.showDialog(builder.create());

@@ -519,7 +519,7 @@ public class EmbedBottomSheet extends BottomSheet {
                 if (Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(parentActivity)) {
                     return true;
                 } else {
-                    new AlertDialog.Builder(parentActivity).setTitle(LocaleController.getString("AppName", R.string.AppName))
+                    new AlertDialog.Builder(parentActivity).setTitle("Privalino")
                             .setMessage(LocaleController.getString("PermissionDrawAboveOtherApps", R.string.PermissionDrawAboveOtherApps))
                             .setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() {
                                 @TargetApi(Build.VERSION_CODES.M)
