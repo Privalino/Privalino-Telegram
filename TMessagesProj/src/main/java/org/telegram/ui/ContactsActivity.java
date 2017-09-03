@@ -365,7 +365,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                             }
                             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                             builder.setMessage(LocaleController.getString("InviteUser", R.string.InviteUser));
-                            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                            builder.setTitle("Privalino");
                             final String arg1 = usePhone;
                             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
                                 @Override
@@ -418,7 +418,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 return;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder.setTitle("Privalino");
             String message = LocaleController.formatStringSimple(selectAlertString, UserObject.getUserName(user));
             EditText editText = null;
             if (!user.bot && needForwardCount) {
@@ -514,7 +514,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 if (activity.checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
                     if (activity.shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                        builder.setTitle("Privalino");
                         builder.setMessage(LocaleController.getString("PermissionContacts", R.string.PermissionContacts));
                         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                         showDialog(permissionDialog = builder.create());

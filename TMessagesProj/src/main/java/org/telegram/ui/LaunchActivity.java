@@ -420,7 +420,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 }
                 else if (id == 11) {
                     //Privalino Bot und Kind hinzu fügen
-                    
+
                     drawerLayoutContainer.closeDrawer(false);
                 }
             }
@@ -1544,7 +1544,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                         }
                                     } else {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
-                                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                        builder.setTitle("Privalino");
                                         if (error.text.startsWith("FLOOD_WAIT")) {
                                             builder.setMessage(LocaleController.getString("FloodWait", R.string.FloodWait));
                                         } else {
@@ -1597,7 +1597,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                         }
                                     } else {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
-                                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                        builder.setTitle("Privalino");
                                         if (error.text.startsWith("FLOOD_WAIT")) {
                                             builder.setMessage(LocaleController.getString("FloodWait", R.string.FloodWait));
                                         } else if (error.text.equals("USERS_TOO_MUCH")) {
@@ -1878,7 +1878,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             }
             if (showAlert) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                builder.setTitle("Privalino");
                 if (requestCode == 3) {
                     builder.setMessage(LocaleController.getString("PermissionNoAudio", R.string.PermissionNoAudio));
                 } else if (requestCode == 4) {
@@ -2118,7 +2118,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         } else if (id == NotificationCenter.needShowAlert) {
             final Integer reason = (Integer) args[0];
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder.setTitle("Privalino");
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             if (reason != 2) {
                 builder.setNegativeButton(LocaleController.getString("MoreInfo", R.string.MoreInfo), new DialogInterface.OnClickListener() {
@@ -2143,7 +2143,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         } else if (id == NotificationCenter.wasUnableToFindCurrentLocation) {
             final HashMap<String, MessageObject> waitingForLocation = (HashMap<String, MessageObject>) args[0];
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder.setTitle("Privalino");
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             builder.setNegativeButton(LocaleController.getString("ShareYouLocationUnableManually", R.string.ShareYouLocationUnableManually), new DialogInterface.OnClickListener() {
                 @Override

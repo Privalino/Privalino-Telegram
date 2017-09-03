@@ -141,7 +141,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                             } else {
                                 builder.setMessage(LocaleController.getString("CustomHelp", R.string.CustomHelp));
                             }
-                            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                            builder.setTitle("Privalino");
                             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -349,7 +349,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+        builder.setTitle("Privalino");
         builder.setMessage(LocaleController.getString("PrivacyFloodControlError", R.string.PrivacyFloodControlError));
         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
         showDialog(builder.create());

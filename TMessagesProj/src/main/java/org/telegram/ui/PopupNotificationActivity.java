@@ -506,7 +506,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 return;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder.setTitle("Privalino");
             builder.setMessage(LocaleController.getString("PermissionNoAudio", R.string.PermissionNoAudio));
             builder.setNegativeButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() {
                 @TargetApi(Build.VERSION_CODES.GINGERBREAD)

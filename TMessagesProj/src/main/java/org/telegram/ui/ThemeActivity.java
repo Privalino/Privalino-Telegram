@@ -318,7 +318,7 @@ public class ThemeActivity extends BaseFragment {
                                         }
                                         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                                         builder.setMessage(LocaleController.getString("DeleteThemeAlert", R.string.DeleteThemeAlert));
-                                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                        builder.setTitle("Privalino");
                                         builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {

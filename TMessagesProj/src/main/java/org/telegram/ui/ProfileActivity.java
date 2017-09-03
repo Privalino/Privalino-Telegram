@@ -457,7 +457,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         } else {
                             builder.setMessage(LocaleController.getString("AreYouSureUnblockContact", R.string.AreYouSureUnblockContact));
                         }
-                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                        builder.setTitle("Privalino");
                         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -504,7 +504,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                     builder.setMessage(LocaleController.getString("AreYouSureDeleteContact", R.string.AreYouSureDeleteContact));
-                    builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                    builder.setTitle("Privalino");
                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -797,7 +797,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 } else if (position == startSecretChatRow) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                     builder.setMessage(LocaleController.getString("AreYouSureSecretChat", R.string.AreYouSureSecretChat));
-                    builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                    builder.setTitle("Privalino");
                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -1344,7 +1344,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         } else {
             builder.setMessage(LocaleController.getString("AreYouSureDeleteAndExit", R.string.AreYouSureDeleteAndExit));
         }
-        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+        builder.setTitle("Privalino");
         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

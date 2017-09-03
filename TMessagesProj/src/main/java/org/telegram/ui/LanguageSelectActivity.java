@@ -181,7 +181,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 final LocaleController.LocaleInfo finalLocaleInfo = localeInfo;
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setMessage(LocaleController.getString("DeleteLocalization", R.string.DeleteLocalization));
-                builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                builder.setTitle("Privalino");
                 builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
