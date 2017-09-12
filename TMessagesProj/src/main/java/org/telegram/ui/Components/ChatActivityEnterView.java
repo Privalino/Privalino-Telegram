@@ -998,7 +998,7 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
 //            if (Build.VERSION.SDK_INT >= 21) {
 //                attachButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.INPUT_FIELD_SELECTOR_COLOR));
 //            }
-            attachLayout.addView(attachButton, LayoutHelper.createLinear(48, 48));
+//            attachLayout.addView(attachButton, LayoutHelper.createLinear(48, 48));
             attachButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1303,7 +1303,7 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
         audioSendButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_messagePanelIcons), PorterDuff.Mode.MULTIPLY));
         audioSendButton.setImageResource(R.drawable.mic);
         audioSendButton.setPadding(0, 0, AndroidUtilities.dp(4), 0);
-        audioVideoButtonContainer.addView(audioSendButton, LayoutHelper.createFrame(48, 48));
+        //audioVideoButtonContainer.addView(audioSendButton, LayoutHelper.createFrame(48, 48));
 
         if (isChat) {
             videoSendButton = new ImageView(context);
