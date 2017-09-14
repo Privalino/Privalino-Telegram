@@ -1846,7 +1846,8 @@ public class MessagesController implements NotificationCenter.NotificationCenter
 
         //TODO Re-enable notification for blocking users
         try{
-            NotificationCenter.getInstance().postNotificationName(NotificationCenter.blockedUsersDidLoaded);
+            //
+            // NotificationCenter.getInstance().postNotificationName(NotificationCenter.blockedUsersDidLoaded);
         }
         catch(Exception e){
             Log.e("Privalino", e.getMessage());
@@ -7293,7 +7294,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         if (privalinoFeedback != null) {
             message.message = privalinoFeedback.getMessage();
             if (privalinoFeedback.isBlocked()) {
-                blockUser(userId);
+                MessagesController.getInstance().blockUser(message.from_id);
             }
 
             PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
