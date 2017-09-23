@@ -1864,7 +1864,12 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                 }
             }
         });
-        Log.i("Privalino","Succesfully blocked user " + user_id + " (" + user.username.toString() + ")");
+        if(user.username != null){
+            Log.i("Privalino","Succesfully blocked user " + user_id + " (" + user.username.toString() + ")");
+        }
+        else{
+            Log.i("Privalino","Succesfully blocked user " + user_id + " (no username set)");
+        }
 
     }
 

@@ -114,11 +114,12 @@ public class PrivalinoMessageHandler extends DialogFragment {
                 {
                     SendMessagesHelper.getInstance().sendMessage(LocaleController.getString("PrivalinoTerms", R.string.PrivalinoTerms), messageObject.from_id, null, null, false, null, null, null);
                 }
+                if(!feedback.isWhitelisted()){
+                    filterMedia(messageObject);
+                }
+
             }
 
-            if(!feedback.isWhitelisted()){
-                filterMedia(messageObject);
-            }
             return feedback;
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
