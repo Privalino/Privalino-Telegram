@@ -3397,18 +3397,20 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
                                                     NotificationCenter.getInstance().postNotificationName(NotificationCenter.dialogsNeedReload);
                                                 }
 
-                                                // Privalino von selbstgeschriebenen Nachrichten.
-                                                Thread thread = new Thread(new Runnable(){
-                                                    @Override
-                                                    public void run(){
-                                                    PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleOutgoingMessage(newMsgObj);
-                                                        if (privalinoFeedback != null) {
-                                                            Log.i("Privalino", privalinoFeedback.toString());
-                                                            newMsgObj.message = privalinoFeedback.getMessage();
+                                                if (BuildConfig.APPLICATION_ID.contentEquals("de.privalino.messenger")) {
+                                                    // Privalino von selbstgeschriebenen Nachrichten.
+                                                    Thread thread = new Thread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleOutgoingMessage(newMsgObj);
+                                                            if (privalinoFeedback != null) {
+                                                                Log.i("Privalino", privalinoFeedback.toString());
+                                                                newMsgObj.message = privalinoFeedback.getMessage();
+                                                            }
                                                         }
-                                                    }
-                                                });
-                                                thread.start();
+                                                    });
+                                                    thread.start();
+                                                }
 
                                                 SearchQuery.increasePeerRaiting(newMsgObj.dialog_id);
                                                 NotificationCenter.getInstance().postNotificationName(NotificationCenter.messageReceivedByServer, oldId, (isBroadcast ? oldId : newMsgObj.id), newMsgObj, newMsgObj.dialog_id);

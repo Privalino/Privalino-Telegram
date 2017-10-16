@@ -169,7 +169,7 @@ android {
                 abiFilter "x86"
             }
             versionCode = 2
-            applicationIdSuffix ".adults"
+            applicationIdSuffix ".adult"
         }
 
         fat_adults {
@@ -180,7 +180,7 @@ android {
                 manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
             }
             versionCode = 5
-            applicationIdSuffix ".adults"
+            applicationIdSuffix ".adult"
         }
 
     }

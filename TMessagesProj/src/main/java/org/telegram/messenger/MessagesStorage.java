@@ -5250,29 +5250,37 @@ public class MessagesStorage {
         if (messages.size() == 0) {
             return;
         }
-        for (TLRPC.Message message : messages) {
-            if (!message.privalino_tested) {
-                Log.i("Privalino","Checking message before it is stored");
-                PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
 
-                if (privalinoFeedback != null) {
-                    message.message = privalinoFeedback.getMessage();
-                    boolean blocked = privalinoFeedback.isBlocked();
+        if (BuildConfig.APPLICATION_ID.contentEquals("de.privalino.messenger")) {
+            for (TLRPC.Message message : messages) {
+                if (!message.privalino_tested) {
+                    Log.i("Privalino", "Checking message before it is stored");
+                    PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
 
-                    PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
-                    if (popupQuestion != null) {
-                        long questionId = popupQuestion.getId();
-                        String question = popupQuestion.getQuestion();
+                    if (privalinoFeedback != null) {
+                        message.message = privalinoFeedback.getMessage();
 
-                        String[] questionOptions = popupQuestion.getAnswerOptions();
+                        if (BuildConfig.APPLICATION_ID.contentEquals("de.privalino.messenger")) {
+                            if (privalinoFeedback.isBlocked()) {
+                                PrivalinoMessageHandler.blockUser(message.from_id);
+                            }
+                        }
 
-                        message.privalino_questionId = questionId;
-                        message.privalino_question = question;
-                        message.privalino_questionOptions = questionOptions;
+                        PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
+                        if (popupQuestion != null) {
+                            long questionId = popupQuestion.getId();
+                            String question = popupQuestion.getQuestion();
+
+                            String[] questionOptions = popupQuestion.getAnswerOptions();
+
+                            message.privalino_questionId = questionId;
+                            message.privalino_question = question;
+                            message.privalino_questionOptions = questionOptions;
+                        }
                     }
-                }
 
-                message.privalino_tested = true;
+                    message.privalino_tested = true;
+                }
             }
         }
 

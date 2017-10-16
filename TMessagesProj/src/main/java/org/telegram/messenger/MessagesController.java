@@ -1844,14 +1844,11 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             SearchQuery.removePeer(user_id);
         }
 
-        //TODO Re-enable notification for blocking users
-        try{
-            //
-            // NotificationCenter.getInstance().postNotificationName(NotificationCenter.blockedUsersDidLoaded);
+        // Geht im Privalino Kinder Build nicht
+        if (!BuildConfig.APPLICATION_ID.contentEquals("de.privalino.messenger")) {
+            NotificationCenter.getInstance().postNotificationName(NotificationCenter.blockedUsersDidLoaded);
         }
-        catch(Exception e){
-            Log.e("Privalino", e.getMessage());
-        }
+
         TLRPC.TL_contacts_block req = new TLRPC.TL_contacts_block();
         req.id = getInputUser(user);
         ConnectionsManager.getInstance().sendRequest(req, new RequestDelegate() {
@@ -1951,7 +1948,9 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                 MessagesStorage.getInstance().deleteBlockedUser(user.id);
             }
         });
-        PrivalinoMessageHandler.unblockUser(user.id);
+        if (BuildConfig.APPLICATION_ID.contentEquals("de.privalino.messenger")) {
+            PrivalinoMessageHandler.unblockUser(user.id);
+        }
     }
 
     public void getBlockedUsers(boolean cache) {
@@ -6919,7 +6918,9 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                     message.reply_to_msg_id = updates.reply_to_msg_id;
                     message.media = new TLRPC.TL_messageMediaEmpty();
 
-                    processUpdateWithPrivalino(message, user_id);
+                    if (BuildConfig.APPLICATION_ID.contentEquals("de.privalino.messenger")) {
+                        processUpdateWithPrivalino(message, user_id);
+                    }
 
                     ConcurrentHashMap<Long, Integer> read_max = message.out ? dialogs_read_outbox_max : dialogs_read_inbox_max;
                     Integer value = read_max.get(message.dialog_id);
@@ -7002,10 +7003,12 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             }
         } else if (updates instanceof TLRPC.TL_updatesCombined || updates instanceof TLRPC.TL_updates) {
 
-            if(updates instanceof TLRPC.TL_updates) {
-                for (TLRPC.Update update : updates.updates) {
-                    if (update instanceof TLRPC.TL_updateNewMessage) {
-                        processUpdateWithPrivalino(((TLRPC.TL_updateNewMessage) update).message, update.user_id);
+            if (BuildConfig.APPLICATION_ID.contentEquals("de.privalino.messenger")) {
+                if (updates instanceof TLRPC.TL_updates) {
+                    for (TLRPC.Update update : updates.updates) {
+                        if (update instanceof TLRPC.TL_updateNewMessage) {
+                            processUpdateWithPrivalino(((TLRPC.TL_updateNewMessage) update).message, update.user_id);
+                        }
                     }
                 }
             }
