@@ -160,6 +160,26 @@ android {
             }
             versionCode = 5
         }
+
+        x86_adults {
+            ndk {
+                abiFilter "x86"
+            }
+            versionCode = 2
+            applicationIdSuffix ".adults"
+        }
+
+        fat_adults {
+            sourceSets.debug {
+                manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
+            }
+            sourceSets.release {
+                manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
+            }
+            versionCode = 5
+            applicationIdSuffix ".adults"
+        }
+
     }
 
     applicationVariants.all { variant ->
