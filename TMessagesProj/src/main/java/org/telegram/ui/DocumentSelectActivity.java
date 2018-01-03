@@ -560,7 +560,7 @@ public class DocumentSelectActivity extends BaseFragment {
         if (getParentActivity() == null) {
             return;
         }
-        new AlertDialog.Builder(getParentActivity()).setTitle(LocaleController.getString("AppName", R.string.AppName)).setMessage(error).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
+        new AlertDialog.Builder(getParentActivity()).setTitle("Privalino").setMessage(error).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
     }
 
     @SuppressLint("NewApi")
@@ -652,7 +652,7 @@ public class DocumentSelectActivity extends BaseFragment {
             File telegramPath = new File(Environment.getExternalStorageDirectory(), "Telegram");
             if (telegramPath.exists()) {
                 fs = new ListItem();
-                fs.title = "Telegram";
+                fs.title = "Privalino";
                 fs.subtitle = telegramPath.toString();
                 fs.icon = R.drawable.ic_directory;
                 fs.file = telegramPath;

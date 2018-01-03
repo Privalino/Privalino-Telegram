@@ -146,7 +146,7 @@ public class LoginActivity extends BaseFragment {
 
     @Override
     public View createView(Context context) {
-        actionBar.setTitle(LocaleController.getString("AppName", R.string.AppName));
+        actionBar.setTitle("Privalino");
 
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override
@@ -380,7 +380,7 @@ public class LoginActivity extends BaseFragment {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+        builder.setTitle("Privalino");
         if (banned) {
             builder.setMessage(LocaleController.getString("BannedPhoneNumber", R.string.BannedPhoneNumber));
         } else {
@@ -398,14 +398,14 @@ public class LoginActivity extends BaseFragment {
                     mailer.putExtra(Intent.EXTRA_EMAIL, new String[]{"login@stel.com"});
                     if (banned) {
                         mailer.putExtra(Intent.EXTRA_SUBJECT, "Banned phone number: " + phoneNumber);
-                        mailer.putExtra(Intent.EXTRA_TEXT, "I'm trying to use my mobile phone number: " + phoneNumber + "\nBut Telegram says it's banned. Please help.\n\nApp version: " + version + "\nOS version: SDK " + Build.VERSION.SDK_INT + "\nDevice Name: " + Build.MANUFACTURER + Build.MODEL + "\nLocale: " + Locale.getDefault());
+                        mailer.putExtra(Intent.EXTRA_TEXT, "I'm trying to use my mobile phone number: " + phoneNumber + "\nBut Privalino says it's banned. Please help.\n\nApp version: " + version + "\nOS version: SDK " + Build.VERSION.SDK_INT + "\nDevice Name: " + Build.MANUFACTURER + Build.MODEL + "\nLocale: " + Locale.getDefault());
                     } else {
                         mailer.putExtra(Intent.EXTRA_SUBJECT, "Invalid phone number: " + phoneNumber);
-                        mailer.putExtra(Intent.EXTRA_TEXT, "I'm trying to use my mobile phone number: " + phoneNumber + "\nBut Telegram says it's invalid. Please help.\n\nApp version: " + version + "\nOS version: SDK " + Build.VERSION.SDK_INT + "\nDevice Name: " + Build.MANUFACTURER + Build.MODEL + "\nLocale: " + Locale.getDefault());
+                        mailer.putExtra(Intent.EXTRA_TEXT, "I'm trying to use my mobile phone number: " + phoneNumber + "\nBut Privalino says it's invalid. Please help.\n\nApp version: " + version + "\nOS version: SDK " + Build.VERSION.SDK_INT + "\nDevice Name: " + Build.MANUFACTURER + Build.MODEL + "\nLocale: " + Locale.getDefault());
                     }
                     getParentActivity().startActivity(Intent.createChooser(mailer, "Send email..."));
                 } catch (Exception e) {
-                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("NoMailInstalled", R.string.NoMailInstalled));
+                    needShowAlert("Privalino", LocaleController.getString("NoMailInstalled", R.string.NoMailInstalled));
                 }
             }
         });
@@ -991,7 +991,7 @@ public class LoginActivity extends BaseFragment {
                         } else if (preferences.getBoolean("firstlogin", true) || getParentActivity().shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE) || getParentActivity().shouldShowRequestPermissionRationale(Manifest.permission.RECEIVE_SMS)) {
                             preferences.edit().putBoolean("firstlogin", false).commit();
                             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                            builder.setTitle("Privalino");
                             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                             if (permissionsItems.size() >= 2) {
                                 builder.setMessage(LocaleController.getString("AllowReadCallAndSms", R.string.AllowReadCallAndSms));
@@ -1016,14 +1016,14 @@ public class LoginActivity extends BaseFragment {
             }
 
             if (countryState == 1) {
-                needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("ChooseCountry", R.string.ChooseCountry));
+                needShowAlert("Privalino", LocaleController.getString("ChooseCountry", R.string.ChooseCountry));
                 return;
             } else if (countryState == 2 && !BuildVars.DEBUG_VERSION && !codeField.getText().toString().equals("999")) {
-                needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("WrongCountry", R.string.WrongCountry));
+                needShowAlert("Privalino", LocaleController.getString("WrongCountry", R.string.WrongCountry));
                 return;
             }
             if (codeField.length() == 0) {
-                needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
+                needShowAlert("Privalino", LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
                 return;
             }
 
@@ -1074,17 +1074,17 @@ public class LoginActivity extends BaseFragment {
                                     if (error.text.contains("PHONE_NUMBER_INVALID")) {
                                         needShowInvalidAlert(req.phone_number, false);
                                     } else if (error.text.contains("PHONE_NUMBER_FLOOD")) {
-                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("PhoneNumberFlood", R.string.PhoneNumberFlood));
+                                        needShowAlert("Privalino", LocaleController.getString("PhoneNumberFlood", R.string.PhoneNumberFlood));
                                     } else if (error.text.contains("PHONE_NUMBER_BANNED")) {
                                         needShowInvalidAlert(req.phone_number, true);
                                     } else if (error.text.contains("PHONE_CODE_EMPTY") || error.text.contains("PHONE_CODE_INVALID")) {
-                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidCode", R.string.InvalidCode));
+                                        needShowAlert("Privalino", LocaleController.getString("InvalidCode", R.string.InvalidCode));
                                     } else if (error.text.contains("PHONE_CODE_EXPIRED")) {
-                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("CodeExpired", R.string.CodeExpired));
+                                        needShowAlert("Privalino", LocaleController.getString("CodeExpired", R.string.CodeExpired));
                                     } else if (error.text.startsWith("FLOOD_WAIT")) {
-                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("FloodWait", R.string.FloodWait));
+                                        needShowAlert("Privalino", LocaleController.getString("FloodWait", R.string.FloodWait));
                                     } else if (error.code != -1000) {
-                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
+                                        needShowAlert("Privalino", error.text);
                                     }
                                 }
                             }
@@ -1121,7 +1121,7 @@ public class LoginActivity extends BaseFragment {
                                 if (preferences.getBoolean("firstloginshow", true) || getParentActivity().shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE) || getParentActivity().shouldShowRequestPermissionRationale(Manifest.permission.RECEIVE_SMS)) {
                                     preferences.edit().putBoolean("firstloginshow", false).commit();
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                                    builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                    builder.setTitle("Privalino");
                                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                                     builder.setMessage(LocaleController.getString("AllowFillNumber", R.string.AllowFillNumber));
                                     permissionsShowDialog = showDialog(builder.create());
@@ -1367,7 +1367,7 @@ public class LoginActivity extends BaseFragment {
                             mailer.putExtra(Intent.EXTRA_TEXT, "Phone: " + requestPhone + "\nApp version: " + version + "\nOS version: SDK " + Build.VERSION.SDK_INT + "\nDevice Name: " + Build.MANUFACTURER + Build.MODEL + "\nLocale: " + Locale.getDefault() + "\nError: " + lastError);
                             getContext().startActivity(Intent.createChooser(mailer, "Send email..."));
                         } catch (Exception e) {
-                            needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("NoMailInstalled", R.string.NoMailInstalled));
+                            needShowAlert("Privalino", LocaleController.getString("NoMailInstalled", R.string.NoMailInstalled));
                         }
                     }
                 }
@@ -1431,17 +1431,17 @@ public class LoginActivity extends BaseFragment {
                             } else {
                                 if (error.text != null) {
                                     if (error.text.contains("PHONE_NUMBER_INVALID")) {
-                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
+                                        needShowAlert("Privalino", LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
                                     } else if (error.text.contains("PHONE_CODE_EMPTY") || error.text.contains("PHONE_CODE_INVALID")) {
-                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidCode", R.string.InvalidCode));
+                                        needShowAlert("Privalino", LocaleController.getString("InvalidCode", R.string.InvalidCode));
                                     } else if (error.text.contains("PHONE_CODE_EXPIRED")) {
                                         onBackPressed();
                                         setPage(0, true, null, true);
-                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("CodeExpired", R.string.CodeExpired));
+                                        needShowAlert("Privalino", LocaleController.getString("CodeExpired", R.string.CodeExpired));
                                     } else if (error.text.startsWith("FLOOD_WAIT")) {
-                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("FloodWait", R.string.FloodWait));
+                                        needShowAlert("Privalino", LocaleController.getString("FloodWait", R.string.FloodWait));
                                     } else if (error.code != -1000) {
-                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text);
+                                        needShowAlert("Privalino", LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text);
                                     }
                                 }
                             }
@@ -1772,7 +1772,7 @@ public class LoginActivity extends BaseFragment {
                                                         bundle.putInt("has_recovery", password.has_recovery ? 1 : 0);
                                                         setPage(6, true, bundle, false);
                                                     } else {
-                                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
+                                                        needShowAlert("Privalino", error.text);
                                                     }
                                                 }
                                             });
@@ -1795,17 +1795,17 @@ public class LoginActivity extends BaseFragment {
                                     waitingForEvent = true;
                                     if (currentType != 3) {
                                         if (error.text.contains("PHONE_NUMBER_INVALID")) {
-                                            needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
+                                            needShowAlert("Privalino", LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
                                         } else if (error.text.contains("PHONE_CODE_EMPTY") || error.text.contains("PHONE_CODE_INVALID")) {
-                                            needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidCode", R.string.InvalidCode));
+                                            needShowAlert("Privalino", LocaleController.getString("InvalidCode", R.string.InvalidCode));
                                         } else if (error.text.contains("PHONE_CODE_EXPIRED")) {
                                             onBackPressed();
                                             setPage(0, true, null, true);
-                                            needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("CodeExpired", R.string.CodeExpired));
+                                            needShowAlert("Privalino", LocaleController.getString("CodeExpired", R.string.CodeExpired));
                                         } else if (error.text.startsWith("FLOOD_WAIT")) {
-                                            needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("FloodWait", R.string.FloodWait));
+                                            needShowAlert("Privalino", LocaleController.getString("FloodWait", R.string.FloodWait));
                                         } else {
-                                            needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text);
+                                            needShowAlert("Privalino", LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text);
                                         }
                                     }
                                 }
@@ -2018,7 +2018,7 @@ public class LoginActivity extends BaseFragment {
                                             final TLRPC.TL_auth_passwordRecovery res = (TLRPC.TL_auth_passwordRecovery) response;
                                             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                                             builder.setMessage(LocaleController.formatString("RestoreEmailSent", R.string.RestoreEmailSent, res.email_pattern));
-                                            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                            builder.setTitle("Privalino");
                                             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -2041,9 +2041,9 @@ public class LoginActivity extends BaseFragment {
                                                 } else {
                                                     timeString = LocaleController.formatPluralString("Minutes", time / 60);
                                                 }
-                                                needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
+                                                needShowAlert("Privalino", LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
                                             } else {
-                                                needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
+                                                needShowAlert("Privalino", error.text);
                                             }
                                         }
                                     }
@@ -2096,7 +2096,7 @@ public class LoginActivity extends BaseFragment {
                                                 setPage(5, true, params, false);
                                             } else {
                                                 if (error.text.equals("2FA_RECENT_CONFIRM")) {
-                                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("ResetAccountCancelledAlert", R.string.ResetAccountCancelledAlert));
+                                                    needShowAlert("Privalino", LocaleController.getString("ResetAccountCancelledAlert", R.string.ResetAccountCancelledAlert));
                                                 } else if (error.text.startsWith("2FA_CONFIRM_WAIT_")) {
                                                     Bundle params = new Bundle();
                                                     params.putString("phoneFormated", requestPhone);
@@ -2106,7 +2106,7 @@ public class LoginActivity extends BaseFragment {
                                                     params.putInt("waitTime", Utilities.parseInt(error.text.replace("2FA_CONFIRM_WAIT_", "")));
                                                     setPage(8, true, params, false);
                                                 } else {
-                                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
+                                                    needShowAlert("Privalino", error.text);
                                                 }
                                             }
                                         }
@@ -2246,9 +2246,9 @@ public class LoginActivity extends BaseFragment {
                                     } else {
                                         timeString = LocaleController.formatPluralString("Minutes", time / 60);
                                     }
-                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
+                                    needShowAlert("Privalino", LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
                                 } else {
-                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
+                                    needShowAlert("Privalino", error.text);
                                 }
                             }
                         }
@@ -2381,9 +2381,9 @@ public class LoginActivity extends BaseFragment {
                                                 setPage(5, true, params, false);
                                             } else {
                                                 if (error.text.equals("2FA_RECENT_CONFIRM")) {
-                                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("ResetAccountCancelledAlert", R.string.ResetAccountCancelledAlert));
+                                                    needShowAlert("Privalino", LocaleController.getString("ResetAccountCancelledAlert", R.string.ResetAccountCancelledAlert));
                                                 } else {
-                                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
+                                                    needShowAlert("Privalino", error.text);
                                                 }
                                             }
                                         }
@@ -2655,9 +2655,9 @@ public class LoginActivity extends BaseFragment {
                                     } else {
                                         timeString = LocaleController.formatPluralString("Minutes", time / 60);
                                     }
-                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
+                                    needShowAlert("Privalino", LocaleController.formatString("FloodWaitTime", R.string.FloodWaitTime, timeString));
                                 } else {
-                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
+                                    needShowAlert("Privalino", error.text);
                                 }
                             }
                         }
@@ -2792,7 +2792,7 @@ public class LoginActivity extends BaseFragment {
                 @Override
                 public void onClick(View view) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                    builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                    builder.setTitle("Privalino");
                     builder.setMessage(LocaleController.getString("AreYouSureRegistration", R.string.AreYouSureRegistration));
                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
                         @Override
@@ -2884,17 +2884,17 @@ public class LoginActivity extends BaseFragment {
                                 needFinishActivity();
                             } else {
                                 if (error.text.contains("PHONE_NUMBER_INVALID")) {
-                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
+                                    needShowAlert("Privalino", LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
                                 } else if (error.text.contains("PHONE_CODE_EMPTY") || error.text.contains("PHONE_CODE_INVALID")) {
-                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidCode", R.string.InvalidCode));
+                                    needShowAlert("Privalino", LocaleController.getString("InvalidCode", R.string.InvalidCode));
                                 } else if (error.text.contains("PHONE_CODE_EXPIRED")) {
-                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("CodeExpired", R.string.CodeExpired));
+                                    needShowAlert("Privalino", LocaleController.getString("CodeExpired", R.string.CodeExpired));
                                 } else if (error.text.contains("FIRSTNAME_INVALID")) {
-                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidFirstName", R.string.InvalidFirstName));
+                                    needShowAlert("Privalino", LocaleController.getString("InvalidFirstName", R.string.InvalidFirstName));
                                 } else if (error.text.contains("LASTNAME_INVALID")) {
-                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidLastName", R.string.InvalidLastName));
+                                    needShowAlert("Privalino", LocaleController.getString("InvalidLastName", R.string.InvalidLastName));
                                 } else {
-                                    needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
+                                    needShowAlert("Privalino", error.text);
                                 }
                             }
                         }
