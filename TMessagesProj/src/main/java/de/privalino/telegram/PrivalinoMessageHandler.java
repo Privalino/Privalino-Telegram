@@ -48,7 +48,7 @@ import net.hockeyapp.android.metrics.MetricsManager;
 
 public class PrivalinoMessageHandler extends DialogFragment {
 
-    private static final String API_URL = "https://api.privalino.de/server-webogram/protection/";
+    private static final String API_URL = "https://api.privalino.de/server_v1801/protection/";
 
     private static final String TAG = "Privalino";
 
