@@ -1402,17 +1402,19 @@
     <string name="PermissionOpenSettings">EINSTELLUNGEN</string>
     <!--Intro view-->
     <string name="Page1Title">Privalino</string>
-    <string name="Page2Title">Schnell</string>
-    <string name="Page3Title">Kostenlos</string>
-    <string name="Page4Title">Sicher</string>
-    <string name="Page5Title">Leistungsstark</string>
-    <string name="Page6Title">Cloud-Basiert</string>
-    <string name="Page1Message">Die <![CDATA[<b>schnellste</b>]]> Messaging App der Welt.\n<![CDATA[<b>Kostenlos</b>]]> und <![CDATA[<b>sicher</b>]]>.</string>
-    <string name="Page2Message"><![CDATA[<b>Privalino</b>]]> übermittelt Nachrichten\nschneller als jede andere Anwendung.</string>
-    <string name="Page3Message"><![CDATA[<b>Privalino</b>]]> bleibt immer gratis.\nKeine Werbung. Keine Abo-Gebühren.</string>
-    <string name="Page4Message"><![CDATA[<b>Privalino</b>]]> schützt deine Nachrichten\nvor Hacker-Angriffen.</string>
-    <string name="Page5Message"><![CDATA[<b>Privalino</b>]]> hat keine Begrenzungen auf\ndie Größe deiner Medien oder Chats.</string>
-    <string name="Page6Message"><![CDATA[<b>Privalino</b>]]> kannst du vom Handy\nTablet oder auch Computer\nsynchronisiert benutzen.</string>
+    <string name="Page2Title">Sicher</string>
+    <string name="Page3Title">Preis</string>
+    <string name="Page4Title">Feature</string>
+    <string name="Page5Title">Maschinelles Lernen</string>
+    <string name="Page6Title">Alarm</string>
+    <string name="Page7Title">Stetig verbessert</string>
+    <string name="Page1Message">Kinder <![CDATA[<b>chatten</b>]]> sicher.</string>
+    <string name="Page2Message"><![CDATA[<b>Privalino</b>]]> schützt Kinder vor Cyber-Grooming <![CDATA[<br/>]]>und Cyber-Mobbing.</string>
+    <string name="Page3Message"><![CDATA[<b>Privalino</b>]]> ist als Basis-Version kostenlos.<![CDATA[<br/>]]>Keine Werbung.</string>
+    <string name="Page4Message"><![CDATA[<b>Privalino</b>]]> bietet viele Features <![CDATA[<br/>]]>zum Kinderschutz.</string>
+    <string name="Page5Message"><![CDATA[<b>Privalino</b>]]> nutzt Maschinelles Lernen <![CDATA[<br/>]]>um Chats zu analysieren.</string>
+    <string name="Page6Message"><![CDATA[<b>Privalino</b>]]> schlägt bei Gefahr<![CDATA[<br/>]]> Alarm. Für 5 Euro/Monat werden die Eltern alarmiert.</string>
+    <string name="Page7Message"><![CDATA[<b>Privalino</b>]]> wird stetig verbessert<![CDATA[<br/>]]>, um die Sicherheit noch weiter zu erhöhen.</string>
     <string name="StartMessaging">Jetzt beginnen</string>
     <!--VoIP-->
     <string name="AccountSettings">Kontoeinstellungen</string>
