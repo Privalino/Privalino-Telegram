@@ -1542,11 +1542,13 @@ und Cyber-Mobbing.</string>
 Keine Werbung.</string>
     <string name="Page4Message">**Privalino** bietet viele Features
 zum Kinderschutz.</string>
-    <string name="Page5Message">**Privalino** nutzt Maschinelles Lernen
+    <string name="Page5Message">**Privalino** nutzt Maschinelles Lernen,
 um Chats zu analysieren.</string>
-    <string name="Page6Message">**Privalino** wird stetig verbessert,
+    <string name="Page6Message">**Privalino** schlägt bei Gefahr
+Alarm.</string>
+    <string name="Page7Message">**Privalino** wird stetig verbessert,
 um die Sicherheit noch weiter zu erhöhen.</string>
-    <string name="StartMessaging">JETZT BEGINNEN</string>
+    <string name="StartMessaging">Jetzt beginnen</string>
     <!-- VoIP -->
     <string name="AccountSettings">Kontoeinstellungen</string>
     <string name="VoipUseLessData">Weniger Daten benutzen</string>
