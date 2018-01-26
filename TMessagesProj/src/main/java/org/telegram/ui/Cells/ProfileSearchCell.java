@@ -365,12 +365,12 @@ public class ProfileSearchCell extends BaseCell {
         TLRPC.FileLocation photo = null;
         if (user != null) {
             if (user.photo != null) {
-                photo = user.photo.photo_small;
+                //photo = user.photo.photo_small;
             }
             avatarDrawable.setInfo(user);
         } else if (chat != null) {
             if (chat.photo != null) {
-                photo = chat.photo.photo_small;
+                //photo = chat.photo.photo_small;
             }
             avatarDrawable.setInfo(chat);
         } else {

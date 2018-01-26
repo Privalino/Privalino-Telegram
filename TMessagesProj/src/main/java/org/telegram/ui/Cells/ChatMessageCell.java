@@ -2666,7 +2666,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 TLRPC.FileLocation currentPhoto = null;
                 if (user != null) {
                     if (user.photo != null) {
-                        currentPhoto = user.photo.photo_small;
+                        //currentPhoto = user.photo.photo_small;
                     }
                     contactAvatarDrawable.setInfo(user);
                 }
