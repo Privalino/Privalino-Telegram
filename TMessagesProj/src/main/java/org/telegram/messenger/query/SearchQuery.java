@@ -170,12 +170,12 @@ public class SearchQuery {
                         if (user != null) {
                             name = ContactsController.formatName(user.first_name, user.last_name);
                             if (user.photo != null) {
-                                photo = user.photo.photo_small;
+                                // photo = user.photo.photo_small;
                             }
                         } else {
                             name = chat.title;
                             if (chat.photo != null) {
-                                photo = chat.photo.photo_small;
+                                // photo = chat.photo.photo_small;
                             }
                         }
 

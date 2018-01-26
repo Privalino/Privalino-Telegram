@@ -2294,10 +2294,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             TLRPC.User user = MessagesController.getInstance().getUser(user_id);
             TLRPC.FileLocation photo = null;
             TLRPC.FileLocation photoBig = null;
-            if (user.photo != null) {
-                photo = user.photo.photo_small;
-                photoBig = user.photo.photo_big;
-            }
+            //if (user.photo != null) {
+            //    photo = user.photo.photo_small;
+            //    photoBig = user.photo.photo_big;
+            //}
             avatarDrawable.setInfo(user);
             avatarImage.setImage(photo, "50_50", avatarDrawable);
 

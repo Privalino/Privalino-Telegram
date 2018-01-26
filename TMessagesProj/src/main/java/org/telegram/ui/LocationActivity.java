@@ -713,9 +713,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         try {
             TLRPC.FileLocation photo = null;
             if (liveLocation.user != null && liveLocation.user.photo != null) {
-                photo = liveLocation.user.photo.photo_small;
+                // photo = liveLocation.user.photo.photo_small;
             } else if (liveLocation.chat != null && liveLocation.chat.photo != null) {
-                photo = liveLocation.chat.photo.photo_small;
+                // photo = liveLocation.chat.photo.photo_small;
             }
             result = Bitmap.createBitmap(AndroidUtilities.dp(62), AndroidUtilities.dp(76), Bitmap.Config.ARGB_8888);
             result.eraseColor(Color.TRANSPARENT);

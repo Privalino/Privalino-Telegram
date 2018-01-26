@@ -377,11 +377,11 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             if (UserObject.isUserSelf(user)) {
                 avatarDrawable.setSavedMessages(2);
             } else if (user.photo != null) {
-                newPhoto = user.photo.photo_small;
+                // newPhoto = user.photo.photo_small;
             }
         } else if (chat != null) {
             if (chat.photo != null) {
-                newPhoto = chat.photo.photo_small;
+                //newPhoto = chat.photo.photo_small;
             }
             avatarDrawable.setInfo(chat);
         }

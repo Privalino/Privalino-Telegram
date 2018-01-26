@@ -72,15 +72,20 @@ public class PrivalinoMessageHandler extends DialogFragment {
         messageContainer.setMessageId(messageObject.id);
 
         MessagesStorage messagesStore = MessagesStorage.getInstance();
-        if(messagesStore.getUser(senderId)!=null) {
-            messageContainer.setSenderUserName(messagesStore.getUser(senderId).username);
-            messageContainer.setSenderFirstName(messagesStore.getUser(senderId).first_name);
-            messageContainer.setSenderLastName(messagesStore.getUser(senderId).last_name);
+        try {
+            if (messagesStore.getUser(senderId) != null) {
+                messageContainer.setSenderUserName(messagesStore.getUser(senderId).username);
+                messageContainer.setSenderFirstName(messagesStore.getUser(senderId).first_name);
+                messageContainer.setSenderLastName(messagesStore.getUser(senderId).last_name);
+            }
+            if (receiverId != 0) {
+                messageContainer.setReceiverUserName(messagesStore.getUser(receiverId).username);
+                messageContainer.setReceiverFirstName(messagesStore.getUser(receiverId).first_name);
+                messageContainer.setReceiverLastName(messagesStore.getUser(receiverId).last_name);
+            }
         }
-        if(receiverId!=0){
-            messageContainer.setReceiverUserName(messagesStore.getUser(receiverId).username);
-            messageContainer.setReceiverFirstName(messagesStore.getUser(receiverId).first_name);
-            messageContainer.setReceiverLastName(messagesStore.getUser(receiverId).last_name);
+        catch(Exception e){
+            Log.e(TAG, "Intecepted exception for extracting information from messages store");
         }
         return messageContainer;
     }
