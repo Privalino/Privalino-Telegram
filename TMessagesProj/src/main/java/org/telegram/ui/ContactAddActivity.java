@@ -232,9 +232,9 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         onlineTextView.setText(LocaleController.formatUserStatus(user));
 
         TLRPC.FileLocation photo = null;
-        if (user.photo != null) {
-            photo = user.photo.photo_small;
-        }
+        //if (user.photo != null) {
+        //    photo = chat.photo.photo_small;
+        //}
         avatarImage.setImage(photo, "50_50", avatarDrawable = new AvatarDrawable(user));
     }
 

@@ -123,7 +123,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             onlyUsers = getArguments().getBoolean("onlyUsers", false);
             destroyAfterSelect = arguments.getBoolean("destroyAfterSelect", false);
             returnAsResult = arguments.getBoolean("returnAsResult", false);
-            createSecretChat = arguments.getBoolean("createSecretChat", false);
+            //createSecretChat = arguments.getBoolean("createSecretChat", false);
+            createSecretChat = false;
             selectAlertString = arguments.getString("selectAlertString");
             allowUsernameSearch = arguments.getBoolean("allowUsernameSearch", true);
             needForwardCount = arguments.getBoolean("needForwardCount", true);
@@ -320,7 +321,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                                 Bundle args = new Bundle();
                                 args.putBoolean("onlyUsers", true);
                                 args.putBoolean("destroyAfterSelect", true);
-                                args.putBoolean("createSecretChat", true);
+                                args.putBoolean("createSecretChat", false);
                                 args.putBoolean("allowBots", false);
                                 presentFragment(new ContactsActivity(args), false);
                             } else if (row == 2) {

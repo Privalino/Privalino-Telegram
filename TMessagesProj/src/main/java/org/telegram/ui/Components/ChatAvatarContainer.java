@@ -318,12 +318,12 @@ public class ChatAvatarContainer extends FrameLayout {
         TLRPC.Chat chat = parentFragment.getCurrentChat();
         if (user != null) {
             if (user.photo != null) {
-                newPhoto = user.photo.photo_small;
+                //newPhoto = user.photo.photo_small;
             }
             avatarDrawable.setInfo(user);
         } else if (chat != null) {
             if (chat.photo != null) {
-                newPhoto = chat.photo.photo_small;
+                //newPhoto = chat.photo.photo_small;
             }
             avatarDrawable.setInfo(chat);
         }

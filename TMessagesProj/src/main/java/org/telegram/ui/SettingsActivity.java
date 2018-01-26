@@ -1141,8 +1141,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         TLRPC.FileLocation photo = null;
         TLRPC.FileLocation photoBig = null;
         if (user.photo != null) {
-            photo = user.photo.photo_small;
-            photoBig = user.photo.photo_big;
+            //photo = user.photo.photo_small;
+            //photoBig = user.photo.photo_big;
         }
         avatarDrawable = new AvatarDrawable(user, true);
 

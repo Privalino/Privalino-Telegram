@@ -888,9 +888,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             if (fromId > 0) {
                 TLRPC.User user = MessagesController.getInstance().getUser(fromId);
                 if (user != null) {
-                    if (user.photo != null) {
-                        photo = user.photo.photo_small;
-                    }
+//                    if (user.photo != null) {
+//                        photo = user.photo.photo_small;
+//                    }
                     avatarDrawable = new AvatarDrawable(user);
                     name = UserObject.getUserName(user);
                 }
