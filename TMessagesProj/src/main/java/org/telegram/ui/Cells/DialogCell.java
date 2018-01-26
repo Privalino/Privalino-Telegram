@@ -1010,11 +1010,11 @@ public class DialogCell extends BaseCell {
                 if (UserObject.isUserSelf(user)) {
                     avatarDrawable.setSavedMessages(1);
                 } else if (user.photo != null) {
-                    photo = user.photo.photo_small;
+                    // photo = user.photo.photo_small;
                 }
             } else if (chat != null) {
                 if (chat.photo != null) {
-                    photo = chat.photo.photo_small;
+                    //photo = chat.photo.photo_small;
                 }
                 avatarDrawable.setInfo(chat);
             }

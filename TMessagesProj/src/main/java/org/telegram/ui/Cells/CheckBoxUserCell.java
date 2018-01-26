@@ -78,7 +78,7 @@ public class CheckBoxUserCell extends FrameLayout {
         TLRPC.FileLocation photo = null;
         avatarDrawable.setInfo(user);
         if (user != null && user.photo != null) {
-            photo = user.photo.photo_small;
+            //photo = user.photo.photo_small;
         }
         imageView.setImage(photo, "50_50", avatarDrawable);
         needDivider = divider;
