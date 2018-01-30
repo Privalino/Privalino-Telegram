@@ -883,7 +883,7 @@
     <string name="TelegramFaq">Domande frequenti</string>
     <string name="TelegramFaqUrl">https://Privalino.org/faq/it</string>
     <string name="PrivacyPolicy">Informativa sulla privacy</string>
-    <string name="PrivacyPolicyUrl">https://Privalino.org/privacy</string>
+    <string name="PrivacyPolicyUrl">https://telegram.org/privacy</string>
     <string name="DeleteLocalization">Eliminare la traduzione?</string>
     <string name="IncorrectLocalization">File di traduzione non valido</string>
     <string name="Enabled">Abilitate</string>

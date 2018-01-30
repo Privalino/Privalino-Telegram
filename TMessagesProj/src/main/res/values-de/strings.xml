@@ -525,7 +525,7 @@
     <string name="NobodyLikesSpam2">Derzeit kannst du nur gemeinsame Kontakte Gruppen hinzufügen.</string>
     <string name="NobodyLikesSpam3">Du hast heute zu viele nicht-gemeinsame Kontakte angeschrieben, bitte probiere es morgen wieder. Du kannst auf Nachrichten antworten, wenn dir die Person zuerst geschrieben hat.</string>
     <string name="NobodyLikesSpam4">Du kannst diesen Nutzer nicht hinzufügen, weil du heute zu viele nicht-gemeinsame Kontakte angeschrieben hast. Bitte morgen wieder probieren oder einen anderen Teilnehmer der Gruppe fragen, den Nutzer hinzuzufügen.</string>
-    <string name="NobodyLikesSpamUrl">https://telegram.org/faq/de#kann-keine-nachrichten-an-nicht-kontakte-senden</string>
+    <string name="NobodyLikesSpamUrl">https://www.privalino.de/faq</string>
     <string name="MoreInfo">Mehr Infos</string>
     <string name="ShareSendTo">Sende an...</string>
     <string name="ShareComment">Kommentar hinterlassen...</string>
@@ -663,7 +663,7 @@
     <!--contacts view-->
     <string name="SelectContact">Kontakt auswählen</string>
     <string name="NoContacts">Noch keine Kontakte</string>
-    <string name="InviteText">Hey, komm auch zu Privalino: http://www.privalino.de/#Download</string>
+    <string name="InviteText">Hey, komm auch zu Privalino: https://www.privalino.de/#download</string>
     <string name="TodayAt">um</string>
     <string name="YesterdayAt">gestern um</string>
     <string name="Online">online</string>
@@ -749,8 +749,8 @@
     <string name="MessageLifetimePhoto">Bild wird nach Ablauf der Zeit selbst zerstört.</string>
     <string name="MessageLifetimeVideo">Video wird nach Ablauf der Zeit selbst zerstört.</string>
     <string name="ShortMessageLifetimeForever">Aus</string>
-    <string name="EncryptionKeyDescription">Bild und Text zeigen den aktuellen Schlüssel dieses geheimen Chats mit <![CDATA[<b>]]>%1$s<![CDATA[</b>]]>.<![CDATA[<br><br>]]>Sehen sie auf dem Gerät von <![CDATA[<b>]]>%2$s<![CDATA[</b>]]> genau so aus, ist eure Sicherheit garantiert.<![CDATA[<br><br>]]>Erfahre mehr unter http://www.privalino.de/#Home</string>
-    <string name="EncryptionKeyLink">https://telegram.org/faq/de#geheime-chats</string>
+    <string name="EncryptionKeyDescription">Bild und Text zeigen den aktuellen Schlüssel dieses geheimen Chats mit <![CDATA[<b>]]>%1$s<![CDATA[</b>]]>.<![CDATA[<br><br>]]>Sehen sie auf dem Gerät von <![CDATA[<b>]]>%2$s<![CDATA[</b>]]> genau so aus, ist eure Sicherheit garantiert.<![CDATA[<br><br>]]>Erfahre mehr unter http://www.privalino.de/#home</string>
+    <string name="EncryptionKeyLink">https://www.privalino.de/faq/#geheime-chats</string>
     <string name="TapToEmojify">Tippen für Emoji-Ansicht</string>
     <string name="NumberUnknown">Unbekannt</string>
     <string name="Info">Info</string>
@@ -878,10 +878,10 @@
     <string name="PinnedMessages">Angeheftete Nachrichten</string>
     <string name="Language">Sprache</string>
     <string name="LanguageCustom">Eigene</string>
-    <string name="AskAQuestionInfo">Bedenke bitte, dass der Privalino Support von ehrenamtlichen Helfern betreut wird. Wir versuchen so schnell wie möglich zu antworten, dies kann jedoch manchmal ein bisschen dauern.\n\nBitte schau auch in den  <![CDATA[<a href="https://telegram.org/faq/de#allgemeine-fragen">Telegram FAQ</a>]]> nach. Dort findest du Antworten auf die meisten Fragen und wichtige Tipps zur <![CDATA[<a href="https://telegram.org/faq/de#problembehandlung">Problembehandlung</a>]]>.</string>
+    <string name="AskAQuestionInfo">Bedenke bitte, dass der Privalino Support von ehrenamtlichen Helfern betreut wird. Wir versuchen so schnell wie möglich zu antworten, dies kann jedoch manchmal ein bisschen dauern.\n\nBitte schau auch in den  <![CDATA[<a href="https://www.privalino.de/faq#allgemeine-fragen">Privalino FAQ</a>]]> nach. Dort findest du Antworten auf die meisten Fragen und wichtige Tipps zur <![CDATA[<a href="https://www.privalino.de/faq#problembehandlung">Problembehandlung</a>]]>.</string>
     <string name="AskButton">Eine Frage stellen</string>
     <string name="TelegramFaq">Fragen und Antworten</string>
-    <string name="TelegramFaqUrl">http://www.privalino.de/#FAQ</string>
+    <string name="TelegramFaqUrl">https://www.privalino.de/faq</string>
     <string name="PrivacyPolicy">Datenschutzerklärung</string>
     <string name="PrivacyPolicyUrl">https://www.privalino.de/datenschutz</string>
     <string name="DeleteLocalization">Lokalisierung löschen?</string>
@@ -1305,7 +1305,7 @@
     <string name="ActionAddUserSelf">un1 ist in die Gruppe zurückgekehrt</string>
     <string name="ActionAddUserSelfMega">un1 ist der Gruppe beigetreten</string>
     <string name="ActionAddUserSelfYou">Du bist in die Gruppe zurückgekehrt</string>
-    <string name="UnsupportedMedia">Diese Nachricht wird von deiner Privalino-Version nicht unterstützt. Bitte aktualisiere Privalino um sie zu sehen: http://www.privalino.de/#Download</string>
+    <string name="UnsupportedMedia">Diese Nachricht wird von deiner Privalino-Version nicht unterstützt. Bitte aktualisiere Privalino um sie zu sehen: http://www.privalino.de/faq#download</string>
     <string name="AttachPhoto">Bild</string>
     <string name="AttachVideo">Video</string>
     <string name="AttachPhotoExpired">Bild ist abgelaufen</string>
