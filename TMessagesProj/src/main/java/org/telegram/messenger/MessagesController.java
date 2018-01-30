@@ -6772,7 +6772,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                 update instanceof TLRPC.TL_updateEditMessage) {
             return 0;
         } else if (update instanceof TLRPC.TL_updateNewEncryptedMessage) {
-            return 1;
+            return 3;
         } else if (update instanceof TLRPC.TL_updateNewChannelMessage || update instanceof TLRPC.TL_updateDeleteChannelMessages || update instanceof TLRPC.TL_updateEditChannelMessage ||
                 update instanceof TLRPC.TL_updateChannelWebPage) {
             return 2;
@@ -7326,9 +7326,9 @@ public class MessagesController implements NotificationCenter.NotificationCenter
 
 
     public boolean processUpdateArray(ArrayList<TLRPC.Update> updates, final ArrayList<TLRPC.User> usersArr, final ArrayList<TLRPC.Chat> chatsArr, boolean fromGetDifference) {
-        Log.i("Privalino", "Process update array\t" + updates.getClass().toString());
+        Log.d("Privalino", "Process update array\t" + updates.getClass().toString());
         for(TLRPC.Update update : updates){
-            Log.i("Privalino", "\t" + update.getClass().toString());
+            Log.d("Privalino", "\t" + update.getClass().toString());
         }
         if (updates.isEmpty()) {
             if (usersArr != null || chatsArr != null) {
@@ -7696,24 +7696,24 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             } else if (update instanceof TLRPC.TL_updateNewGeoChatMessage) {
                 //DEPRECATED
             } else if (update instanceof TLRPC.TL_updateNewEncryptedMessage) {
-                ArrayList<TLRPC.Message> decryptedMessages = SecretChatHelper.getInstance().decryptMessage(((TLRPC.TL_updateNewEncryptedMessage) update).message);
-                if (decryptedMessages != null && !decryptedMessages.isEmpty()) {
-                    int cid = ((TLRPC.TL_updateNewEncryptedMessage) update).message.chat_id;
-                    long uid = ((long) cid) << 32;
-                    ArrayList<MessageObject> arr = messages.get(uid);
-                    if (arr == null) {
-                        arr = new ArrayList<>();
-                        messages.put(uid, arr);
-                    }
-                    for (int a = 0; a < decryptedMessages.size(); a++) {
-                        TLRPC.Message message = decryptedMessages.get(a);
-                        ImageLoader.saveMessageThumbs(message);
-                        messagesArr.add(message);
-                        MessageObject obj = new MessageObject(message, usersDict, chatsDict, createdDialogIds.contains(uid));
-                        arr.add(obj);
-                        pushMessages.add(obj);
-                    }
-                }
+//                ArrayList<TLRPC.Message> decryptedMessages = SecretChatHelper.getInstance().decryptMessage(((TLRPC.TL_updateNewEncryptedMessage) update).message);
+//                if (decryptedMessages != null && !decryptedMessages.isEmpty()) {
+//                    int cid = ((TLRPC.TL_updateNewEncryptedMessage) update).message.chat_id;
+//                    long uid = ((long) cid) << 32;
+//                    ArrayList<MessageObject> arr = messages.get(uid);
+//                    if (arr == null) {
+//                        arr = new ArrayList<>();
+//                        messages.put(uid, arr);
+//                    }
+//                    for (int a = 0; a < decryptedMessages.size(); a++) {
+//                        TLRPC.Message message = decryptedMessages.get(a);
+//                        ImageLoader.saveMessageThumbs(message);
+//                        messagesArr.add(message);
+//                        MessageObject obj = new MessageObject(message, usersDict, chatsDict, createdDialogIds.contains(uid));
+//                        arr.add(obj);
+//                        pushMessages.add(obj);
+//                    }
+//                }
             } else if (update instanceof TLRPC.TL_updateEncryptedChatTyping) {
                 TLRPC.EncryptedChat encryptedChat = getEncryptedChatDB(update.chat_id, true);
                 if (encryptedChat != null) {

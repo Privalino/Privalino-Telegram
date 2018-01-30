@@ -128,7 +128,7 @@ um die restlichen Optionen zu öffnen.</string>
     <string name="EnableProxyAlert2">Du kann deinen Proxyserver später in den Einstellungen (unter Daten und Speicher) ändern.</string>
     <string name="ConnectingToProxyDisableAlert">Möchtest du wirklich Proxyserver %1$s deaktivieren? Du kannst ihn später wieder in den Einstellungen (Daten und Speicher) aktivieren.</string>
     <string name="Updating">Aktualisiere...</string>
-    <string name="NewSecretChat">Neuer Geheimer Chat</string>
+    <string name="NewSecretChat">Neuer Chat</string>
     <string name="AwaitingEncryption">Warte, bis %s online geht...</string>
     <string name="EncryptionRejected">Geheimer Chat beendet</string>
     <string name="EncryptionProcessing">Tausche Schlüssel aus...</string>
@@ -810,7 +810,7 @@ Für weitere Funktionen und um das Limit aufzuheben in Supergruppe ändern:
     <string name="UserBio">Bio</string>
     <string name="UserBioEmpty">Keine</string>
     <string name="UserBioInfo">Hier kannst du etwas über dich schreiben. Jeder der dein Profil öffnet, kann diesen Text lesen.</string>
-    <string name="StartEncryptedChat">Geheimen Chat starten</string>
+    <string name="StartEncryptedChat">Chat starten</string>
     <string name="GroupsInCommon">Gemeinsame Gruppen</string>
     <string name="GroupsInCommonTitle">Gemeinsame Gruppen</string>
     <string name="NoGroupsInCommon">Noch keine gemeinsamen Gruppen</string>
@@ -1491,7 +1491,7 @@ Wichtig: Abmelden löscht deine Geheimen Chats.</string>
     <string name="AreYouSureBlockContact">Diesen Kontakt wirklich blockieren?</string>
     <string name="AreYouSureUnblockContact">Blockierung für diesen Kontakt wirklich aufheben?</string>
     <string name="AreYouSureDeleteContact">Diesen Kontakt wirklich löschen?</string>
-    <string name="AreYouSureSecretChat">Geheimen Chat starten?</string>
+    <string name="AreYouSureSecretChat">Geheime Chats sind bei Privalino nicht möglich</string>
     <string name="AreYouSureRegistration">Bist du dir sicher, dass du die Registrierung abbrechen willst?</string>
     <string name="AreYouSureClearHistory">Möchtest du wirklich den Verlauf löschen?</string>
     <string name="AreYouSureClearHistoryChannel">Cache des Kanals wirklich löschen?</string>
