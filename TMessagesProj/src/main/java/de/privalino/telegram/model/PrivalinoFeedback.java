@@ -4,8 +4,8 @@ public class PrivalinoFeedback {
 
 	private String message;
 	private PrivalinoPopUp popUp;
-	private boolean blocked;
-	private boolean firstMessage;
+	private boolean isBlocked;
+	private boolean isFirstMessage;
 	private boolean isWhitelisted;
 
 	public String getMessage() {
@@ -24,23 +24,23 @@ public class PrivalinoFeedback {
 		this.popUp = popUp;
 	}
 
-	public boolean isBlocked() {
-		return blocked;
+	public boolean getIsBlocked() {
+		return isBlocked;
 	}
 
-	public void setBlocked(boolean blocked) {
-		this.blocked = blocked;
+	public void setIsBlocked(boolean isBlocked) {
+		this.isBlocked = isBlocked;
 	}
 
-	public boolean isFirstMessage() {
-		return firstMessage;
+	public boolean getIsFirstMessage() {
+		return isFirstMessage;
 	}
 
-	public void setFirstMessage(boolean firstMessage) {
-		this.firstMessage = firstMessage;
+	public void setIsFirstMessage(boolean isFirstMessage) {
+		this.isFirstMessage = isFirstMessage;
 	}
 
-	public boolean isWhitelisted() {
+	public boolean getIsWhitelisted() {
 		return isWhitelisted;
 	}
 
@@ -64,13 +64,11 @@ public class PrivalinoFeedback {
             buffer.append("\tPopUp: " + getPopUp().toString());
         }
 
-        if(isFirstMessage() != true){
-            buffer.append("\tFirstMessage: true");
-        }
+        buffer.append("\tIsFirstMessage: " + getIsFirstMessage());
 
-        buffer.append("\tIsBlocked: " + isBlocked());
+        buffer.append("\tIsBlocked: " + getIsBlocked());
 
-        buffer.append("\tIsWhitelisted: " + isWhitelisted());
+        buffer.append("\tIsWhitelisted: " + getIsWhitelisted());
 
         return buffer.toString();
 	}

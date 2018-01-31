@@ -1212,11 +1212,11 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
                         }
                     }
                     if (hasRecordVideo) {
-                        calledRecordRunnable = false;
-                        recordAudioVideoRunnableStarted = true;
-                        AndroidUtilities.runOnUIThread(recordAudioVideoRunnable, 150);
+                        //calledRecordRunnable = false;
+                        //recordAudioVideoRunnableStarted = true;
+                        //AndroidUtilities.runOnUIThread(recordAudioVideoRunnable, 150);
                     } else {
-                        recordAudioVideoRunnable.run();
+                        //recordAudioVideoRunnable.run();
                     }
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
                     if (recordCircle.isSendButtonVisible() || recordedAudioPanel.getVisibility() == VISIBLE) {
@@ -1448,6 +1448,7 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
     }
 
     private void setRecordVideoButtonVisible(boolean visible, boolean animated) {
+        visible = false;
         if (videoSendButton == null) {
             return;
         }

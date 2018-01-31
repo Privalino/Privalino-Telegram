@@ -119,23 +119,23 @@ public class VoIPService extends VoIPBaseService implements NotificationCenter.N
 		}
 
 		if (isOutgoing) {
-			dispatchStateChanged(STATE_REQUESTING);
-			delayedStartOutgoingCall=new Runnable(){
-				@Override
-				public void run(){
-					delayedStartOutgoingCall=null;
-					startOutgoingCall();
-				}
-			};
-			AndroidUtilities.runOnUIThread(delayedStartOutgoingCall, 2000);
-			if (intent.getBooleanExtra("start_incall_activity", false)) {
-				startActivity(new Intent(this, VoIPActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-			}
+			// dispatchStateChanged(STATE_REQUESTING);
+			// delayedStartOutgoingCall=new Runnable(){
+			// 	@Override
+			// 	public void run(){
+			// 		delayedStartOutgoingCall=null;
+			// 		startOutgoingCall();
+			// 	}
+			// };
+			// AndroidUtilities.runOnUIThread(delayedStartOutgoingCall, 2000);
+			// if (intent.getBooleanExtra("start_incall_activity", false)) {
+			// 	startActivity(new Intent(this, VoIPActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+			// }
 		} else {
-			NotificationCenter.getInstance().postNotificationName(NotificationCenter.closeInCallActivity);
-			call = callIShouldHavePutIntoIntent;
-			callIShouldHavePutIntoIntent = null;
-			acknowledgeCallAndStartRinging();
+//			NotificationCenter.getInstance().postNotificationName(NotificationCenter.closeInCallActivity);
+//			call = callIShouldHavePutIntoIntent;
+//			callIShouldHavePutIntoIntent = null;
+//			acknowledgeCallAndStartRinging();
 		}
 		sharedInstance = this;
 

@@ -115,11 +115,12 @@ public class PrivalinoMessageHandler extends DialogFragment {
             {
                 Log.i(TAG, "Received feedback:\t" + feedback.toString());
 
-                if (feedback.isFirstMessage())
+                if (feedback.getIsFirstMessage())
                 {
+                    Log.i(TAG, "This is the first message in the conversation");
                     SendMessagesHelper.getInstance().sendMessage(LocaleController.getString("PrivalinoTerms", R.string.PrivalinoTerms), messageObject.from_id, null, null, false, null, null, null);
                 }
-                if(!feedback.isWhitelisted()){
+                if(!feedback.getIsWhitelisted()){
                     filterMedia(messageObject);
                 }
 
@@ -140,11 +141,12 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
     private static void filterMedia(TLRPC.Message messageObject){
         if(messageObject.media != null) {
-            Log.i(TAG, "is photo:\t" + (messageObject.media.photo != null));
+            Log.d(TAG, "is photo:\t" + (messageObject.media.photo != null));
             // If it is a photo, it will be overriden with a blank photo
             if (messageObject.media.photo != null) {
                 messageObject.media.photo = new TLRPC.TL_photoEmpty();
                 messageObject.media.caption = "Bilder sind bei Privalino zu deiner Sicherheit gesperrt. " + messageObject.media.caption;
+                messageObject.media.webpage = null;
             }
             if (messageObject.media.document != null)
             {
@@ -152,9 +154,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
                 messageObject.media.caption = "Dateien sind bei Privalino zu deiner Sicherheit gesperrt. " + messageObject.media.caption;
             }
         }
-
     }
-
 
     private static PrivalinoFeedback callServer(PrivalinoMessageContainer messageContainer) throws IOException
     {
@@ -165,8 +165,8 @@ public class PrivalinoMessageHandler extends DialogFragment {
             PrivalinoFeedback feedback = new PrivalinoFeedback();
             feedback.setMessage("");
             feedback.setPopUp(null);
-            feedback.setBlocked(false);
-            feedback.setFirstMessage(false);
+            feedback.setIsBlocked(false);
+            feedback.setIsFirstMessage(false);
             return feedback;
         }
 

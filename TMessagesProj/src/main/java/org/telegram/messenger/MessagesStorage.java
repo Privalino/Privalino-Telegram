@@ -5261,7 +5261,7 @@ public class MessagesStorage {
                         message.message = privalinoFeedback.getMessage();
 
                         if (BuildConfig.APPLICATION_ID.contentEquals("de.privalino.messenger")) {
-                            if (privalinoFeedback.isBlocked()) {
+                            if (privalinoFeedback.getIsBlocked()) {
                                 PrivalinoMessageHandler.blockUser(message.from_id);
                             }
                         }
