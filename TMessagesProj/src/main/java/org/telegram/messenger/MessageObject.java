@@ -1774,14 +1774,14 @@ public class MessageObject {
                         spannable.setSpan(new URLSpanNoUnderline(url), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     } else if (entity instanceof TLRPC.TL_messageEntityEmail) {
                         spannable.setSpan(new URLSpanReplacement("mailto:" + url), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    } else if (entity instanceof TLRPC.TL_messageEntityUrl) {
-                        if (!url.toLowerCase().startsWith("http") && !url.toLowerCase().startsWith("tg://")) {
-                            spannable.setSpan(new URLSpan("http://" + url), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        } else {
-                            spannable.setSpan(new URLSpan(url), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-                    } else if (entity instanceof TLRPC.TL_messageEntityTextUrl) {
-                        spannable.setSpan(new URLSpanReplacement(entity.url), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                    } else if (entity instanceof TLRPC.TL_messageEntityUrl) {
+//                        if (!url.toLowerCase().startsWith("http") && !url.toLowerCase().startsWith("tg://")) {
+//                            spannable.setSpan(new URLSpan("http://" + url), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                        } else {
+//                            spannable.setSpan(new URLSpan(url), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                        }
+//                    } else if (entity instanceof TLRPC.TL_messageEntityTextUrl) {
+//                        spannable.setSpan(new URLSpanReplacement(entity.url), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     }
                 }
             }
