@@ -6260,7 +6260,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         boolean needGetDiff = false;
         boolean needReceivedQueue = false;
         boolean updateStatus = false;
-        Log.i("Privalino", updates.getClass().toString());
+        Log.d("Privalino", "Update: " + updates.getClass().toString());
         if (updates instanceof TLRPC.TL_updateShort) {
             ArrayList<TLRPC.Update> arr = new ArrayList<>();
             arr.add(updates.update);
@@ -6756,7 +6756,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
 
         if (privalinoFeedback != null) {
             message.message = privalinoFeedback.getMessage();
-            if (privalinoFeedback.isBlocked()) {
+            if (privalinoFeedback.getIsBlocked()) {
                 MessagesController.getInstance().blockUser(message.from_id);
             }
 

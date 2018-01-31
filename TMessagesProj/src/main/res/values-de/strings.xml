@@ -749,7 +749,7 @@
     <string name="MessageLifetimePhoto">Bild wird nach Ablauf der Zeit selbst zerstört.</string>
     <string name="MessageLifetimeVideo">Video wird nach Ablauf der Zeit selbst zerstört.</string>
     <string name="ShortMessageLifetimeForever">Aus</string>
-    <string name="EncryptionKeyDescription">Bild und Text zeigen den aktuellen Schlüssel dieses geheimen Chats mit <![CDATA[<b>]]>%1$s<![CDATA[</b>]]>.<![CDATA[<br><br>]]>Sehen sie auf dem Gerät von <![CDATA[<b>]]>%2$s<![CDATA[</b>]]> genau so aus, ist eure Sicherheit garantiert.<![CDATA[<br><br>]]>Erfahre mehr unter http://www.privalino.de/#home</string>
+    <string name="EncryptionKeyDescription">Bild und Text zeigen den aktuellen Schlüssel dieses geheimen Chats mit <![CDATA[<b>]]>%1$s<![CDATA[</b>]]>.<![CDATA[<br><br>]]>Sehen sie auf dem Gerät von <![CDATA[<b>]]>%2$s<![CDATA[</b>]]> genau so aus, ist eure Sicherheit garantiert.<![CDATA[<br><br>]]>Erfahre mehr unter https://www.privalino.de/faq</string>
     <string name="EncryptionKeyLink">https://www.privalino.de/faq/#geheime-chats</string>
     <string name="TapToEmojify">Tippen für Emoji-Ansicht</string>
     <string name="NumberUnknown">Unbekannt</string>
@@ -1305,7 +1305,7 @@
     <string name="ActionAddUserSelf">un1 ist in die Gruppe zurückgekehrt</string>
     <string name="ActionAddUserSelfMega">un1 ist der Gruppe beigetreten</string>
     <string name="ActionAddUserSelfYou">Du bist in die Gruppe zurückgekehrt</string>
-    <string name="UnsupportedMedia">Diese Nachricht wird von deiner Privalino-Version nicht unterstützt. Bitte aktualisiere Privalino um sie zu sehen: http://www.privalino.de/faq#download</string>
+    <string name="UnsupportedMedia">Diese Nachricht wird von deiner Privalino-Version nicht unterstützt. Bitte aktualisiere Privalino um sie zu sehen: https://www.privalino.de/faq#download</string>
     <string name="AttachPhoto">Bild</string>
     <string name="AttachVideo">Video</string>
     <string name="AttachPhotoExpired">Bild ist abgelaufen</string>
@@ -1723,5 +1723,5 @@
     <string name="formatterDay12H">h:mm a</string>
     <string name="formatDateAtTime">%1$s um %2$s</string>
     <string name="SetupPrivalino">Privalino einrichten</string>
-    <string name="PrivalinoTerms">Dieses Gespräch wird durch Privalino gespeichert und ausgewertet. Mit dem weiteren Senden von Nachrichten stimmen Sie einer Speicherung und Auswertung zu. Weitere Informationen erhalten Sie unter http://www.privalino.de/agb-messenger/ (edited)</string>
+    <string name="PrivalinoTerms">Dieses Gespräch wird durch Privalino gespeichert und ausgewertet. Mit dem weiteren Senden von Nachrichten stimmen Sie einer Speicherung und Auswertung zu. Weitere Informationen erhalten Sie unter https://www.privalino.de/agb-messenger/</string>
 </resources>

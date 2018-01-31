@@ -255,15 +255,15 @@ public class VoIPService extends Service implements VoIPController.ConnectionSta
 		}
 
 		if (isOutgoing) {
-			startOutgoingCall();
-			if (intent.getBooleanExtra("start_incall_activity", false)) {
-				startActivity(new Intent(this, VoIPActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-			}
+//			startOutgoingCall();
+//			if (intent.getBooleanExtra("start_incall_activity", false)) {
+//				startActivity(new Intent(this, VoIPActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+//			}
 		} else {
-			NotificationCenter.getInstance().postNotificationName(NotificationCenter.closeInCallActivity);
-			call = callIShouldHavePutIntoIntent;
-			callIShouldHavePutIntoIntent = null;
-			acknowledgeCallAndStartRinging();
+//			NotificationCenter.getInstance().postNotificationName(NotificationCenter.closeInCallActivity);
+//			call = callIShouldHavePutIntoIntent;
+//			callIShouldHavePutIntoIntent = null;
+//			acknowledgeCallAndStartRinging();
 		}
 		sharedInstance = this;
 
