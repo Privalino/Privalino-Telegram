@@ -297,7 +297,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         fontSize = preferences.getInt("fons_size", AndroidUtilities.isTablet() ? 18 : 16);
         allowBigEmoji = preferences.getBoolean("allowBigEmoji", false);
         useSystemEmoji = preferences.getBoolean("useSystemEmoji", false);
-        callsEnabled = preferences.getBoolean("callsEnabled", false);
+        callsEnabled = false; // preferences.getBoolean("callsEnabled", false);
         linkPrefix = preferences.getString("linkPrefix", "t.me");
         callReceiveTimeout = preferences.getInt("callReceiveTimeout", 20000);
         callRingTimeout = preferences.getInt("callRingTimeout", 90000);
@@ -339,8 +339,9 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                 ratingDecay = config.rating_e_decay;
                 maxRecentGifsCount = config.saved_gifs_limit;
                 maxRecentStickersCount = config.stickers_recent_limit;
-                boolean callsOld = callsEnabled;
-                callsEnabled = config.phonecalls_enabled;
+                // XXX Calls are always disabled
+                boolean callsOld = false;
+                callsEnabled = false;
                 linkPrefix = config.me_url_prefix;
                 if (linkPrefix.endsWith("/")) {
                     linkPrefix = linkPrefix.substring(0, linkPrefix.length() - 1);
