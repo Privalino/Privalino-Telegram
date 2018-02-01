@@ -409,20 +409,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 } else if (id == 9) {
                     Browser.openUrl(LaunchActivity.this, LocaleController.getString("TelegramFaqUrl", R.string.TelegramFaqUrl));
                     drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 10) {
-                    presentFragment(new CallLogActivity());
-                    drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 11) {
-                    Bundle args = new Bundle();
-                    args.putInt("user_id", UserConfig.getClientUserId());
-                    presentFragment(new ChatActivity(args));
-                    drawerLayoutContainer.closeDrawer(false);
-                }
-                else if (id == 11) {
-                    //Privalino Bot und Kind hinzu fügen
-
-                    drawerLayoutContainer.closeDrawer(false);
-                }
+               }
             }
         });
 

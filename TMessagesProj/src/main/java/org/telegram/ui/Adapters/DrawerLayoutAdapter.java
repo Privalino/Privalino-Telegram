@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
 
     private Context mContext;
-    private ArrayList<Item> items = new ArrayList<>(12);
+    private ArrayList<Item> items = new ArrayList<>(10);
 
     public DrawerLayoutAdapter(Context context) {
         mContext = context;
@@ -95,7 +95,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             return 0;
         } else if (i == 1) {
             return 1;
-        } else if (i == 6) {
+        } else if (i == 5) {
             return 2;
         }
         return 3;
@@ -111,11 +111,11 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         items.add(new Item(2, LocaleController.getString("NewGroup", R.string.NewGroup), R.drawable.menu_newgroup));
         items.add(new Item(3, LocaleController.getString("NewSecretChat", R.string.NewSecretChat), R.drawable.menu_secret));
         items.add(new Item(4, LocaleController.getString("NewChannel", R.string.NewChannel), R.drawable.menu_broadcast));
-        items.add(new Item(11, LocaleController.getString("SetupPrivalino", R.string.SetupPrivalino), R.drawable.menu_newgroup));
+       // items.add(new Item(11, LocaleController.getString("SetupPrivalino", R.string.SetupPrivalino), R.drawable.menu_newgroup));
         items.add(null); // divider
         items.add(new Item(6, LocaleController.getString("Contacts", R.string.Contacts), R.drawable.menu_contacts));
         items.add(new Item(11, LocaleController.getString("SavedMessages", R.string.SavedMessages), R.drawable.menu_saved));
-        items.add(new Item(10, LocaleController.getString("Calls", R.string.Calls), R.drawable.menu_calls));
+        // items.add(new Item(10, LocaleController.getString("Calls", R.string.Calls), R.drawable.menu_calls));
         items.add(new Item(7, LocaleController.getString("InviteFriends", R.string.InviteFriends), R.drawable.menu_invite));
         items.add(new Item(8, LocaleController.getString("Settings", R.string.Settings), R.drawable.menu_settings));
         items.add(new Item(9, LocaleController.getString("TelegramFAQ", R.string.TelegramFAQ), R.drawable.menu_help));
