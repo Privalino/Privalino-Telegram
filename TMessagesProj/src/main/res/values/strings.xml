@@ -1410,10 +1410,10 @@
     <string name="Page7Title">Stetig verbessert</string>
     <string name="Page1Message">Kinder <![CDATA[<b>chatten</b>]]> sicher.</string>
     <string name="Page2Message"><![CDATA[<b>Privalino</b>]]> schützt Kinder vor Cyber-Grooming <![CDATA[<br/>]]>und Cyber-Mobbing.</string>
-    <string name="Page3Message"><![CDATA[<b>Privalino</b>]]> ist als Basis-Version kostenlos.<![CDATA[<br/>]]>Keine Werbung.</string>
+    <string name="Page3Message"><![CDATA[<b>Privalino</b>]]> ist kostenlos.<![CDATA[<br/>]]>Keine Werbung und keine Weitergabe der Daten.</string>
     <string name="Page4Message"><![CDATA[<b>Privalino</b>]]> bietet viele Features <![CDATA[<br/>]]>zum Kinderschutz.</string>
     <string name="Page5Message"><![CDATA[<b>Privalino</b>]]> nutzt Maschinelles Lernen <![CDATA[<br/>]]>um Chats zu analysieren.</string>
-    <string name="Page6Message"><![CDATA[<b>Privalino</b>]]> schlägt bei Gefahr<![CDATA[<br/>]]> Alarm. Für 5 Euro/Monat werden die Eltern alarmiert.</string>
+    <string name="Page6Message"><![CDATA[<b>Privalino</b>]]> schlägt bei Gefahr<![CDATA[<br/>]]> Alarm.</string>
     <string name="Page7Message"><![CDATA[<b>Privalino</b>]]> wird stetig verbessert<![CDATA[<br/>]]>, um die Sicherheit noch weiter zu erhöhen.</string>
     <string name="StartMessaging">Jetzt beginnen</string>
     <!--VoIP-->
