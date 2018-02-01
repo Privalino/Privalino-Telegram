@@ -92,7 +92,6 @@ public class LocaleController {
     }
 
     public static class LocaleInfo {
-
         public String name;
         public String nameEnglish;
         public String shortName;
@@ -173,57 +172,17 @@ public class LocaleController {
     }
 
     public LocaleController() {
-        addRules(new String[]{"bem", "brx", "da", "de", "el", "en", "eo", "es", "et", "fi", "fo", "gl", "he", "iw", "it", "nb",
+        // XXX
+        // To ensure langpacks are not read from cached / downloaded from server, we delete the
+        // langconfig.
+        ApplicationLoader.applicationContext.getSharedPreferences("langconfig", 0).edit().clear().commit();
+
+        addRules(new String[]{"bem", "brx", "da", "de", "el", "de", "eo", "es", "et", "fi", "fo", "gl", "he", "iw", "it", "nb",
                 "nl", "nn", "no", "sv", "af", "bg", "bn", "ca", "eu", "fur", "fy", "gu", "ha", "is", "ku",
                 "lb", "ml", "mr", "nah", "ne", "om", "or", "pa", "pap", "ps", "so", "sq", "sw", "ta", "te",
                 "tk", "ur", "zu", "mn", "gsw", "chr", "rm", "pt", "an", "ast"}, new PluralRules_One());
-        addRules(new String[]{"cs", "sk"}, new PluralRules_Czech());
-        addRules(new String[]{"ff", "fr", "kab"}, new PluralRules_French());
-        addRules(new String[]{"hr", "ru", "sr", "uk", "be", "bs", "sh"}, new PluralRules_Balkan());
-        addRules(new String[]{"lv"}, new PluralRules_Latvian());
-        addRules(new String[]{"lt"}, new PluralRules_Lithuanian());
-        addRules(new String[]{"pl"}, new PluralRules_Polish());
-        addRules(new String[]{"ro", "mo"}, new PluralRules_Romanian());
-        addRules(new String[]{"sl"}, new PluralRules_Slovenian());
-        addRules(new String[]{"ar"}, new PluralRules_Arabic());
-        addRules(new String[]{"mk"}, new PluralRules_Macedonian());
-        addRules(new String[]{"cy"}, new PluralRules_Welsh());
-        addRules(new String[]{"br"}, new PluralRules_Breton());
-        addRules(new String[]{"lag"}, new PluralRules_Langi());
-        addRules(new String[]{"shi"}, new PluralRules_Tachelhit());
-        addRules(new String[]{"mt"}, new PluralRules_Maltese());
-        addRules(new String[]{"ga", "se", "sma", "smi", "smj", "smn", "sms"}, new PluralRules_Two());
-        addRules(new String[]{"ak", "am", "bh", "fil", "tl", "guw", "hi", "ln", "mg", "nso", "ti", "wa"}, new PluralRules_Zero());
-        addRules(new String[]{"az", "bm", "fa", "ig", "hu", "ja", "kde", "kea", "ko", "my", "ses", "sg", "to",
-                "tr", "vi", "wo", "yo", "zh", "bo", "dz", "id", "jv", "jw", "ka", "km", "kn", "ms", "th", "in"}, new PluralRules_None());
 
         LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.name = "English";
-        localeInfo.nameEnglish = "English";
-        localeInfo.shortName = "en";
-        localeInfo.pathToFile = null;
-        localeInfo.builtIn = true;
-        languages.add(localeInfo);
-        languagesDict.put(localeInfo.shortName, localeInfo);
-
-        localeInfo = new LocaleInfo();
-        localeInfo.name = "Italiano";
-        localeInfo.nameEnglish = "Italian";
-        localeInfo.shortName = "it";
-        localeInfo.pathToFile = null;
-        localeInfo.builtIn = true;
-        languages.add(localeInfo);
-        languagesDict.put(localeInfo.shortName, localeInfo);
-
-        localeInfo = new LocaleInfo();
-        localeInfo.name = "Español";
-        localeInfo.nameEnglish = "Spanish";
-        localeInfo.shortName = "es";
-        localeInfo.builtIn = true;
-        languages.add(localeInfo);
-        languagesDict.put(localeInfo.shortName, localeInfo);
-
-        localeInfo = new LocaleInfo();
         localeInfo.name = "Deutsch";
         localeInfo.nameEnglish = "German";
         localeInfo.shortName = "de";
@@ -232,51 +191,12 @@ public class LocaleController {
         languages.add(localeInfo);
         languagesDict.put(localeInfo.shortName, localeInfo);
 
-        localeInfo = new LocaleInfo();
-        localeInfo.name = "Nederlands";
-        localeInfo.nameEnglish = "Dutch";
-        localeInfo.shortName = "nl";
-        localeInfo.pathToFile = null;
-        localeInfo.builtIn = true;
-        languages.add(localeInfo);
-        languagesDict.put(localeInfo.shortName, localeInfo);
-
-        localeInfo = new LocaleInfo();
-        localeInfo.name = "العربية";
-        localeInfo.nameEnglish = "Arabic";
-        localeInfo.shortName = "ar";
-        localeInfo.pathToFile = null;
-        localeInfo.builtIn = true;
-        languages.add(localeInfo);
-        languagesDict.put(localeInfo.shortName, localeInfo);
-
-        localeInfo = new LocaleInfo();
-        localeInfo.name = "Português (Brasil)";
-        localeInfo.nameEnglish = "Portuguese (Brazil)";
-        localeInfo.shortName = "pt_br";
-        localeInfo.pathToFile = null;
-        localeInfo.builtIn = true;
-        languages.add(localeInfo);
-        languagesDict.put(localeInfo.shortName, localeInfo);
-
-        localeInfo = new LocaleInfo();
-        localeInfo.name = "한국어";
-        localeInfo.nameEnglish = "Korean";
-        localeInfo.shortName = "ko";
-        localeInfo.pathToFile = null;
-        localeInfo.builtIn = true;
-        languages.add(localeInfo);
-        languagesDict.put(localeInfo.shortName, localeInfo);
-
         loadOtherLanguages();
-        if (remoteLanguages.isEmpty()) {
-            AndroidUtilities.runOnUIThread(new Runnable() {
-                @Override
-                public void run() {
-                    loadRemoteLanguages();
-                }
-            });
-        }
+        // XXX
+        // It should never download langpacks from the server.
+//        if (remoteLanguages.isEmpty()) {
+//            loadRemoteLanguages();
+//        }
 
         for (int a = 0; a < otherLanguages.size(); a++) {
             LocaleInfo locale = otherLanguages.get(a);
@@ -317,7 +237,7 @@ public class LocaleController {
             if (currentInfo == null) {
                 currentInfo = getLanguageFromDict(getLocaleString(systemDefaultLocale));
                 if (currentInfo == null) {
-                    currentInfo = getLanguageFromDict("en");
+                    currentInfo = getLanguageFromDict("de");
                 }
             }
 
@@ -378,13 +298,13 @@ public class LocaleController {
 
     private String getLocaleString(Locale locale) {
         if (locale == null) {
-            return "en";
+            return "de";
         }
         String languageCode = locale.getLanguage();
         String countryCode = locale.getCountry();
         String variantCode = locale.getVariant();
         if (languageCode.length() == 0 && countryCode.length() == 0) {
-            return "en";
+            return "de";
         }
         StringBuilder result = new StringBuilder(11);
         result.append(languageCode);
@@ -402,13 +322,13 @@ public class LocaleController {
     public static String getSystemLocaleStringIso639() {
         Locale locale = getInstance().getSystemDefaultLocale();
         if (locale == null) {
-            return "en";
+            return "de";
         }
         String languageCode = locale.getLanguage();
         String countryCode = locale.getCountry();
         String variantCode = locale.getVariant();
         if (languageCode.length() == 0 && countryCode.length() == 0) {
-            return "en";
+            return "de";
         }
         StringBuilder result = new StringBuilder(11);
         result.append(languageCode);
@@ -426,13 +346,13 @@ public class LocaleController {
     public static String getLocaleStringIso639() {
         Locale locale = getInstance().currentLocale;
         if (locale == null) {
-            return "en";
+            return "de";
         }
         String languageCode = locale.getLanguage();
         String countryCode = locale.getCountry();
         String variantCode = locale.getVariant();
         if (languageCode.length() == 0 && countryCode.length() == 0) {
-            return "en";
+            return "de";
         }
         StringBuilder result = new StringBuilder(11);
         result.append(languageCode);
@@ -575,7 +495,7 @@ public class LocaleController {
                 info = getLanguageFromDict(getLocaleString(systemDefaultLocale));
             }
             if (info == null) {
-                info = getLanguageFromDict("en");
+                info = getLanguageFromDict("de");
             }
             applyLanguage(info, true, false);
         }
@@ -738,10 +658,7 @@ public class LocaleController {
             currentLocaleInfo = localeInfo;
             currentPluralRules = allRules.get(args[0]);
             if (currentPluralRules == null) {
-                currentPluralRules = allRules.get(currentLocale.getLanguage());
-            }
-            if (currentPluralRules == null) {
-                currentPluralRules = new PluralRules_None();
+                currentPluralRules = allRules.get("de");
             }
             changingConfiguration = true;
             Locale.setDefault(currentLocale);
@@ -1027,7 +944,7 @@ public class LocaleController {
                 currentLocale = newLocale;
                 currentPluralRules = allRules.get(currentLocale.getLanguage());
                 if (currentPluralRules == null) {
-                    currentPluralRules = allRules.get("en");
+                    currentPluralRules = allRules.get("de");
                 }
             }
         }
@@ -1230,7 +1147,7 @@ public class LocaleController {
         }
         String lang = locale.getLanguage();
         if (lang == null) {
-            lang = "en";
+            lang = "de";
         }
         lang = lang.toLowerCase();
         isRTL = lang.startsWith("ar") || BuildVars.DEBUG_VERSION && (lang.startsWith("he") || lang.startsWith("iw") || lang.startsWith("fa"));
@@ -1443,7 +1360,7 @@ public class LocaleController {
                             currentLocaleInfo = localeInfo;
                             currentPluralRules = allRules.get(currentLocale.getLanguage());
                             if (currentPluralRules == null) {
-                                currentPluralRules = allRules.get("en");
+                                currentPluralRules = allRules.get("de");
                             }
                             changingConfiguration = true;
                             Locale.setDefault(currentLocale);
@@ -1523,7 +1440,7 @@ public class LocaleController {
                                             info = getLanguageFromDict(getLocaleString(systemDefaultLocale));
                                         }
                                         if (info == null) {
-                                            info = getLanguageFromDict("en");
+                                            info = getLanguageFromDict("de");
                                         }
                                         applyLanguage(info, true, false);
                                         NotificationCenter.getInstance().postNotificationName(NotificationCenter.reloadInterface);
