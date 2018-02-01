@@ -157,14 +157,14 @@ public class ApplicationLoader extends Application {
             appVersion = pInfo.versionName + " (" + pInfo.versionCode + ")";
             systemVersion = "SDK " + Build.VERSION.SDK_INT;
         } catch (Exception e) {
-            systemLangCode = "en";
+            systemLangCode = "de";
             langCode = "";
             deviceModel = "Android unknown";
             appVersion = "App version unknown";
             systemVersion = "SDK " + Build.VERSION.SDK_INT;
         }
         if (systemLangCode.trim().length() == 0) {
-            langCode = "en";
+            langCode = "de";
         }
         if (deviceModel.trim().length() == 0) {
             deviceModel = "Android unknown";
