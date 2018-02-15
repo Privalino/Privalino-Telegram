@@ -751,43 +751,9 @@ public class MessageObject {
                 } else if (message.action instanceof TLRPC.TL_messageActionHistoryClear) {
                     messageText = LocaleController.getString("HistoryCleared", R.string.HistoryCleared);
                 } else if (message.action instanceof TLRPC.TL_messageActionGameScore) {
-                    generateGameMessageText(fromUser);
+                    messageText = "[Anhang von Privalino blockiert]";
                 } else if (message.action instanceof TLRPC.TL_messageActionPhoneCall) {
-                    TLRPC.TL_messageActionPhoneCall call = (TLRPC.TL_messageActionPhoneCall) messageOwner.action;
-                    boolean isMissed = call.reason instanceof TLRPC.TL_phoneCallDiscardReasonMissed;
-                    if (messageOwner.from_id == UserConfig.getClientUserId()) {
-                        if (isMissed) {
-                            messageText = LocaleController.getString("CallMessageOutgoingMissed", R.string.CallMessageOutgoingMissed);
-                        }else {
-                            messageText = LocaleController.getString("CallMessageOutgoing", R.string.CallMessageOutgoing);
-                        }
-                    } else {
-                        if (isMissed) {
-                            messageText = LocaleController.getString("CallMessageIncomingMissed", R.string.CallMessageIncomingMissed);
-                        } else if(call.reason instanceof TLRPC.TL_phoneCallDiscardReasonBusy) {
-                            messageText = LocaleController.getString("CallMessageIncomingDeclined", R.string.CallMessageIncomingDeclined);
-                        } else {
-                            messageText = LocaleController.getString("CallMessageIncoming", R.string.CallMessageIncoming);
-                        }
-                    }
-                    if (call.duration > 0) {
-                        String duration = LocaleController.formatCallDuration(call.duration);
-                        messageText = LocaleController.formatString("CallMessageWithDuration", R.string.CallMessageWithDuration, messageText, duration);
-                        String _messageText = messageText.toString();
-                        int start = _messageText.indexOf(duration);
-                        if (start != -1) {
-                            SpannableString sp = new SpannableString(messageText);
-                            int end = start + duration.length();
-                            if (start > 0 && _messageText.charAt(start - 1) == '(') {
-                                start--;
-                            }
-                            if (end < _messageText.length() && _messageText.charAt(end) == ')') {
-                                end++;
-                            }
-                            sp.setSpan(new TypefaceSpan(Typeface.DEFAULT), start, end, 0);
-                            messageText = sp;
-                        }
-                    }
+                    messageText = "[Anhang von Privalino blockiert]";
                 } else if (message.action instanceof TLRPC.TL_messageActionPaymentSent) {
                     TLRPC.User user = null;
                     int uid = (int) getDialogId();
@@ -1730,7 +1696,8 @@ public class MessageObject {
                 contentType = -1;
                 type = -1;
             } else if (messageOwner.action instanceof TLRPC.TL_messageActionPhoneCall) {
-                type = 16;
+                type = 0;
+//                type = 16;
             } else {
                 contentType = 1;
                 type = 10;
