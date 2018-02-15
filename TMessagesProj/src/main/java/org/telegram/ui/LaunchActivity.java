@@ -367,24 +367,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     args.putBoolean("allowBots", false);
                     presentFragment(new ContactsActivity(args));
                     drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 4) {
-                    if (!MessagesController.isFeatureEnabled("broadcast_create", actionBarLayout.fragmentsStack.get(actionBarLayout.fragmentsStack.size() - 1))) {
-                        return;
-                    }
-                    SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
-                    if (!BuildVars.DEBUG_VERSION && preferences.getBoolean("channel_intro", false)) {
-                        Bundle args = new Bundle();
-                        args.putInt("step", 0);
-                        presentFragment(new ChannelCreateActivity(args));
-                    } else {
-                        presentFragment(new ChannelIntroActivity());
-                        preferences.edit().putBoolean("channel_intro", true).commit();
-                    }
-                    drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 6) {
+                } else if (id == 5) {
                     presentFragment(new ContactsActivity(null));
                     drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 7) {
+                } else if (id == 6) {
                     if (BuildVars.DEBUG_PRIVATE_VERSION) {
                         /*AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
                         builder.setTopImage(R.drawable.permissions_contacts, 0xff35a8e0);
@@ -409,10 +395,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         }
                         drawerLayoutContainer.closeDrawer(false);
                     }
-                } else if (id == 8) {
+                } else if (id == 7) {
                     presentFragment(new SettingsActivity());
                     drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 9) {
+                } else if (id == 8) {
                     Browser.openUrl(LaunchActivity.this, LocaleController.getString("TelegramFaqUrl", R.string.TelegramFaqUrl));
                     drawerLayoutContainer.closeDrawer(false);
                }
