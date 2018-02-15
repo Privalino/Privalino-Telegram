@@ -8651,80 +8651,80 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("Copy", R.string.Copy));
                             options.add(3);
                         }
-                        if (type == 3) {
-                            if (selectedObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage && MessageObject.isNewGifDocument(selectedObject.messageOwner.media.webpage.document)) {
-                                items.add(LocaleController.getString("SaveToGIFs", R.string.SaveToGIFs));
-                                options.add(11);
-                            }
-                        } else if (type == 4) {
-                            if (selectedObject.isVideo()) {
-                                if (!selectedObject.isSecretPhoto()) {
-                                    items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
-                                    options.add(4);
-                                    items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                                    options.add(6);
-                                }
-                            } else if (selectedObject.isMusic()) {
-                                items.add(LocaleController.getString("SaveToMusic", R.string.SaveToMusic));
-                                options.add(10);
-                                items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                                options.add(6);
-                            } else if (selectedObject.getDocument() != null) {
-                                if (MessageObject.isNewGifDocument(selectedObject.getDocument())) {
-                                    items.add(LocaleController.getString("SaveToGIFs", R.string.SaveToGIFs));
-                                    options.add(11);
-                                }
-                                items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
-                                options.add(10);
-                                items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                                options.add(6);
-                            } else {
-                                if (!selectedObject.isSecretPhoto()) {
-                                    items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
-                                    options.add(4);
-                                }
-                            }
-                        } else if (type == 5) {
-                            items.add(LocaleController.getString("ApplyLocalizationFile", R.string.ApplyLocalizationFile));
-                            options.add(5);
-                            items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
-                            options.add(10);
-                            items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                            options.add(6);
-                        } else if (type == 10) {
-                            items.add(LocaleController.getString("ApplyThemeFile", R.string.ApplyThemeFile));
-                            options.add(5);
-                            items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
-                            options.add(10);
-                            items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                            options.add(6);
-                        } else if (type == 6) {
-                            items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
-                            options.add(7);
-                            items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
-                            options.add(10);
-                            items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                            options.add(6);
-                        } else if (type == 7) {
-                            if (selectedObject.isMask()) {
-                                items.add(LocaleController.getString("AddToMasks", R.string.AddToMasks));
-                            } else {
-                                items.add(LocaleController.getString("AddToStickers", R.string.AddToStickers));
-                            }
-                            options.add(9);
-                        } else if (type == 8) {
-                            TLRPC.User user = MessagesController.getInstance().getUser(selectedObject.messageOwner.media.user_id);
-                            if (user != null && user.id != UserConfig.getClientUserId() && ContactsController.getInstance().contactsDict.get(user.id) == null) {
-                                items.add(LocaleController.getString("AddContactTitle", R.string.AddContactTitle));
-                                options.add(15);
-                            }
-                            if (selectedObject.messageOwner.media.phone_number != null || selectedObject.messageOwner.media.phone_number.length() != 0) {
-                                items.add(LocaleController.getString("Copy", R.string.Copy));
-                                options.add(16);
-                                items.add(LocaleController.getString("Call", R.string.Call));
-                                options.add(17);
-                            }
-                        }
+//                        if (type == 3) {
+//                            if (selectedObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage && MessageObject.isNewGifDocument(selectedObject.messageOwner.media.webpage.document)) {
+//                                items.add(LocaleController.getString("SaveToGIFs", R.string.SaveToGIFs));
+//                                options.add(11);
+//                            }
+//                        } else if (type == 4) {
+//                            if (selectedObject.isVideo()) {
+//                                if (!selectedObject.isSecretPhoto()) {
+//                                    items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+//                                    options.add(4);
+//                                    items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
+//                                    options.add(6);
+//                                }
+//                            } else if (selectedObject.isMusic()) {
+//                                items.add(LocaleController.getString("SaveToMusic", R.string.SaveToMusic));
+//                                options.add(10);
+//                                items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
+//                                options.add(6);
+//                            } else if (selectedObject.getDocument() != null) {
+//                                if (MessageObject.isNewGifDocument(selectedObject.getDocument())) {
+//                                    items.add(LocaleController.getString("SaveToGIFs", R.string.SaveToGIFs));
+//                                    options.add(11);
+//                                }
+//                                items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
+//                                options.add(10);
+//                                items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
+//                                options.add(6);
+//                            } else {
+//                                if (!selectedObject.isSecretPhoto()) {
+//                                    items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+//                                    options.add(4);
+//                                }
+//                            }
+//                        } else if (type == 5) {
+//                            items.add(LocaleController.getString("ApplyLocalizationFile", R.string.ApplyLocalizationFile));
+//                            options.add(5);
+//                            items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
+//                            options.add(10);
+//                            items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
+//                            options.add(6);
+//                        } else if (type == 10) {
+//                            items.add(LocaleController.getString("ApplyThemeFile", R.string.ApplyThemeFile));
+//                            options.add(5);
+//                            items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
+//                            options.add(10);
+//                            items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
+//                            options.add(6);
+//                        } else if (type == 6) {
+//                            items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+//                            options.add(7);
+//                            items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
+//                            options.add(10);
+//                            items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
+//                            options.add(6);
+//                        } else if (type == 7) {
+//                            if (selectedObject.isMask()) {
+//                                items.add(LocaleController.getString("AddToMasks", R.string.AddToMasks));
+//                            } else {
+//                                items.add(LocaleController.getString("AddToStickers", R.string.AddToStickers));
+//                            }
+//                            options.add(9);
+//                        } else if (type == 8) {
+//                            TLRPC.User user = MessagesController.getInstance().getUser(selectedObject.messageOwner.media.user_id);
+//                            if (user != null && user.id != UserConfig.getClientUserId() && ContactsController.getInstance().contactsDict.get(user.id) == null) {
+//                                items.add(LocaleController.getString("AddContactTitle", R.string.AddContactTitle));
+//                                options.add(15);
+//                            }
+//                            if (selectedObject.messageOwner.media.phone_number != null || selectedObject.messageOwner.media.phone_number.length() != 0) {
+//                                items.add(LocaleController.getString("Copy", R.string.Copy));
+//                                options.add(16);
+//                                items.add(LocaleController.getString("Call", R.string.Call));
+//                                options.add(17);
+//                            }
+//                        }
                         if (!selectedObject.isSecretPhoto()) {
                             items.add(LocaleController.getString("Forward", R.string.Forward));
                             options.add(2);
@@ -8753,36 +8753,36 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("Copy", R.string.Copy));
                             options.add(3);
                         }
-                        if (type == 4) {
-                            if (selectedObject.isVideo()) {
-                                items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
-                                options.add(4);
-                                items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                                options.add(6);
-                            } else if (selectedObject.isMusic()) {
-                                items.add(LocaleController.getString("SaveToMusic", R.string.SaveToMusic));
-                                options.add(10);
-                                items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                                options.add(6);
-                            } else if (!selectedObject.isVideo() && selectedObject.getDocument() != null) {
-                                items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
-                                options.add(10);
-                                items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                                options.add(6);
-                            } else {
-                                items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
-                                options.add(4);
-                            }
-                        } else if (type == 5) {
-                            items.add(LocaleController.getString("ApplyLocalizationFile", R.string.ApplyLocalizationFile));
-                            options.add(5);
-                        } else if (type == 10) {
-                            items.add(LocaleController.getString("ApplyThemeFile", R.string.ApplyThemeFile));
-                            options.add(5);
-                        } else if (type == 7) {
-                            items.add(LocaleController.getString("AddToStickers", R.string.AddToStickers));
-                            options.add(9);
-                        }
+//                        if (type == 4) {
+//                            if (selectedObject.isVideo()) {
+//                                items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+//                                options.add(4);
+//                                items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
+//                                options.add(6);
+//                            } else if (selectedObject.isMusic()) {
+//                                items.add(LocaleController.getString("SaveToMusic", R.string.SaveToMusic));
+//                                options.add(10);
+//                                items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
+//                                options.add(6);
+//                            } else if (!selectedObject.isVideo() && selectedObject.getDocument() != null) {
+//                                items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
+//                                options.add(10);
+//                                items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
+//                                options.add(6);
+//                            } else {
+//                                items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+//                                options.add(4);
+//                            }
+//                        } else if (type == 5) {
+//                            items.add(LocaleController.getString("ApplyLocalizationFile", R.string.ApplyLocalizationFile));
+//                            options.add(5);
+//                        } else if (type == 10) {
+//                            items.add(LocaleController.getString("ApplyThemeFile", R.string.ApplyThemeFile));
+//                            options.add(5);
+//                        } else if (type == 7) {
+//                            items.add(LocaleController.getString("AddToStickers", R.string.AddToStickers));
+//                            options.add(9);
+//                        }
                         items.add(LocaleController.getString("Delete", R.string.Delete));
                         options.add(1);
                     }
