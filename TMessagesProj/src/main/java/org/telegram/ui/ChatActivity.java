@@ -8616,15 +8616,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             options.add(1);
                         }
                     } else {
-                        if (message.messageOwner.action != null && message.messageOwner.action instanceof TLRPC.TL_messageActionPhoneCall) {
-                            TLRPC.TL_messageActionPhoneCall call = (TLRPC.TL_messageActionPhoneCall) message.messageOwner.action;
-                            items.add((call.reason instanceof TLRPC.TL_phoneCallDiscardReasonMissed || call.reason instanceof TLRPC.TL_phoneCallDiscardReasonBusy) && !message.isOutOwner() ? LocaleController.getString("CallBack", R.string.CallBack) : LocaleController.getString("CallAgain", R.string.CallAgain));
-                            options.add(18);
-                            if(VoIPHelper.canRateCall(call)){
-                                items.add(LocaleController.getString("CallMessageReportProblem", R.string.CallMessageReportProblem));
-                                options.add(19);
-                            }
-                        }
+//                        if (message.messageOwner.action != null && message.messageOwner.action instanceof TLRPC.TL_messageActionPhoneCall) {
+//                            TLRPC.TL_messageActionPhoneCall call = (TLRPC.TL_messageActionPhoneCall) message.messageOwner.action;
+//                            items.add((call.reason instanceof TLRPC.TL_phoneCallDiscardReasonMissed || call.reason instanceof TLRPC.TL_phoneCallDiscardReasonBusy) && !message.isOutOwner() ? LocaleController.getString("CallBack", R.string.CallBack) : LocaleController.getString("CallAgain", R.string.CallAgain));
+//                            options.add(18);
+//                            if(VoIPHelper.canRateCall(call)){
+//                                items.add(LocaleController.getString("CallMessageReportProblem", R.string.CallMessageReportProblem));
+//                                options.add(19);
+//                            }
+//                        }
                         if (single && selectedObject.getId() > 0 && allowChatActions) {
                             items.add(LocaleController.getString("Reply", R.string.Reply));
                             options.add(8);
