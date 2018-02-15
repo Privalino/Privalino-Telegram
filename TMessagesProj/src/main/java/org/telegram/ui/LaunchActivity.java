@@ -383,30 +383,38 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     args.putBoolean("allowBots", false);
                     presentFragment(new ContactsActivity(args));
                     drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 4) {
-                    if (!MessagesController.isFeatureEnabled("broadcast_create", actionBarLayout.fragmentsStack.get(actionBarLayout.fragmentsStack.size() - 1))) {
-                        return;
-                    }
-                    SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
-                    if (!BuildVars.DEBUG_VERSION && preferences.getBoolean("channel_intro", false)) {
-                        Bundle args = new Bundle();
-                        args.putInt("step", 0);
-                        presentFragment(new ChannelCreateActivity(args));
-                    } else {
-                        presentFragment(new ChannelIntroActivity());
-                        preferences.edit().putBoolean("channel_intro", true).commit();
-                    }
-                    drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 6) {
+                } else if (id == 5) {
                     presentFragment(new ContactsActivity(null));
                     drawerLayoutContainer.closeDrawer(false);
+                } else if (id == 6) {
+                    if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                        /*AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
+                        builder.setTopImage(R.drawable.permissions_contacts, 0xff35a8e0);
+                        builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString("ContactsPermissionAlert", R.string.ContactsPermissionAlert)));
+                        builder.setPositiveButton(LocaleController.getString("ContactsPermissionAlertContinue", R.string.ContactsPermissionAlertContinue), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        builder.setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", R.string.ContactsPermissionAlertNotNow), null);
+                        showAlertDialog(builder);*/
+                        showLanguageAlert(true);
+                    } else {
+                        try {
+                            Intent intent = new Intent(Intent.ACTION_SEND);
+                            intent.setType("text/plain");
+                            intent.putExtra(Intent.EXTRA_TEXT, ContactsController.getInstance().getInviteText());
+                            startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteFriends", R.string.InviteFriends)), 500);
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                        drawerLayoutContainer.closeDrawer(false);
+                    }
                 } else if (id == 7) {
-                    presentFragment(new InviteContactsActivity());
-                    drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 8) {
                     presentFragment(new SettingsActivity());
                     drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 9) {
+                } else if (id == 8) {
                     Browser.openUrl(LaunchActivity.this, LocaleController.getString("TelegramFaqUrl", R.string.TelegramFaqUrl));
                     drawerLayoutContainer.closeDrawer(false);
                }
