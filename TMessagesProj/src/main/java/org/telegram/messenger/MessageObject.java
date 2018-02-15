@@ -1667,11 +1667,10 @@ public class MessageObject {
     }
 
     public void setType() {
-        // XXX Treat all messages as normal messages
-        type = 0;
-
-        // int oldType = type;
-        // if (messageOwner instanceof TLRPC.TL_message || messageOwner instanceof TLRPC.TL_messageForwarded_old2) {
+        int oldType = type;
+        if (messageOwner instanceof TLRPC.TL_message || messageOwner instanceof TLRPC.TL_messageForwarded_old2) {
+            // XXX Treat all non-system messages as normal messages
+            type = 0;
         //     if (isMediaEmpty()) {
         //         type = 0;
         //         if (TextUtils.isEmpty(messageText) && eventId == 0) {
@@ -1713,33 +1712,33 @@ public class MessageObject {
         //     } else if (messageOwner.media instanceof TLRPC.TL_messageMediaInvoice) {
         //         type = 0;
         //     }
-        // } else if (messageOwner instanceof TLRPC.TL_messageService) {
-        //     if (messageOwner.action instanceof TLRPC.TL_messageActionLoginUnknownLocation) {
-        //         type = 0;
-        //     } else if (messageOwner.action instanceof TLRPC.TL_messageActionChatEditPhoto || messageOwner.action instanceof TLRPC.TL_messageActionUserUpdatedPhoto) {
-        //         contentType = 1;
-        //         type = 11;
-        //     } else if (messageOwner.action instanceof TLRPC.TL_messageEncryptedAction) {
-        //         if (messageOwner.action.encryptedAction instanceof TLRPC.TL_decryptedMessageActionScreenshotMessages || messageOwner.action.encryptedAction instanceof TLRPC.TL_decryptedMessageActionSetMessageTTL) {
-        //             contentType = 1;
-        //             type = 10;
-        //         } else {
-        //             contentType = -1;
-        //             type = -1;
-        //         }
-        //     } else if (messageOwner.action instanceof TLRPC.TL_messageActionHistoryClear) {
-        //         contentType = -1;
-        //         type = -1;
-        //     } else if (messageOwner.action instanceof TLRPC.TL_messageActionPhoneCall) {
-        //         type = 16;
-        //     } else {
-        //         contentType = 1;
-        //         type = 10;
-        //     }
-        // }
-        // if (oldType != 1000 && oldType != type) {
-        //     generateThumbs(false);
-        // }
+        } else if (messageOwner instanceof TLRPC.TL_messageService) {
+            if (messageOwner.action instanceof TLRPC.TL_messageActionLoginUnknownLocation) {
+                type = 0;
+            } else if (messageOwner.action instanceof TLRPC.TL_messageActionChatEditPhoto || messageOwner.action instanceof TLRPC.TL_messageActionUserUpdatedPhoto) {
+                contentType = 1;
+                type = 11;
+            } else if (messageOwner.action instanceof TLRPC.TL_messageEncryptedAction) {
+                if (messageOwner.action.encryptedAction instanceof TLRPC.TL_decryptedMessageActionScreenshotMessages || messageOwner.action.encryptedAction instanceof TLRPC.TL_decryptedMessageActionSetMessageTTL) {
+                    contentType = 1;
+                    type = 10;
+                } else {
+                    contentType = -1;
+                    type = -1;
+                }
+            } else if (messageOwner.action instanceof TLRPC.TL_messageActionHistoryClear) {
+                contentType = -1;
+                type = -1;
+            } else if (messageOwner.action instanceof TLRPC.TL_messageActionPhoneCall) {
+                type = 16;
+            } else {
+                contentType = 1;
+                type = 10;
+            }
+        }
+        if (oldType != 1000 && oldType != type) {
+            generateThumbs(false);
+        }
     }
 
     public boolean checkLayout() {
