@@ -979,7 +979,7 @@ public class NotificationsController {
                             }
                         }
                     } else {
-                        if (messageObject.isMediaEmpty()) {
+//                        if (messageObject.isMediaEmpty()) {
                             if (!shortMessage) {
                                 if (messageObject.messageOwner.message != null && messageObject.messageOwner.message.length() != 0) {
                                     msg = LocaleController.formatString("NotificationMessageText", R.string.NotificationMessageText, name, messageObject.messageOwner.message);
@@ -990,64 +990,64 @@ public class NotificationsController {
                             } else {
                                 msg = LocaleController.formatString("NotificationMessageNoText", R.string.NotificationMessageNoText, name);
                             }
-                        } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaPhoto) {
-                            if (!shortMessage && Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(messageObject.messageOwner.media.caption)) {
-                                msg = LocaleController.formatString("NotificationMessageText", R.string.NotificationMessageText, name, "\uD83D\uDDBC " + messageObject.messageOwner.media.caption);
-                                text[0] = true;
-                            } else {
-                                if (messageObject.messageOwner.media.ttl_seconds != 0) {
-                                    msg = LocaleController.formatString("NotificationMessageSDPhoto", R.string.NotificationMessageSDPhoto, name);
-                                } else {
-                                    msg = LocaleController.formatString("NotificationMessagePhoto", R.string.NotificationMessagePhoto, name);
-                                }
-                            }
-                        } else if (messageObject.isVideo()) {
-                            if (!shortMessage && Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(messageObject.messageOwner.media.caption)) {
-                                msg = LocaleController.formatString("NotificationMessageText", R.string.NotificationMessageText, name, "\uD83D\uDCF9 " + messageObject.messageOwner.media.caption);
-                                text[0] = true;
-                            } else {
-                                if (messageObject.messageOwner.media.ttl_seconds != 0) {
-                                    msg = LocaleController.formatString("NotificationMessageSDVideo", R.string.NotificationMessageSDVideo, name);
-                                } else {
-                                    msg = LocaleController.formatString("NotificationMessageVideo", R.string.NotificationMessageVideo, name);
-                                }
-                            }
-                        } else if (messageObject.isGame()) {
-                            msg = LocaleController.formatString("NotificationMessageGame", R.string.NotificationMessageGame, name, messageObject.messageOwner.media.game.title);
-                        } else if (messageObject.isVoice()) {
-                            msg = LocaleController.formatString("NotificationMessageAudio", R.string.NotificationMessageAudio, name);
-                        } else if (messageObject.isRoundVideo()) {
-                            msg = LocaleController.formatString("NotificationMessageRound", R.string.NotificationMessageRound, name);
-                        } else if (messageObject.isMusic()) {
-                            msg = LocaleController.formatString("NotificationMessageMusic", R.string.NotificationMessageMusic, name);
-                        } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaContact) {
-                            msg = LocaleController.formatString("NotificationMessageContact", R.string.NotificationMessageContact, name);
-                        } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGeo || messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaVenue) {
-                            msg = LocaleController.formatString("NotificationMessageMap", R.string.NotificationMessageMap, name);
-                        } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaDocument) {
-                            if (messageObject.isSticker()) {
-                                String emoji = messageObject.getStickerEmoji();
-                                if (emoji != null) {
-                                    msg = LocaleController.formatString("NotificationMessageStickerEmoji", R.string.NotificationMessageStickerEmoji, name, emoji);
-                                } else {
-                                    msg = LocaleController.formatString("NotificationMessageSticker", R.string.NotificationMessageSticker, name);
-                                }
-                            } else if (messageObject.isGif()) {
-                                if (!shortMessage && Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(messageObject.messageOwner.media.caption)) {
-                                    msg = LocaleController.formatString("NotificationMessageText", R.string.NotificationMessageText, name, "\uD83C\uDFAC " + messageObject.messageOwner.media.caption);
-                                    text[0] = true;
-                                } else {
-                                    msg = LocaleController.formatString("NotificationMessageGif", R.string.NotificationMessageGif, name);
-                                }
-                            } else {
-                                if (!shortMessage && Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(messageObject.messageOwner.media.caption)) {
-                                    msg = LocaleController.formatString("NotificationMessageText", R.string.NotificationMessageText, name, "\uD83D\uDCCE " + messageObject.messageOwner.media.caption);
-                                    text[0] = true;
-                                } else {
-                                    msg = LocaleController.formatString("NotificationMessageDocument", R.string.NotificationMessageDocument, name);
-                                }
-                            }
-                        }
+                        // } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaPhoto) {
+                        //     if (!shortMessage && Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(messageObject.messageOwner.media.caption)) {
+                        //         msg = LocaleController.formatString("NotificationMessageText", R.string.NotificationMessageText, name, "\uD83D\uDDBC " + messageObject.messageOwner.media.caption);
+                        //         text[0] = true;
+                        //     } else {
+                        //         if (messageObject.messageOwner.media.ttl_seconds != 0) {
+                        //             msg = LocaleController.formatString("NotificationMessageSDPhoto", R.string.NotificationMessageSDPhoto, name);
+                        //         } else {
+                        //             msg = LocaleController.formatString("NotificationMessagePhoto", R.string.NotificationMessagePhoto, name);
+                        //         }
+                        //     }
+                        // } else if (messageObject.isVideo()) {
+                        //     if (!shortMessage && Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(messageObject.messageOwner.media.caption)) {
+                        //         msg = LocaleController.formatString("NotificationMessageText", R.string.NotificationMessageText, name, "\uD83D\uDCF9 " + messageObject.messageOwner.media.caption);
+                        //         text[0] = true;
+                        //     } else {
+                        //         if (messageObject.messageOwner.media.ttl_seconds != 0) {
+                        //             msg = LocaleController.formatString("NotificationMessageSDVideo", R.string.NotificationMessageSDVideo, name);
+                        //         } else {
+                        //             msg = LocaleController.formatString("NotificationMessageVideo", R.string.NotificationMessageVideo, name);
+                        //         }
+                        //     }
+                        // } else if (messageObject.isGame()) {
+                        //     msg = LocaleController.formatString("NotificationMessageGame", R.string.NotificationMessageGame, name, messageObject.messageOwner.media.game.title);
+                        // } else if (messageObject.isVoice()) {
+                        //     msg = LocaleController.formatString("NotificationMessageAudio", R.string.NotificationMessageAudio, name);
+                        // } else if (messageObject.isRoundVideo()) {
+                        //     msg = LocaleController.formatString("NotificationMessageRound", R.string.NotificationMessageRound, name);
+                        // } else if (messageObject.isMusic()) {
+                        //     msg = LocaleController.formatString("NotificationMessageMusic", R.string.NotificationMessageMusic, name);
+                        // } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaContact) {
+                        //     msg = LocaleController.formatString("NotificationMessageContact", R.string.NotificationMessageContact, name);
+                        // } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGeo || messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaVenue) {
+                        //     msg = LocaleController.formatString("NotificationMessageMap", R.string.NotificationMessageMap, name);
+                        // } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaDocument) {
+                        //     if (messageObject.isSticker()) {
+                        //         String emoji = messageObject.getStickerEmoji();
+                        //         if (emoji != null) {
+                        //             msg = LocaleController.formatString("NotificationMessageStickerEmoji", R.string.NotificationMessageStickerEmoji, name, emoji);
+                        //         } else {
+                        //             msg = LocaleController.formatString("NotificationMessageSticker", R.string.NotificationMessageSticker, name);
+                        //         }
+                        //     } else if (messageObject.isGif()) {
+                        //         if (!shortMessage && Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(messageObject.messageOwner.media.caption)) {
+                        //             msg = LocaleController.formatString("NotificationMessageText", R.string.NotificationMessageText, name, "\uD83C\uDFAC " + messageObject.messageOwner.media.caption);
+                        //             text[0] = true;
+                        //         } else {
+                        //             msg = LocaleController.formatString("NotificationMessageGif", R.string.NotificationMessageGif, name);
+                        //         }
+                        //     } else {
+                        //         if (!shortMessage && Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(messageObject.messageOwner.media.caption)) {
+                        //             msg = LocaleController.formatString("NotificationMessageText", R.string.NotificationMessageText, name, "\uD83D\uDCCE " + messageObject.messageOwner.media.caption);
+                        //             text[0] = true;
+                        //         } else {
+                        //             msg = LocaleController.formatString("NotificationMessageDocument", R.string.NotificationMessageDocument, name);
+                        //         }
+                        //     }
+                        // }
                     }
                 } else {
                     msg = LocaleController.formatString("NotificationMessageNoText", R.string.NotificationMessageNoText, name);
