@@ -630,8 +630,8 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     public EmojiView(boolean needStickers, boolean needGif, final Context context) {
         super(context);
 
-        Drawable stickersDrawable = context.getResources().getDrawable(R.drawable.ic_smiles2_stickers);
-        Theme.setDrawableColorByKey(stickersDrawable, Theme.key_chat_emojiPanelIcon);
+//        Drawable stickersDrawable = context.getResources().getDrawable(R.drawable.ic_smiles2_stickers);
+//        Theme.setDrawableColorByKey(stickersDrawable, Theme.key_chat_emojiPanelIcon);
         icons = new Drawable[] {
                 Theme.createEmojiIconSelectorDrawable(context, R.drawable.ic_smiles2_recent, Theme.getColor(Theme.key_chat_emojiPanelIcon), Theme.getColor(Theme.key_chat_emojiPanelIconSelected)),
                 Theme.createEmojiIconSelectorDrawable(context, R.drawable.ic_smiles2_smile, Theme.getColor(Theme.key_chat_emojiPanelIcon), Theme.getColor(Theme.key_chat_emojiPanelIconSelected)),
@@ -639,7 +639,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 Theme.createEmojiIconSelectorDrawable(context, R.drawable.ic_smiles2_food, Theme.getColor(Theme.key_chat_emojiPanelIcon), Theme.getColor(Theme.key_chat_emojiPanelIconSelected)),
                 Theme.createEmojiIconSelectorDrawable(context, R.drawable.ic_smiles2_car, Theme.getColor(Theme.key_chat_emojiPanelIcon), Theme.getColor(Theme.key_chat_emojiPanelIconSelected)),
                 Theme.createEmojiIconSelectorDrawable(context, R.drawable.ic_smiles2_objects, Theme.getColor(Theme.key_chat_emojiPanelIcon), Theme.getColor(Theme.key_chat_emojiPanelIconSelected)),
-                stickersDrawable
+//                stickersDrawable
         };
 
         showGifs = needGif;
@@ -676,406 +676,406 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             views.add(frameLayout);
         }
 
-        if (needStickers) {
-            stickersWrap = new FrameLayout(context);
+//        if (needStickers) {
+//            stickersWrap = new FrameLayout(context);
+//
+//            StickersQuery.checkStickers(StickersQuery.TYPE_IMAGE);
+//            StickersQuery.checkFeaturedStickers();
+//            stickersGridView = new RecyclerListView(context) {
+//                @Override
+//                public boolean onInterceptTouchEvent(MotionEvent event) {
+//                    boolean result = StickerPreviewViewer.getInstance().onInterceptTouchEvent(event, stickersGridView, EmojiView.this.getMeasuredHeight(), stickerPreviewViewerDelegate);
+//                    return super.onInterceptTouchEvent(event) || result;
+//                }
+//
+//                @Override
+//                public void setVisibility(int visibility) {
+//                    if (gifsGridView != null && gifsGridView.getVisibility() == VISIBLE || trendingGridView != null && trendingGridView.getVisibility() == VISIBLE) {
+//                        super.setVisibility(GONE);
+//                        return;
+//                    }
+//                    super.setVisibility(visibility);
+//                }
+//            };
+//
+//            stickersGridView.setLayoutManager(stickersLayoutManager = new GridLayoutManager(context, 5));
+//            stickersLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                @Override
+//                public int getSpanSize(int position) {
+//                    if (position == stickersGridAdapter.totalItems) {
+//                        return stickersGridAdapter.stickersPerRow;
+//                    }
+//                    return 1;
+//                }
+//            });
+//            stickersGridView.setPadding(0, AndroidUtilities.dp(4 + 48), 0, 0);
+//            stickersGridView.setClipToPadding(false);
+//            views.add(stickersWrap);
+//            stickersGridView.setAdapter(stickersGridAdapter = new StickersGridAdapter(context));
+//            stickersGridView.setOnTouchListener(new OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    return StickerPreviewViewer.getInstance().onTouch(event, stickersGridView, EmojiView.this.getMeasuredHeight(), stickersOnItemClickListener, stickerPreviewViewerDelegate);
+//                }
+//            });
+//            stickersOnItemClickListener = new RecyclerListView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(View view, int position) {
+//                    if (!(view instanceof StickerEmojiCell)) {
+//                        return;
+//                    }
+//                    StickerPreviewViewer.getInstance().reset();
+//                    StickerEmojiCell cell = (StickerEmojiCell) view;
+//                    if (cell.isDisabled()) {
+//                        return;
+//                    }
+//                    cell.disable();
+//                    listener.onStickerSelected(cell.getSticker());
+//                }
+//            };
+//            stickersGridView.setOnItemClickListener(stickersOnItemClickListener);
+//            stickersGridView.setGlowColor(Theme.getColor(Theme.key_chat_emojiPanelBackground));
+//            stickersWrap.addView(stickersGridView);
 
-            StickersQuery.checkStickers(StickersQuery.TYPE_IMAGE);
-            StickersQuery.checkFeaturedStickers();
-            stickersGridView = new RecyclerListView(context) {
-                @Override
-                public boolean onInterceptTouchEvent(MotionEvent event) {
-                    boolean result = StickerPreviewViewer.getInstance().onInterceptTouchEvent(event, stickersGridView, EmojiView.this.getMeasuredHeight(), stickerPreviewViewerDelegate);
-                    return super.onInterceptTouchEvent(event) || result;
-                }
-
-                @Override
-                public void setVisibility(int visibility) {
-                    if (gifsGridView != null && gifsGridView.getVisibility() == VISIBLE || trendingGridView != null && trendingGridView.getVisibility() == VISIBLE) {
-                        super.setVisibility(GONE);
-                        return;
-                    }
-                    super.setVisibility(visibility);
-                }
-            };
-
-            stickersGridView.setLayoutManager(stickersLayoutManager = new GridLayoutManager(context, 5));
-            stickersLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    if (position == stickersGridAdapter.totalItems) {
-                        return stickersGridAdapter.stickersPerRow;
-                    }
-                    return 1;
-                }
-            });
-            stickersGridView.setPadding(0, AndroidUtilities.dp(4 + 48), 0, 0);
-            stickersGridView.setClipToPadding(false);
-            views.add(stickersWrap);
-            stickersGridView.setAdapter(stickersGridAdapter = new StickersGridAdapter(context));
-            stickersGridView.setOnTouchListener(new OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return StickerPreviewViewer.getInstance().onTouch(event, stickersGridView, EmojiView.this.getMeasuredHeight(), stickersOnItemClickListener, stickerPreviewViewerDelegate);
-                }
-            });
-            stickersOnItemClickListener = new RecyclerListView.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    if (!(view instanceof StickerEmojiCell)) {
-                        return;
-                    }
-                    StickerPreviewViewer.getInstance().reset();
-                    StickerEmojiCell cell = (StickerEmojiCell) view;
-                    if (cell.isDisabled()) {
-                        return;
-                    }
-                    cell.disable();
-                    listener.onStickerSelected(cell.getSticker());
-                }
-            };
-            stickersGridView.setOnItemClickListener(stickersOnItemClickListener);
-            stickersGridView.setGlowColor(Theme.getColor(Theme.key_chat_emojiPanelBackground));
-            stickersWrap.addView(stickersGridView);
-
-            trendingGridView = new RecyclerListView(context);
-            trendingGridView.setItemAnimator(null);
-            trendingGridView.setLayoutAnimation(null);
-            trendingGridView.setLayoutManager(trendingLayoutManager = new GridLayoutManager(context, 5) {
-                @Override
-                public boolean supportsPredictiveItemAnimations() {
-                    return false;
-                }
-            });
-            trendingLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    if (trendingGridAdapter.cache.get(position) instanceof Integer || position == trendingGridAdapter.totalItems) {
-                        return trendingGridAdapter.stickersPerRow;
-                    }
-                    return 1;
-                }
-            });
-            trendingGridView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    checkStickersTabY(recyclerView, dy);
-                }
-            });
-            trendingGridView.setClipToPadding(false);
-            trendingGridView.setPadding(0, AndroidUtilities.dp(48), 0, 0);
-            trendingGridView.setAdapter(trendingGridAdapter = new TrendingGridAdapter(context));
-            trendingGridView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    TLRPC.StickerSetCovered pack = trendingGridAdapter.positionsToSets.get(position);
-                    if (pack != null) {
-                        listener.onShowStickerSet(pack.set, null);
-                    }
-                }
-            });
-            trendingGridAdapter.notifyDataSetChanged();
-            trendingGridView.setGlowColor(Theme.getColor(Theme.key_chat_emojiPanelBackground));
-            trendingGridView.setVisibility(GONE);
-            stickersWrap.addView(trendingGridView);
-
-            if (needGif) {
-                gifsGridView = new RecyclerListView(context);
-                gifsGridView.setClipToPadding(false);
-                gifsGridView.setPadding(0, AndroidUtilities.dp(48), 0, 0);
-                gifsGridView.setLayoutManager(flowLayoutManager = new ExtendedGridLayoutManager(context, 100) {
-
-                    private Size size = new Size();
-
-                    @Override
-                    protected Size getSizeForItem(int i) {
-                        TLRPC.Document document = recentGifs.get(i);
-                        size.width = document.thumb != null && document.thumb.w != 0 ? document.thumb.w : 100;
-                        size.height = document.thumb != null && document.thumb.h != 0 ? document.thumb.h : 100;
-                        for (int b = 0; b < document.attributes.size(); b++) {
-                            TLRPC.DocumentAttribute attribute = document.attributes.get(b);
-                            if (attribute instanceof TLRPC.TL_documentAttributeImageSize || attribute instanceof TLRPC.TL_documentAttributeVideo) {
-                                size.width = attribute.w;
-                                size.height = attribute.h;
-                                break;
-                            }
-                        }
-                        return size;
-                    }
-                });
-                flowLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                    @Override
-                    public int getSpanSize(int position) {
-                        return flowLayoutManager.getSpanSizeForItem(position);
-                    }
-                });
-                gifsGridView.addItemDecoration(new RecyclerView.ItemDecoration() {
-                    @Override
-                    public void getItemOffsets(android.graphics.Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                        outRect.left = 0;
-                        outRect.top = 0;
-                        outRect.bottom = 0;
-                        int position = parent.getChildAdapterPosition(view);
-                        if (!flowLayoutManager.isFirstRow(position)) {
-                            outRect.top = AndroidUtilities.dp(2);
-                        }
-                        outRect.right = flowLayoutManager.isLastInRow(position) ? 0 : AndroidUtilities.dp(2);
-                    }
-                });
-                gifsGridView.setOverScrollMode(RecyclerListView.OVER_SCROLL_NEVER);
-                gifsGridView.setAdapter(gifsAdapter = new GifsAdapter(context));
-                gifsGridView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                        checkStickersTabY(recyclerView, dy);
-                    }
-                });
-                gifsGridView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        if (position < 0 || position >= recentGifs.size() || listener == null) {
-                            return;
-                        }
-                        listener.onGifSelected(recentGifs.get(position));
-                    }
-                });
-                gifsGridView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position) {
-                        if (position < 0 || position >= recentGifs.size()) {
-                            return false;
-                        }
-                        final TLRPC.Document searchImage = recentGifs.get(position);
-                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                        builder.setTitle("Privalino");
-                        builder.setMessage(LocaleController.getString("DeleteGif", R.string.DeleteGif));
-                        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK).toUpperCase(), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                StickersQuery.removeRecentGif(searchImage);
-                                recentGifs = StickersQuery.getRecentGifs();
-                                if (gifsAdapter != null) {
-                                    gifsAdapter.notifyDataSetChanged();
-                                }
-                                if (recentGifs.isEmpty()) {
-                                    updateStickerTabs();
-                                }
-                            }
-                        });
-                        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                        builder.show().setCanceledOnTouchOutside(true);
-                        return true;
-                    }
-                });
-                gifsGridView.setVisibility(GONE);
-                stickersWrap.addView(gifsGridView);
-            }
-
-            stickersEmptyView = new TextView(context);
-            stickersEmptyView.setText(LocaleController.getString("NoStickers", R.string.NoStickers));
-            stickersEmptyView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-            stickersEmptyView.setTextColor(Theme.getColor(Theme.key_chat_emojiPanelEmptyText));
-            stickersWrap.addView(stickersEmptyView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 0, 48, 0, 0));
-            stickersGridView.setEmptyView(stickersEmptyView);
-
-            stickersTab = new ScrollSlidingTabStrip(context) {
-
-                boolean startedScroll;
-                float lastX;
-                float lastTranslateX;
-                boolean first = true;
-                final int touchslop=ViewConfiguration.get(getContext()).getScaledTouchSlop();
-                float downX, downY;
-                boolean draggingVertically, draggingHorizontally;
-                VelocityTracker vTracker;
-
-                @Override
-                public boolean onInterceptTouchEvent(MotionEvent ev) {
-                    if (getParent() != null) {
-                        getParent().requestDisallowInterceptTouchEvent(true);
-                    }
-                    if(ev.getAction()==MotionEvent.ACTION_DOWN){
-                        draggingVertically=draggingHorizontally=false;
-                        downX=ev.getRawX();
-                        downY=ev.getRawY();
-                    }else{
-                        if(!draggingVertically && !draggingHorizontally && dragListener!=null){
-                            if(Math.abs(ev.getRawY()-downY)>=touchslop){
-                                draggingVertically=true;
-                                downY=ev.getRawY();
-								dragListener.onDragStart();
-                                if(startedScroll){
-                                    pager.endFakeDrag();
-                                    startedScroll=false;
-                                }
-                                return true;
-                            }
-                        }
-                    }
-                    return super.onInterceptTouchEvent(ev);
-                }
-
-                @Override
-                public boolean onTouchEvent(MotionEvent ev) {
-                    if (first) {
-                        first = false;
-                        lastX = ev.getX();
-                    }
-                    if(ev.getAction()==MotionEvent.ACTION_DOWN){
-                        draggingVertically=draggingHorizontally=false;
-                        downX=ev.getRawX();
-                        downY=ev.getRawY();
-                    }else{
-                        if(!draggingVertically && !draggingHorizontally && dragListener!=null){
-                            if(Math.abs(ev.getRawX()-downX)>=touchslop){
-                                draggingHorizontally=true;
-                            }else if(Math.abs(ev.getRawY()-downY)>=touchslop){
-                                draggingVertically=true;
-                                downY=ev.getRawY();
-                                dragListener.onDragStart();
-                                if(startedScroll){
-                                    pager.endFakeDrag();
-                                    startedScroll=false;
-                                }
-                            }
-                        }
-                    }
-                    if(draggingVertically){
-                        if(vTracker==null)
-                            vTracker=VelocityTracker.obtain();
-                        vTracker.addMovement(ev);
-                        if(ev.getAction()==MotionEvent.ACTION_UP || ev.getAction()==MotionEvent.ACTION_CANCEL){
-                            vTracker.computeCurrentVelocity(1000);
-                            float velocity=vTracker.getYVelocity();
-                            vTracker.recycle();
-                            vTracker=null;
-                            if(ev.getAction()==MotionEvent.ACTION_UP){
-                                dragListener.onDragEnd(velocity);
-                            }else{
-                                dragListener.onDragCancel();
-                            }
-                            first=true;
-                            draggingVertically=draggingHorizontally=false;
-                        }else{
-                            dragListener.onDrag(Math.round(ev.getRawY()-downY));
-                        }
-                        return true;
-                    }
-                    float newTranslationX = stickersTab.getTranslationX();
-                    if (stickersTab.getScrollX() == 0 && newTranslationX == 0) {
-                        if (!startedScroll && lastX - ev.getX() < 0) {
-                            if (pager.beginFakeDrag()) {
-                                startedScroll = true;
-                                lastTranslateX = stickersTab.getTranslationX();
-                            }
-                        } else if (startedScroll && lastX - ev.getX() > 0) {
-                            if (pager.isFakeDragging()) {
-                                pager.endFakeDrag();
-                                startedScroll = false;
-                            }
-                        }
-                    }
-                    if (startedScroll) {
-                        int dx = (int) (ev.getX() - lastX + newTranslationX - lastTranslateX);
-                        try {
-                            pager.fakeDragBy(dx);
-                            lastTranslateX = newTranslationX;
-                        } catch (Exception e) {
-                            try {
-                                pager.endFakeDrag();
-                            } catch (Exception e2) {
-                                //don't promt
-                            }
-                            startedScroll = false;
-                            FileLog.e(e);
-                        }
-                    }
-                    lastX = ev.getX();
-                    if (ev.getAction() == MotionEvent.ACTION_CANCEL || ev.getAction() == MotionEvent.ACTION_UP) {
-                        first = true;
-                        draggingVertically=draggingHorizontally=false;
-                        if (startedScroll) {
-                            pager.endFakeDrag();
-                            startedScroll = false;
-                        }
-                    }
-                    return startedScroll || super.onTouchEvent(ev);
-                }
-            };
-            stickersTab.setUnderlineHeight(AndroidUtilities.dp(1));
-            stickersTab.setIndicatorColor(Theme.getColor(Theme.key_chat_emojiPanelStickerPackSelector));
-            stickersTab.setUnderlineColor(Theme.getColor(Theme.key_chat_emojiPanelStickerPackSelector));
-            stickersTab.setBackgroundColor(Theme.getColor(Theme.key_chat_emojiPanelBackground));
-            stickersTab.setVisibility(INVISIBLE);
-            addView(stickersTab, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.LEFT | Gravity.TOP));
-            stickersTab.setTranslationX(AndroidUtilities.displaySize.x);
-            updateStickerTabs();
-            stickersTab.setDelegate(new ScrollSlidingTabStrip.ScrollSlidingTabStripDelegate() {
-                @Override
-                public void onPageSelected(int page) {
-                    if (gifsGridView != null) {
-                        if (page == gifTabNum + 1) {
-                            if (gifsGridView.getVisibility() != VISIBLE) {
-                                listener.onGifTab(true);
-                                showGifTab();
-                            }
-                        } else if (page == trendingTabNum + 1) {
-                            if (trendingGridView.getVisibility() != VISIBLE) {
-                                showTrendingTab();
-                            }
-                        } else {
-                            if (gifsGridView.getVisibility() == VISIBLE) {
-                                listener.onGifTab(false);
-                                gifsGridView.setVisibility(GONE);
-                                stickersGridView.setVisibility(VISIBLE);
-                                stickersEmptyView.setVisibility(stickersGridAdapter.getItemCount() != 0 ? GONE : VISIBLE);
-                                checkScroll();
-                                saveNewPage();
-                            } else if (trendingGridView.getVisibility() == VISIBLE) {
-                                trendingGridView.setVisibility(GONE);
-                                stickersGridView.setVisibility(VISIBLE);
-                                stickersEmptyView.setVisibility(stickersGridAdapter.getItemCount() != 0 ? GONE : VISIBLE);
-                                saveNewPage();
-                            }
-                        }
-                    }
-                    if (page == 0) {
-                        pager.setCurrentItem(0);
-                        return;
-                    } else {
-                        if (page == gifTabNum + 1 || page == trendingTabNum + 1) {
-                            return;
-                        } else if (page == recentTabBum + 1) {
-                            stickersLayoutManager.scrollToPositionWithOffset(0, 0);
-                            checkStickersTabY(null, 0);
-                            stickersTab.onPageScrolled(recentTabBum + 1, (recentTabBum > 0 ? recentTabBum : stickersTabOffset) + 1);
-                            return;
-                        }
-                    }
-                    int index = page - 1 - stickersTabOffset;
-                    if (index >= stickerSets.size()) {
-                        if (listener != null) {
-                            listener.onStickersSettingsClick();
-                        }
-                        return;
-                    }
-                    if (index >= stickerSets.size()) {
-                        index = stickerSets.size() - 1;
-                    }
-                    stickersLayoutManager.scrollToPositionWithOffset(stickersGridAdapter.getPositionForPack(stickerSets.get(index)), 0);
-                    checkStickersTabY(null, 0);
-                    checkScroll();
-                }
-            });
-
-            stickersGridView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    checkScroll();
-                    checkStickersTabY(recyclerView, dy);
-                }
-            });
-        }
+//            trendingGridView = new RecyclerListView(context);
+//            trendingGridView.setItemAnimator(null);
+//            trendingGridView.setLayoutAnimation(null);
+//            trendingGridView.setLayoutManager(trendingLayoutManager = new GridLayoutManager(context, 5) {
+//                @Override
+//                public boolean supportsPredictiveItemAnimations() {
+//                    return false;
+//                }
+//            });
+//            trendingLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                @Override
+//                public int getSpanSize(int position) {
+//                    if (trendingGridAdapter.cache.get(position) instanceof Integer || position == trendingGridAdapter.totalItems) {
+//                        return trendingGridAdapter.stickersPerRow;
+//                    }
+//                    return 1;
+//                }
+//            });
+//            trendingGridView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//                @Override
+//                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                    checkStickersTabY(recyclerView, dy);
+//                }
+//            });
+//            trendingGridView.setClipToPadding(false);
+//            trendingGridView.setPadding(0, AndroidUtilities.dp(48), 0, 0);
+//            trendingGridView.setAdapter(trendingGridAdapter = new TrendingGridAdapter(context));
+//            trendingGridView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(View view, int position) {
+//                    TLRPC.StickerSetCovered pack = trendingGridAdapter.positionsToSets.get(position);
+//                    if (pack != null) {
+//                        listener.onShowStickerSet(pack.set, null);
+//                    }
+//                }
+//            });
+//            trendingGridAdapter.notifyDataSetChanged();
+//            trendingGridView.setGlowColor(Theme.getColor(Theme.key_chat_emojiPanelBackground));
+//            trendingGridView.setVisibility(GONE);
+//            stickersWrap.addView(trendingGridView);
+//
+//            if (needGif) {
+//                gifsGridView = new RecyclerListView(context);
+//                gifsGridView.setClipToPadding(false);
+//                gifsGridView.setPadding(0, AndroidUtilities.dp(48), 0, 0);
+//                gifsGridView.setLayoutManager(flowLayoutManager = new ExtendedGridLayoutManager(context, 100) {
+//
+//                    private Size size = new Size();
+//
+//                    @Override
+//                    protected Size getSizeForItem(int i) {
+//                        TLRPC.Document document = recentGifs.get(i);
+//                        size.width = document.thumb != null && document.thumb.w != 0 ? document.thumb.w : 100;
+//                        size.height = document.thumb != null && document.thumb.h != 0 ? document.thumb.h : 100;
+//                        for (int b = 0; b < document.attributes.size(); b++) {
+//                            TLRPC.DocumentAttribute attribute = document.attributes.get(b);
+//                            if (attribute instanceof TLRPC.TL_documentAttributeImageSize || attribute instanceof TLRPC.TL_documentAttributeVideo) {
+//                                size.width = attribute.w;
+//                                size.height = attribute.h;
+//                                break;
+//                            }
+//                        }
+//                        return size;
+//                    }
+//                });
+//                flowLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                    @Override
+//                    public int getSpanSize(int position) {
+//                        return flowLayoutManager.getSpanSizeForItem(position);
+//                    }
+//                });
+//                gifsGridView.addItemDecoration(new RecyclerView.ItemDecoration() {
+//                    @Override
+//                    public void getItemOffsets(android.graphics.Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+//                        outRect.left = 0;
+//                        outRect.top = 0;
+//                        outRect.bottom = 0;
+//                        int position = parent.getChildAdapterPosition(view);
+//                        if (!flowLayoutManager.isFirstRow(position)) {
+//                            outRect.top = AndroidUtilities.dp(2);
+//                        }
+//                        outRect.right = flowLayoutManager.isLastInRow(position) ? 0 : AndroidUtilities.dp(2);
+//                    }
+//                });
+//                gifsGridView.setOverScrollMode(RecyclerListView.OVER_SCROLL_NEVER);
+//                gifsGridView.setAdapter(gifsAdapter = new GifsAdapter(context));
+//                gifsGridView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//                    @Override
+//                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                        checkStickersTabY(recyclerView, dy);
+//                    }
+//                });
+//                gifsGridView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(View view, int position) {
+//                        if (position < 0 || position >= recentGifs.size() || listener == null) {
+//                            return;
+//                        }
+//                        listener.onGifSelected(recentGifs.get(position));
+//                    }
+//                });
+//                gifsGridView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() {
+//                    @Override
+//                    public boolean onItemClick(View view, int position) {
+//                        if (position < 0 || position >= recentGifs.size()) {
+//                            return false;
+//                        }
+//                        final TLRPC.Document searchImage = recentGifs.get(position);
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+//                        builder.setTitle("Privalino");
+//                        builder.setMessage(LocaleController.getString("DeleteGif", R.string.DeleteGif));
+//                        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK).toUpperCase(), new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                StickersQuery.removeRecentGif(searchImage);
+//                                recentGifs = StickersQuery.getRecentGifs();
+//                                if (gifsAdapter != null) {
+//                                    gifsAdapter.notifyDataSetChanged();
+//                                }
+//                                if (recentGifs.isEmpty()) {
+//                                    updateStickerTabs();
+//                                }
+//                            }
+//                        });
+//                        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+//                        builder.show().setCanceledOnTouchOutside(true);
+//                        return true;
+//                    }
+//                });
+//                gifsGridView.setVisibility(GONE);
+//                stickersWrap.addView(gifsGridView);
+//            }
+//
+//            stickersEmptyView = new TextView(context);
+//            stickersEmptyView.setText(LocaleController.getString("NoStickers", R.string.NoStickers));
+//            stickersEmptyView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+//            stickersEmptyView.setTextColor(Theme.getColor(Theme.key_chat_emojiPanelEmptyText));
+//            stickersWrap.addView(stickersEmptyView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 0, 48, 0, 0));
+//            stickersGridView.setEmptyView(stickersEmptyView);
+//
+//            stickersTab = new ScrollSlidingTabStrip(context) {
+//
+//                boolean startedScroll;
+//                float lastX;
+//                float lastTranslateX;
+//                boolean first = true;
+//                final int touchslop=ViewConfiguration.get(getContext()).getScaledTouchSlop();
+//                float downX, downY;
+//                boolean draggingVertically, draggingHorizontally;
+//                VelocityTracker vTracker;
+//
+//                @Override
+//                public boolean onInterceptTouchEvent(MotionEvent ev) {
+//                    if (getParent() != null) {
+//                        getParent().requestDisallowInterceptTouchEvent(true);
+//                    }
+//                    if(ev.getAction()==MotionEvent.ACTION_DOWN){
+//                        draggingVertically=draggingHorizontally=false;
+//                        downX=ev.getRawX();
+//                        downY=ev.getRawY();
+//                    }else{
+//                        if(!draggingVertically && !draggingHorizontally && dragListener!=null){
+//                            if(Math.abs(ev.getRawY()-downY)>=touchslop){
+//                                draggingVertically=true;
+//                                downY=ev.getRawY();
+//								dragListener.onDragStart();
+//                                if(startedScroll){
+//                                    pager.endFakeDrag();
+//                                    startedScroll=false;
+//                                }
+//                                return true;
+//                            }
+//                        }
+//                    }
+//                    return super.onInterceptTouchEvent(ev);
+//                }
+//
+//                @Override
+//                public boolean onTouchEvent(MotionEvent ev) {
+//                    if (first) {
+//                        first = false;
+//                        lastX = ev.getX();
+//                    }
+//                    if(ev.getAction()==MotionEvent.ACTION_DOWN){
+//                        draggingVertically=draggingHorizontally=false;
+//                        downX=ev.getRawX();
+//                        downY=ev.getRawY();
+//                    }else{
+//                        if(!draggingVertically && !draggingHorizontally && dragListener!=null){
+//                            if(Math.abs(ev.getRawX()-downX)>=touchslop){
+//                                draggingHorizontally=true;
+//                            }else if(Math.abs(ev.getRawY()-downY)>=touchslop){
+//                                draggingVertically=true;
+//                                downY=ev.getRawY();
+//                                dragListener.onDragStart();
+//                                if(startedScroll){
+//                                    pager.endFakeDrag();
+//                                    startedScroll=false;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    if(draggingVertically){
+//                        if(vTracker==null)
+//                            vTracker=VelocityTracker.obtain();
+//                        vTracker.addMovement(ev);
+//                        if(ev.getAction()==MotionEvent.ACTION_UP || ev.getAction()==MotionEvent.ACTION_CANCEL){
+//                            vTracker.computeCurrentVelocity(1000);
+//                            float velocity=vTracker.getYVelocity();
+//                            vTracker.recycle();
+//                            vTracker=null;
+//                            if(ev.getAction()==MotionEvent.ACTION_UP){
+//                                dragListener.onDragEnd(velocity);
+//                            }else{
+//                                dragListener.onDragCancel();
+//                            }
+//                            first=true;
+//                            draggingVertically=draggingHorizontally=false;
+//                        }else{
+//                            dragListener.onDrag(Math.round(ev.getRawY()-downY));
+//                        }
+//                        return true;
+//                    }
+//                    float newTranslationX = stickersTab.getTranslationX();
+//                    if (stickersTab.getScrollX() == 0 && newTranslationX == 0) {
+//                        if (!startedScroll && lastX - ev.getX() < 0) {
+//                            if (pager.beginFakeDrag()) {
+//                                startedScroll = true;
+//                                lastTranslateX = stickersTab.getTranslationX();
+//                            }
+//                        } else if (startedScroll && lastX - ev.getX() > 0) {
+//                            if (pager.isFakeDragging()) {
+//                                pager.endFakeDrag();
+//                                startedScroll = false;
+//                            }
+//                        }
+//                    }
+//                    if (startedScroll) {
+//                        int dx = (int) (ev.getX() - lastX + newTranslationX - lastTranslateX);
+//                        try {
+//                            pager.fakeDragBy(dx);
+//                            lastTranslateX = newTranslationX;
+//                        } catch (Exception e) {
+//                            try {
+//                                pager.endFakeDrag();
+//                            } catch (Exception e2) {
+//                                //don't promt
+//                            }
+//                            startedScroll = false;
+//                            FileLog.e(e);
+//                        }
+//                    }
+//                    lastX = ev.getX();
+//                    if (ev.getAction() == MotionEvent.ACTION_CANCEL || ev.getAction() == MotionEvent.ACTION_UP) {
+//                        first = true;
+//                        draggingVertically=draggingHorizontally=false;
+//                        if (startedScroll) {
+//                            pager.endFakeDrag();
+//                            startedScroll = false;
+//                        }
+//                    }
+//                    return startedScroll || super.onTouchEvent(ev);
+//                }
+//            };
+//            stickersTab.setUnderlineHeight(AndroidUtilities.dp(1));
+//            stickersTab.setIndicatorColor(Theme.getColor(Theme.key_chat_emojiPanelStickerPackSelector));
+//            stickersTab.setUnderlineColor(Theme.getColor(Theme.key_chat_emojiPanelStickerPackSelector));
+//            stickersTab.setBackgroundColor(Theme.getColor(Theme.key_chat_emojiPanelBackground));
+//            stickersTab.setVisibility(INVISIBLE);
+//            addView(stickersTab, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.LEFT | Gravity.TOP));
+//            stickersTab.setTranslationX(AndroidUtilities.displaySize.x);
+//            updateStickerTabs();
+//            stickersTab.setDelegate(new ScrollSlidingTabStrip.ScrollSlidingTabStripDelegate() {
+//                @Override
+//                public void onPageSelected(int page) {
+//                    if (gifsGridView != null) {
+//                        if (page == gifTabNum + 1) {
+//                            if (gifsGridView.getVisibility() != VISIBLE) {
+//                                listener.onGifTab(true);
+//                                showGifTab();
+//                            }
+//                        } else if (page == trendingTabNum + 1) {
+//                            if (trendingGridView.getVisibility() != VISIBLE) {
+//                                showTrendingTab();
+//                            }
+//                        } else {
+//                            if (gifsGridView.getVisibility() == VISIBLE) {
+//                                listener.onGifTab(false);
+//                                gifsGridView.setVisibility(GONE);
+//                                stickersGridView.setVisibility(VISIBLE);
+//                                stickersEmptyView.setVisibility(stickersGridAdapter.getItemCount() != 0 ? GONE : VISIBLE);
+//                                checkScroll();
+//                                saveNewPage();
+//                            } else if (trendingGridView.getVisibility() == VISIBLE) {
+//                                trendingGridView.setVisibility(GONE);
+//                                stickersGridView.setVisibility(VISIBLE);
+//                                stickersEmptyView.setVisibility(stickersGridAdapter.getItemCount() != 0 ? GONE : VISIBLE);
+//                                saveNewPage();
+//                            }
+//                        }
+//                    }
+//                    if (page == 0) {
+//                        pager.setCurrentItem(0);
+//                        return;
+//                    } else {
+//                        if (page == gifTabNum + 1 || page == trendingTabNum + 1) {
+//                            return;
+//                        } else if (page == recentTabBum + 1) {
+//                            stickersLayoutManager.scrollToPositionWithOffset(0, 0);
+//                            checkStickersTabY(null, 0);
+//                            stickersTab.onPageScrolled(recentTabBum + 1, (recentTabBum > 0 ? recentTabBum : stickersTabOffset) + 1);
+//                            return;
+//                        }
+//                    }
+//                    int index = page - 1 - stickersTabOffset;
+//                    if (index >= stickerSets.size()) {
+//                        if (listener != null) {
+//                            listener.onStickersSettingsClick();
+//                        }
+//                        return;
+//                    }
+//                    if (index >= stickerSets.size()) {
+//                        index = stickerSets.size() - 1;
+//                    }
+//                    stickersLayoutManager.scrollToPositionWithOffset(stickersGridAdapter.getPositionForPack(stickerSets.get(index)), 0);
+//                    checkStickersTabY(null, 0);
+//                    checkScroll();
+//                }
+//            });
+//
+//            stickersGridView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//
+//                @Override
+//                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                    checkScroll();
+//                    checkStickersTabY(recyclerView, dy);
+//                }
+//            });
+//        }
 
         pager = new ViewPager(context) {
             @Override
