@@ -324,19 +324,6 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                                 args.putBoolean("createSecretChat", false);
                                 args.putBoolean("allowBots", false);
                                 presentFragment(new ContactsActivity(args), false);
-                            } else if (row == 2) {
-                                if (!MessagesController.isFeatureEnabled("broadcast_create", ContactsActivity.this)) {
-                                    return;
-                                }
-                                SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
-                                if (!BuildVars.DEBUG_VERSION && preferences.getBoolean("channel_intro", false)) {
-                                    Bundle args = new Bundle();
-                                    args.putInt("step", 0);
-                                    presentFragment(new ChannelCreateActivity(args));
-                                } else {
-                                    presentFragment(new ChannelIntroActivity());
-                                    preferences.edit().putBoolean("channel_intro", true).commit();
-                                }
                             }
                         }
                     } else {
