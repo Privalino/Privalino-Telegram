@@ -8307,61 +8307,61 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                         } else if (update instanceof TLRPC.TL_updateReadFeaturedStickers) {
                             StickersQuery.markFaturedStickersAsRead(false);
                         } else if (update instanceof TLRPC.TL_updatePhoneCall) {
-                            TLRPC.TL_updatePhoneCall upd = (TLRPC.TL_updatePhoneCall) update;
-                            TLRPC.PhoneCall call = upd.phone_call;
-                            VoIPService svc = VoIPService.getSharedInstance();
-                            if (BuildVars.DEBUG_VERSION) {
-                                FileLog.d("Received call in update: "+call);
-                                FileLog.d("call id "+call.id);
-                            }
-                            if (call instanceof TLRPC.TL_phoneCallRequested) {
-                                if (call.date + callRingTimeout / 1000 < ConnectionsManager.getInstance().getCurrentTime()) {
-                                    if (BuildVars.DEBUG_VERSION)
-                                        FileLog.d("ignoring too old call");
-                                    continue;
-                                }
-                                TelephonyManager tm = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService(Context.TELEPHONY_SERVICE);
-                                if (svc != null || VoIPService.callIShouldHavePutIntoIntent!=null || tm.getCallState() != TelephonyManager.CALL_STATE_IDLE) {
-                                    if (BuildVars.DEBUG_VERSION) {
-                                        FileLog.d("Auto-declining call "+call.id+" because there's already active one");
-                                    }
-                                    TLRPC.TL_phone_discardCall req = new TLRPC.TL_phone_discardCall();
-                                    req.peer = new TLRPC.TL_inputPhoneCall();
-                                    req.peer.access_hash = call.access_hash;
-                                    req.peer.id = call.id;
-                                    req.reason = new TLRPC.TL_phoneCallDiscardReasonBusy();
-                                    ConnectionsManager.getInstance().sendRequest(req, new RequestDelegate() {
-                                        @Override
-                                        public void run(TLObject response, TLRPC.TL_error error) {
-                                            if (response != null) {
-                                                TLRPC.Updates updates = (TLRPC.Updates) response;
-                                                processUpdates(updates, false);
-                                            }
-                                        }
-                                    });
-                                    continue;
-                                }
-                                if (BuildVars.DEBUG_VERSION) {
-                                    FileLog.d("Starting service for call "+call.id);
-                                }
-                                VoIPService.callIShouldHavePutIntoIntent = call;
-                                Intent intent = new Intent(ApplicationLoader.applicationContext, VoIPService.class);
-                                intent.putExtra("is_outgoing", false);
-                                intent.putExtra("user_id", call.participant_id == UserConfig.getClientUserId() ? call.admin_id : call.participant_id);
-                                ApplicationLoader.applicationContext.startService(intent);
-                            } else {
-                                if (svc != null && call != null) {
-                                    svc.onCallUpdated(call);
-                                } else if (VoIPService.callIShouldHavePutIntoIntent != null) {
-                                    FileLog.d("Updated the call while the service is starting");
-                                    if (call.id == VoIPService.callIShouldHavePutIntoIntent.id) {
-                                        VoIPService.callIShouldHavePutIntoIntent = call;
-                                    }
-                                }
-                            }
-                        } else if (update instanceof TLRPC.TL_updateGroupCall) {
+                        //     TLRPC.TL_updatePhoneCall upd = (TLRPC.TL_updatePhoneCall) update;
+                        //     TLRPC.PhoneCall call = upd.phone_call;
+                        //     VoIPService svc = VoIPService.getSharedInstance();
+                        //     if (BuildVars.DEBUG_VERSION) {
+                        //         FileLog.d("Received call in update: "+call);
+                        //         FileLog.d("call id "+call.id);
+                        //     }
+                        //     if (call instanceof TLRPC.TL_phoneCallRequested) {
+                        //         if (call.date + callRingTimeout / 1000 < ConnectionsManager.getInstance().getCurrentTime()) {
+                        //             if (BuildVars.DEBUG_VERSION)
+                        //                 FileLog.d("ignoring too old call");
+                        //             continue;
+                        //         }
+                        //         TelephonyManager tm = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService(Context.TELEPHONY_SERVICE);
+                        //         if (svc != null || VoIPService.callIShouldHavePutIntoIntent!=null || tm.getCallState() != TelephonyManager.CALL_STATE_IDLE) {
+                        //             if (BuildVars.DEBUG_VERSION) {
+                        //                 FileLog.d("Auto-declining call "+call.id+" because there's already active one");
+                        //             }
+                        //             TLRPC.TL_phone_discardCall req = new TLRPC.TL_phone_discardCall();
+                        //             req.peer = new TLRPC.TL_inputPhoneCall();
+                        //             req.peer.access_hash = call.access_hash;
+                        //             req.peer.id = call.id;
+                        //             req.reason = new TLRPC.TL_phoneCallDiscardReasonBusy();
+                        //             ConnectionsManager.getInstance().sendRequest(req, new RequestDelegate() {
+                        //                 @Override
+                        //                 public void run(TLObject response, TLRPC.TL_error error) {
+                        //                     if (response != null) {
+                        //                         TLRPC.Updates updates = (TLRPC.Updates) response;
+                        //                         processUpdates(updates, false);
+                        //                     }
+                        //                 }
+                        //             });
+                        //             continue;
+                        //         }
+                        //         if (BuildVars.DEBUG_VERSION) {
+                        //             FileLog.d("Starting service for call "+call.id);
+                        //         }
+                        //         VoIPService.callIShouldHavePutIntoIntent = call;
+                        //         Intent intent = new Intent(ApplicationLoader.applicationContext, VoIPService.class);
+                        //         intent.putExtra("is_outgoing", false);
+                        //         intent.putExtra("user_id", call.participant_id == UserConfig.getClientUserId() ? call.admin_id : call.participant_id);
+                        //         ApplicationLoader.applicationContext.startService(intent);
+                        //     } else {
+                        //         if (svc != null && call != null) {
+                        //             svc.onCallUpdated(call);
+                        //         } else if (VoIPService.callIShouldHavePutIntoIntent != null) {
+                        //             FileLog.d("Updated the call while the service is starting");
+                        //             if (call.id == VoIPService.callIShouldHavePutIntoIntent.id) {
+                        //                 VoIPService.callIShouldHavePutIntoIntent = call;
+                        //             }
+                        //         }
+                        //     }
+                        // } else if (update instanceof TLRPC.TL_updateGroupCall) {
 
-                        } else if (update instanceof TLRPC.TL_updateGroupCallParticipant) {
+                        // } else if (update instanceof TLRPC.TL_updateGroupCallParticipant) {
 
                         }
                     }
