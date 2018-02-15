@@ -151,7 +151,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
             if (messageObject.media.document != null)
             {
                 messageObject.media.document = new TLRPC.TL_documentEmpty();
-                messageObject.media.caption = "Dateien sind bei Privalino zu deiner Sicherheit gesperrt. " + messageObject.media.caption;
+//                messageObject.media.caption = "Dateien sind bei Privalino zu deiner Sicherheit gesperrt. " + messageObject.media.caption;
             }
         }
     }
