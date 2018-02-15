@@ -390,45 +390,47 @@ public class MessageObject {
                 }
             }
         } else if (!isMediaEmpty()) {
-            if (message.media instanceof TLRPC.TL_messageMediaPhoto) {
-                messageText = LocaleController.getString("AttachPhoto", R.string.AttachPhoto);
-            } else if (isVideo() || message.media instanceof TLRPC.TL_messageMediaDocument && message.media.document instanceof TLRPC.TL_documentEmpty && message.media.ttl_seconds != 0) {
-                messageText = LocaleController.getString("AttachVideo", R.string.AttachVideo);
-            } else if (isVoice()) {
-                messageText = LocaleController.getString("AttachAudio", R.string.AttachAudio);
-            } else if (isRoundVideo()) {
-                messageText = LocaleController.getString("AttachRound", R.string.AttachRound);
-            } else if (message.media instanceof TLRPC.TL_messageMediaGeo || message.media instanceof TLRPC.TL_messageMediaVenue) {
-                messageText = LocaleController.getString("AttachLocation", R.string.AttachLocation);
-            } else if (message.media instanceof TLRPC.TL_messageMediaContact) {
-                messageText = LocaleController.getString("AttachContact", R.string.AttachContact);
-            } else if (message.media instanceof TLRPC.TL_messageMediaGame) {
-                messageText = message.message;
-            } else if (message.media instanceof TLRPC.TL_messageMediaInvoice) {
-                messageText = message.media.description;
-            } else if (message.media instanceof TLRPC.TL_messageMediaUnsupported) {
-                messageText = LocaleController.getString("UnsupportedMedia", R.string.UnsupportedMedia);
-            } else if (message.media instanceof TLRPC.TL_messageMediaDocument) {
-                if (isSticker()) {
-                    String sch = getStrickerChar();
-                    if (sch != null && sch.length() > 0) {
-                        messageText = String.format("%s %s", sch, LocaleController.getString("AttachSticker", R.string.AttachSticker));
-                    } else {
-                        messageText = LocaleController.getString("AttachSticker", R.string.AttachSticker);
-                    }
-                } else if (isMusic()) {
-                    messageText = LocaleController.getString("AttachMusic", R.string.AttachMusic);
-                } else if (isGif()) {
-                    messageText = LocaleController.getString("AttachGif", R.string.AttachGif);
-                } else {
-                    String name = FileLoader.getDocumentFileName(message.media.document);
-                    if (name != null && name.length() > 0) {
-                        messageText = name;
-                    } else {
-                        messageText = LocaleController.getString("AttachDocument", R.string.AttachDocument);
-                    }
-                }
-            }
+            messageText = "[Anhang von Privalino blockiert]";
+//            if (message.media instanceof TLRPC.TL_messageMediaPhoto) {
+//                messageText = LocaleController.getString("AttachPhoto", R.string.AttachPhoto);
+//            } else if (isVideo() || message.media instanceof TLRPC.TL_messageMediaDocument && message.media.document instanceof TLRPC.TL_documentEmpty && message.media.ttl_seconds != 0) {
+//                messageText = LocaleController.getString("AttachVideo", R.string.AttachVideo);
+//            } else if (isVoice()) {
+//                messageText = LocaleController.getString("AttachAudio", R.string.AttachAudio);
+//            } else if (isRoundVideo()) {
+//                messageText = LocaleController.getString("AttachRound", R.string.AttachRound);
+//            } else if (message.media instanceof TLRPC.TL_messageMediaGeo || message.media instanceof TLRPC.TL_messageMediaVenue) {
+//                messageText = LocaleController.getString("AttachLocation", R.string.AttachLocation);
+//            } else if (message.media instanceof TLRPC.TL_messageMediaContact) {
+//                messageText = LocaleController.getString("AttachContact", R.string.AttachContact);
+//            } else if (message.media instanceof TLRPC.TL_messageMediaGame) {
+//                messageText = message.message;
+//            } else if (message.media instanceof TLRPC.TL_messageMediaInvoice) {
+//                messageText = message.media.description;
+//            } else if (message.media instanceof TLRPC.TL_messageMediaUnsupported) {
+//                messageText = LocaleController.getString("UnsupportedMedia", R.string.UnsupportedMedia);
+//            } else if (message.media instanceof TLRPC.TL_messageMediaDocument) {
+//                return;
+//                if (isSticker()) {
+//                    String sch = getStrickerChar();
+//                    if (sch != null && sch.length() > 0) {
+//                        messageText = String.format("%s %s", sch, LocaleController.getString("AttachSticker", R.string.AttachSticker));
+//                    } else {
+//                        messageText = LocaleController.getString("AttachSticker", R.string.AttachSticker);
+//                    }
+//                } else if (isMusic()) {
+//                    messageText = LocaleController.getString("AttachMusic", R.string.AttachMusic);
+//                } else if (isGif()) {
+//                    messageText = LocaleController.getString("AttachGif", R.string.AttachGif);
+//                } else {
+//                    String name = FileLoader.getDocumentFileName(message.media.document);
+//                    if (name != null && name.length() > 0) {
+//                        messageText = name;
+//                    } else {
+//                        messageText = LocaleController.getString("AttachDocument", R.string.AttachDocument);
+//                    }
+//                }
+//            }
         } else {
             messageText = message.message;
         }
@@ -447,23 +449,23 @@ public class MessageObject {
         dateKey = String.format("%d_%02d_%02d", dateYear, dateMonth, dateDay);
         monthKey = String.format("%d_%02d", dateYear, dateMonth);
 
-        if (messageOwner.message != null && messageOwner.id < 0 && messageOwner.message.length() > 6 && (isVideo() || isNewGif() || isRoundVideo())) {
-            videoEditedInfo = new VideoEditedInfo();
-            if (!videoEditedInfo.parseString(messageOwner.message)) {
-                videoEditedInfo = null;
-            } else {
-                videoEditedInfo.roundVideo = isRoundVideo();
-            }
-        }
+//        if (messageOwner.message != null && messageOwner.id < 0 && messageOwner.message.length() > 6 && (isVideo() || isNewGif() || isRoundVideo())) {
+//            videoEditedInfo = new VideoEditedInfo();
+//            if (!videoEditedInfo.parseString(messageOwner.message)) {
+//                videoEditedInfo = null;
+//            } else {
+//                videoEditedInfo.roundVideo = isRoundVideo();
+//            }
+//        }
 
         generateCaption();
         if (generateLayout) {
             TextPaint paint;
-            if (messageOwner.media instanceof TLRPC.TL_messageMediaGame) {
-                paint = Theme.chat_msgGameTextPaint;
-            } else {
+//            if (messageOwner.media instanceof TLRPC.TL_messageMediaGame) {
+//                paint = Theme.chat_msgGameTextPaint;
+//            } else {
                 paint = Theme.chat_msgTextPaint;
-            }
+//            }
             int[] emojiOnly = MessagesController.getInstance().allowBigEmoji ? new int[1] : null;
             messageText = Emoji.replaceEmoji(messageText, paint.getFontMetricsInt(), AndroidUtilities.dp(20), false, emojiOnly);
             if (emojiOnly != null && emojiOnly[0] >= 1 && emojiOnly[0] <= 3) {
@@ -1137,76 +1139,79 @@ public class MessageObject {
     }
 
     public void setType() {
-        int oldType = type;
-        if (messageOwner instanceof TLRPC.TL_message || messageOwner instanceof TLRPC.TL_messageForwarded_old2) {
-            if (isMediaEmpty()) {
-                type = 0;
-                if (TextUtils.isEmpty(messageText) && eventId == 0) {
-                    messageText = "Empty message";
-                }
-            } else if (messageOwner.media.ttl_seconds != 0 && (messageOwner.media.photo instanceof TLRPC.TL_photoEmpty || messageOwner.media.document instanceof TLRPC.TL_documentEmpty)) {
-                contentType = 1;
-                type = 10;
-            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaPhoto) {
-                type = 1;
-            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaGeo || messageOwner.media instanceof TLRPC.TL_messageMediaVenue) {
-                type = 4;
-            } else if (isRoundVideo()) {
-                type = 5;
-            } else if (isVideo()) {
-                type = 3;
-            } else if (isVoice()) {
-                type = 2;
-            } else if (isMusic()) {
-                type = 14;
-            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaContact) {
-                type = 12;
-            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaUnsupported) {
-                type = 0;
-            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaDocument) {
-                if (messageOwner.media.document != null && messageOwner.media.document.mime_type != null) {
-                    if (isGifDocument(messageOwner.media.document)) {
-                        type = 8;
-                    } else if (messageOwner.media.document.mime_type.equals("image/webp") && isSticker()) {
-                        type = 13;
-                    } else {
-                        type = 9;
-                    }
-                } else {
-                    type = 9;
-                }
-            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaGame) {
-                type = 0;
-            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaInvoice) {
-                type = 0;
-            }
-        } else if (messageOwner instanceof TLRPC.TL_messageService) {
-            if (messageOwner.action instanceof TLRPC.TL_messageActionLoginUnknownLocation) {
-                type = 0;
-            } else if (messageOwner.action instanceof TLRPC.TL_messageActionChatEditPhoto || messageOwner.action instanceof TLRPC.TL_messageActionUserUpdatedPhoto) {
-                contentType = 1;
-                type = 11;
-            } else if (messageOwner.action instanceof TLRPC.TL_messageEncryptedAction) {
-                if (messageOwner.action.encryptedAction instanceof TLRPC.TL_decryptedMessageActionScreenshotMessages || messageOwner.action.encryptedAction instanceof TLRPC.TL_decryptedMessageActionSetMessageTTL) {
-                    contentType = 1;
-                    type = 10;
-                } else {
-                    contentType = -1;
-                    type = -1;
-                }
-            } else if (messageOwner.action instanceof TLRPC.TL_messageActionHistoryClear) {
-                contentType = -1;
-                type = -1;
-            } else if (messageOwner.action instanceof TLRPC.TL_messageActionPhoneCall) {
-                type = 16;
-            } else {
-                contentType = 1;
-                type = 10;
-            }
-        }
-        if (oldType != 1000 && oldType != type) {
-            generateThumbs(false);
-        }
+        // XXX Treat all messages as normal messages
+        type = 0;
+
+//        int oldType = type;
+//        if (messageOwner instanceof TLRPC.TL_message || messageOwner instanceof TLRPC.TL_messageForwarded_old2) {
+//            if (isMediaEmpty()) {
+//                type = 0;
+//                if (TextUtils.isEmpty(messageText) && eventId == 0) {
+//                    messageText = "Empty message";
+//                }
+//            } else if (messageOwner.media.ttl_seconds != 0 && (messageOwner.media.photo instanceof TLRPC.TL_photoEmpty || messageOwner.media.document instanceof TLRPC.TL_documentEmpty)) {
+//                contentType = 1;
+//                type = 10;
+//            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaPhoto) {
+//                type = 1;
+//            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaGeo || messageOwner.media instanceof TLRPC.TL_messageMediaVenue) {
+//                type = 4;
+//            } else if (isRoundVideo()) {
+//                type = 5;
+//            } else if (isVideo()) {
+//                type = 3;
+//            } else if (isVoice()) {
+//                type = 2;
+//            } else if (isMusic()) {
+//                type = 14;
+//            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaContact) {
+//                type = 12;
+//            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaUnsupported) {
+//                type = 0;
+//            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaDocument) {
+//                if (messageOwner.media.document != null && messageOwner.media.document.mime_type != null) {
+//                    if (isGifDocument(messageOwner.media.document)) {
+//                        type = 8;
+//                    } else if (messageOwner.media.document.mime_type.equals("image/webp") && isSticker()) {
+//                        type = 13;
+//                    } else {
+//                        type = 9;
+//                    }
+//                } else {
+//                    type = 9;
+//                }
+//            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaGame) {
+//                type = 0;
+//            } else if (messageOwner.media instanceof TLRPC.TL_messageMediaInvoice) {
+//                type = 0;
+//            }
+//        } else if (messageOwner instanceof TLRPC.TL_messageService) {
+//            if (messageOwner.action instanceof TLRPC.TL_messageActionLoginUnknownLocation) {
+//                type = 0;
+//            } else if (messageOwner.action instanceof TLRPC.TL_messageActionChatEditPhoto || messageOwner.action instanceof TLRPC.TL_messageActionUserUpdatedPhoto) {
+//                contentType = 1;
+//                type = 11;
+//            } else if (messageOwner.action instanceof TLRPC.TL_messageEncryptedAction) {
+//                if (messageOwner.action.encryptedAction instanceof TLRPC.TL_decryptedMessageActionScreenshotMessages || messageOwner.action.encryptedAction instanceof TLRPC.TL_decryptedMessageActionSetMessageTTL) {
+//                    contentType = 1;
+//                    type = 10;
+//                } else {
+//                    contentType = -1;
+//                    type = -1;
+//                }
+//            } else if (messageOwner.action instanceof TLRPC.TL_messageActionHistoryClear) {
+//                contentType = -1;
+//                type = -1;
+//            } else if (messageOwner.action instanceof TLRPC.TL_messageActionPhoneCall) {
+//                type = 16;
+//            } else {
+//                contentType = 1;
+//                type = 10;
+//            }
+//        }
+//        if (oldType != 1000 && oldType != type) {
+//            generateThumbs(false);
+//        }
     }
 
     public boolean checkLayout() {
@@ -1801,11 +1806,11 @@ public class MessageObject {
         StaticLayout textLayout;
 
         TextPaint paint;
-        if (messageOwner.media instanceof TLRPC.TL_messageMediaGame) {
-            paint = Theme.chat_msgGameTextPaint;
-        } else {
+//        if (messageOwner.media instanceof TLRPC.TL_messageMediaGame) {
+//            paint = Theme.chat_msgGameTextPaint;
+//        } else {
             paint = Theme.chat_msgTextPaint;
-        }
+//        }
 
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
