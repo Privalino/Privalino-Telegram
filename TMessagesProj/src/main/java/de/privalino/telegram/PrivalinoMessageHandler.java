@@ -145,7 +145,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
             // If it is a photo, it will be overriden with a blank photo
             if (messageObject.media.photo != null) {
                 messageObject.media.photo = new TLRPC.TL_photoEmpty();
-                messageObject.media.caption = "Bilder sind bei Privalino zu deiner Sicherheit gesperrt. " + messageObject.media.caption;
+//                messageObject.media.caption = "Bilder sind bei Privalino zu deiner Sicherheit gesperrt. " + messageObject.media.caption;
                 messageObject.media.webpage = null;
             }
             if (messageObject.media.document != null)
