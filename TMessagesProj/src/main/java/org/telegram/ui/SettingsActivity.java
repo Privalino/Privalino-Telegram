@@ -29,6 +29,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.text.Html;
@@ -108,6 +109,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import de.privalino.telegram.PrivalinoOnboardHandler;
+import de.privalino.telegram.model.Child;
+import de.privalino.telegram.model.Parent;
+
+import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_FROM_SETTINGS;
+import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_IS_PARENT;
+import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
+
 public class SettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private RecyclerListView listView;
@@ -136,6 +145,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
     private int enableAnimationsRow;
     private int notificationRow;
     private int backgroundRow;
+    private int onBoardingRow;
     private int themeRow;
     private int privacyRow;
     private int dataRow;
@@ -287,6 +297,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         privacyRow = rowCount++;
         dataRow = rowCount++;
         backgroundRow = rowCount++;
+        onBoardingRow = rowCount++;
         themeRow = rowCount++;
         enableAnimationsRow = rowCount++;
         messagesSectionRow = rowCount++;
@@ -339,7 +350,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
     }
 
     @Override
-    public View createView(Context context) {
+    public View createView(final Context context) {
         actionBar.setBackgroundColor(Theme.getColor(Theme.key_avatar_backgroundActionBarBlue));
         actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_avatar_actionBarSelectorBlue), false);
         actionBar.setItemsColor(Theme.getColor(Theme.key_avatar_actionBarIconBlue), false);
@@ -466,6 +477,22 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                     presentFragment(new NotificationsSettingsActivity());
                 } else if (position == backgroundRow) {
                     presentFragment(new WallpapersActivity());
+                } else if (position == onBoardingRow){
+                    SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, Activity.MODE_PRIVATE);
+                    Class next = null;
+                    if (preferences.getBoolean(SHAREDPREFS_KEY_IS_PARENT, true)){
+                        next = ParentEmailActivity.class;
+                        PrivalinoOnboardHandler.parentModel = new Parent();
+                        PrivalinoOnboardHandler.parentModel.initialize(context);
+
+                    } else {
+                        PrivalinoOnboardHandler.childModel = new Child();
+                        PrivalinoOnboardHandler.childModel.initialize(context);
+                        next = AddParentPhoneActivity.class;
+                    }
+                    Intent intent = new Intent(context, next);
+                    intent.putExtra(INTENT_EXTRA_KEY_FROM_SETTINGS, true);
+                    context.startActivity(intent);
                 } else if (position == askQuestionRow) {
                     if (getParentActivity() == null) {
                         return;
@@ -1220,6 +1247,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                         textCell.setText(LocaleController.getString("NotificationsAndSounds", R.string.NotificationsAndSounds), true);
                     } else if (position == backgroundRow) {
                         textCell.setText(LocaleController.getString("ChatBackground", R.string.ChatBackground), true);
+                    } else if (position == onBoardingRow){
+                        textCell.setText(mContext.getResources().getString(R.string.connect_parent_with_child), true);
                     } else if (position == sendLogsRow) {
                         textCell.setText("Send Logs", true);
                     } else if (position == clearLogsRow) {
