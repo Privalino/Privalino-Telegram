@@ -85,6 +85,8 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import de.privalino.telegram.PrivalinoOnboardHandler;
+
 @SuppressLint("HardwareIds")
 public class LoginActivity extends BaseFragment {
 
@@ -539,6 +541,7 @@ public class LoginActivity extends BaseFragment {
         clearCurrentState();
         presentFragment(new DialogsActivity(null), true);
         NotificationCenter.getInstance().postNotificationName(NotificationCenter.mainUserInfoChanged);
+
     }
 
     private void fillNextCodeParams(Bundle params, TLRPC.TL_auth_sentCode res) {

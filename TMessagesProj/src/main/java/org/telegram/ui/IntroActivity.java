@@ -67,6 +67,8 @@ import javax.microedition.khronos.egl.EGLSurface;
 import javax.microedition.khronos.opengles.GL;
 import javax.microedition.khronos.opengles.GL10;
 
+import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_FROM_INTRO;
+
 public class IntroActivity extends Activity implements NotificationCenter.NotificationCenterDelegate {
 
     private class BottomPagesView extends View {
@@ -276,8 +278,9 @@ public class IntroActivity extends Activity implements NotificationCenter.Notifi
                     return;
                 }
                 startPressed = true;
-                Intent intent2 = new Intent(IntroActivity.this, LaunchActivity.class);
-                intent2.putExtra("fromIntro", true);
+//                Intent intent2 = new Intent(IntroActivity.this, LaunchActivity.class);
+                Intent intent2 = new Intent(IntroActivity.this, OnboardingIntroActivity.class);
+//                intent2.putExtra("fromIntro", true);
                 startActivity(intent2);
                 finish();
             }
@@ -309,7 +312,7 @@ public class IntroActivity extends Activity implements NotificationCenter.Notifi
                 LocaleController.getInstance().applyLanguage(localeInfo, true);
                 startPressed = true;
                 Intent intent2 = new Intent(IntroActivity.this, LaunchActivity.class);
-                intent2.putExtra("fromIntro", true);
+                intent2.putExtra(INTENT_EXTRA_KEY_FROM_INTRO, true);
                 startActivity(intent2);
                 finish();
             }

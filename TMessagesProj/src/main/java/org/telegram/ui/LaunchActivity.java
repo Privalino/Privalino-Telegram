@@ -10,6 +10,7 @@ package org.telegram.ui;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Application;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.ActionMode;
 import android.view.KeyEvent;
@@ -92,6 +94,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.privalino.telegram.PrivalinoOnboardHandler;
+import de.privalino.telegram.model.Child;
+import de.privalino.telegram.model.Parent;
+
+import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_FROM_SETTINGS;
+import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_IS_PARENT;
+import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_USER_TYPE_SELECTED;
+import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
+
 public class LaunchActivity extends Activity implements ActionBarLayout.ActionBarLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
 
     private boolean finished;
@@ -156,6 +167,9 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             if (Math.abs(crashed_time - System.currentTimeMillis()) >= 60 * 2 * 1000 && intent != null && !fromIntro) {
                 preferences = ApplicationLoader.applicationContext.getSharedPreferences("logininfo2", MODE_PRIVATE);
                 Map<String, ?> state = preferences.getAll();
+
+                preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, MODE_PRIVATE);
+
                 if (state.isEmpty()) {
                     Intent intent2 = new Intent(this, IntroActivity.class);
                     intent2.setData(intent.getData());
@@ -163,6 +177,43 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     super.onCreate(savedInstanceState);
                     finish();
                     return;
+                } else {
+                    if (!preferences.getBoolean(SHAREDPREFS_KEY_USER_TYPE_SELECTED, false)){
+                        startActivity(new Intent(this, OnboardingIntroActivity.class));
+                        super.onCreate(savedInstanceState);
+                        finish();
+                        return;
+                    }
+
+                    if (preferences.getBoolean(SHAREDPREFS_KEY_IS_PARENT, true)) {
+
+                        Class[] screens = new Class[]{ParentEmailActivity.class, AddChildPhoneActivity.class, AddChildAgeActivity.class};
+                        int i = 0;
+                        //find the first index of an activity class in the array screens which was not filled in previous on boardings
+                        while (i < screens.length && preferences.getBoolean(screens[i].toString(), false))
+                            ++i;
+                        // if such activity exists start it and initialize the model
+                        if (i < screens.length) {
+                            PrivalinoOnboardHandler.parentModel = new Parent();
+                            PrivalinoOnboardHandler.parentModel.initialize(getApplicationContext());
+                            startActivity(new Intent(this, screens[i]));
+                            super.onCreate(savedInstanceState);
+                            finish();
+                            return;
+                        }
+                    } else {
+                        // if the on boarding activity was not filled
+                        if (!preferences.getBoolean(AddParentPhoneActivity.class.toString(), false)) {
+                            //start it, initialize the model
+                            PrivalinoOnboardHandler.childModel = new Child();
+                            PrivalinoOnboardHandler.childModel.initialize(getApplicationContext());
+                            startActivity(new Intent(this, AddParentPhoneActivity.class));
+                            super.onCreate(savedInstanceState);
+                            finish();
+                            return;
+                        }
+                    }
+
                 }
             }
         }
@@ -396,12 +447,29 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         drawerLayoutContainer.closeDrawer(false);
                     }
                 } else if (id == 7) {
+                    SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, Activity.MODE_PRIVATE);
+                    Class next = null;
+                    if (preferences.getBoolean(SHAREDPREFS_KEY_IS_PARENT, true)){
+                        next = ParentEmailActivity.class;
+                        PrivalinoOnboardHandler.parentModel = new Parent();
+                        PrivalinoOnboardHandler.parentModel.initialize(LaunchActivity.this);
+
+                    } else {
+                        PrivalinoOnboardHandler.childModel = new Child();
+                        PrivalinoOnboardHandler.childModel.initialize(LaunchActivity.this);
+                        next = AddParentPhoneActivity.class;
+                    }
+                    Intent intent = new Intent(LaunchActivity.this, next);
+                    intent.putExtra(INTENT_EXTRA_KEY_FROM_SETTINGS, true);
+                    startActivity(intent);
+
+                } else if (id == 8) {
                     presentFragment(new SettingsActivity());
                     drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 8) {
+                } else if (id == 9) {
                     Browser.openUrl(LaunchActivity.this, LocaleController.getString("TelegramFaqUrl", R.string.TelegramFaqUrl));
                     drawerLayoutContainer.closeDrawer(false);
-               }
+                }
             }
         });
 
@@ -1839,6 +1907,12 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+
+        if (requestCode == 1) {
+//
+        }
+
         if (requestCode == 3 || requestCode == 4 || requestCode == 5 || requestCode == 19 || requestCode == 20) {
             boolean showAlert = true;
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
