@@ -53,8 +53,7 @@ public class AddChildPhoneActivity extends Activity {
     //dynamic model to keep track when a child has been deleted so the data is updated to the right child object
     ArrayList<Parent.Child> currentChildren = null;
 
-
-    @Override
+     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -72,6 +71,7 @@ public class AddChildPhoneActivity extends Activity {
      * Initializes the model from the data stored in shared preferences, if there is any.
      */
     private void initialize() {
+
         String data = preferences.getString(SHAREDPREFS_KEY_CHILDREN, "");
         if (!data.isEmpty()){
             parentModel.parseChildren(data);
@@ -446,6 +446,14 @@ public class AddChildPhoneActivity extends Activity {
             }
         }
         return count;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(currentChildren == null){
+            currentChildren = new ArrayList<>(parentModel.getChildren());
+        }
     }
 
     @Override
