@@ -1722,4 +1722,44 @@
     <string name="formatDateAtTime">%1$s um %2$s</string>
     <string name="SetupPrivalino">Privalino einrichten</string>
     <string name="PrivalinoTerms">Hallo, ich bin Privalino,\ndas Sicherheitssystem deines Gesprächspartners. Ich achte darauf, dass nur für Kinder geeignete Kommunikation stattfindet. Indem du weiter schreibst, stimmst du der Datenschutzvereinbarung unter https://www.privalino.de/agb-messenger/ zu.\nErfahre mehr unter: https://www.privalino.de\nViel Spaß beim Chatten!</string>
+    <string name="gcm_defaultSenderId">0</string> <!--added because it was used in the project and missing, don't know what the value should be -->
+    <string name="greeting_text">Ich bin Privalino, der sichere\n Messenger für Kinder.\n\n Bitte beantworte ein paar Fragen,\n bevor du mit dem Chatten\n loslegen kannst.</string>
+
+    <string name="title_activity_parent_onboard">ParentOnboardActivity</string>
+
+    <string name="parent_welcome_text">Privalino hilft dir, deine Kinder vor\n Cyber-Grooming und Mobbing\n zu schützen.\n\n Damit das klappt, brauchen wir die\n Telefonnummer deines Kindes\n sowie deine E-Mail-Adresse.</string>
+    <string name="email_address_text">Deine E-Mail-Adresse</string>
+
+    <string name="title_activity_add_child_phone">AddChildPhoneActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="child_phone_text">Telefonnummern\n deiner Kinder</string>
+    <string name="parent_phone_text">Telefonnummern\n deiner Eltern</string>
+    <string name="skip_text">Überspringen</string>
+    <string name="phone_number_hint">000 00 00 00</string>
+    <string name="country_code_hint">+49</string>
+    <string name="germany_country_code_text">+49</string>
+    <string name="name_hint">Vorname (optional)</string>
+    <string name="age_explanation_text">Privalino kann dein Kind besser\n beschützen, wenn wir wissen,\n wie alt es ist.\n\n Du kannst deshalb optional hier\n das Geburtsjahr angeben.</string>
+    <string name="age_text">Geburtsjahr:</string>
+    <string name="hi_text">Hi,</string>
+    <string name="child_intro_text">Privalino hilft deinen Eltern und dir,\n dich vor bösen Menschen zu schützen.\n\n Damit das klappt, brauchen wir die Telefonnummer einer deiner Eltern. </string>
+    <string name="parent_outro_title">Danke für dein\n Vertrauen in Privalino.</string>
+    <string name="parent_outro_text">Du kannst die Einstellungen jederzeit im \nMenüpunkt “Eltern und Kind \nverbinden” ändern.</string>
+    <string name="child_outro_title">Danke! Viel Spaß beim\n Nutzen von Privalino.</string>
+    <string name="child_outro_text">Sag deinen Freunden Bescheid, damit\n auch sie sicher chatten können!</string>
+    <string name="child_text">Kind</string>
+    <string name="parent_text">Elternteil</string>
+    <string name="are_you_text">Bist du...</string>
+    <string name="email_warning">E-Mail ist nicht gültig</string>
+    <string name="phone_empty_warning">Keine Telefonnummer eingegeben</string>
+    <string name="phone_invalid_warning">Telefonnummer ungültig</string>
+    <string name="no_phones_warning">Keine Telefonnummern eingegeben</string>
+    <string name="phone_number_delete_warning">Kann nicht die einzige Telefonnummer löschen</string>
+    <string name="error_warning">Es tut uns leid, aber etwas ist falsch, bitte versuchen Sie es erneut</string>
+    <string name="permission_warning">Die Erlaubnis, auf Ihre Kontakte zuzugreifen, wurde abgelehnt</string>
+    <string name="connect_parent_with_child">Eltern und Kind verbinden</string>
+    <string name="children_limit_warning">Leider ist die Anzahl der Kinder auf 6 begrenzt</string>
+    <string name="parent_limit_warning">Leider ist die Anzahl der Eltern auf 3 beschränkt</string>
+    <string name="user_selection_warning">Bitte wählen Sie einen Benutzertyp</string>
 </resources>

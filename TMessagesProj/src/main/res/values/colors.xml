@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="divider">#dcdcdc</color>
+    <color name="privolino_background">#FF2A9D8F</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#C2000000</color>
+    <color name="transparent_white">#C2FFFFFF</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="parent_background">#FF264653</color>
+    <color name="child_background">#FFE76F51</color>
+    <color name="parent_phone_hint">#4DFFFFFF</color>
+    <color name="skip">#B3FFFFFF</color>
+
 </resources>
