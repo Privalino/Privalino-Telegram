@@ -29,7 +29,7 @@
             >
             <EditText
                 android:id="@+id/phone_edit_text"
-                android:layout_width="178dp"
+                android:layout_width="170dp"
                 android:layout_height="24dp"
                 android:layout_toRightOf="@+id/code_edit_text"
                 android:width="150dp"
