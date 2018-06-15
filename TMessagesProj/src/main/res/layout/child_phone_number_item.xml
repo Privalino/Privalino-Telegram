@@ -27,7 +27,7 @@
 
             <EditText
                 android:id="@+id/phone_edit_text"
-                android:layout_width="178dp"
+                android:layout_width="170dp"
                 android:layout_height="24dp"
                 android:layout_toEndOf="@+id/code_edit_text"
                 android:layout_toRightOf="@+id/code_edit_text"
@@ -57,7 +57,7 @@
             android:layout_height="24dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="12dp"
-            android:width="198dp"
+            android:width="190dp"
             android:height="24dp"
             android:background="@android:color/transparent"
             android:hint="@string/name_hint"
@@ -90,16 +90,13 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/phone_number_layout"
-            android:gravity="center_vertical"
-            android:layout_toRightOf="@+id/phone_number_layout"
-            >
+            android:gravity="center_vertical">
 
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_alignParentTop="true"
-                android:src="@drawable/ic_contacts"
-                />
+                android:src="@drawable/ic_contacts" />
         </RelativeLayout>
 
         <ImageView
