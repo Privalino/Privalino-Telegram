@@ -21,6 +21,7 @@ import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_CHILDREN;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_EMAIL;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_PARENTS;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
+import static de.privalino.telegram.AppConstants.USER_TYPE_CHILD;
 
 public class Child {
 
@@ -84,7 +85,7 @@ public class Child {
      * @param context application context to get the android id
      */
     public void initialize(Context context){
-        this.setUserType("child");
+        this.setUserType(USER_TYPE_CHILD);
         this.setAndroidId(Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
     }
 
