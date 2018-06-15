@@ -1,16 +1,25 @@
 package de.privalino.telegram.model;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.provider.Settings;
 
 import com.google.android.gms.common.api.Api;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.telegram.messenger.ApplicationLoader;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_CHILDREN;
+import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_EMAIL;
+import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
+import static de.privalino.telegram.AppConstants.USER_TYPE_PARENT;
 
 public class Parent {
 
@@ -91,8 +100,28 @@ public class Parent {
      * @param context application context to get the android id
      */
     public void initialize(Context context){
-        this.setUserType("parent");
+        this.setUserType(USER_TYPE_PARENT);
         this.setAndroidId(Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
+    }
+
+
+    /**
+     * Updates missing non-default values (email and children information) fields from
+     * data stored in shared preferences (if there is any).
+     */
+    public void updateMissingFromSharedPrefs(){
+        SharedPreferences preferences  = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, Activity.MODE_PRIVATE);
+
+        if (email == null){
+            this.setEmail(preferences.getString(SHAREDPREFS_KEY_EMAIL, null));
+        }
+
+        if (children.size() == 0){
+            String children = preferences.getString(SHAREDPREFS_KEY_CHILDREN, null);
+            if (children != null){
+                this.parseChildren(children);
+            }
+        }
     }
 
     /**
