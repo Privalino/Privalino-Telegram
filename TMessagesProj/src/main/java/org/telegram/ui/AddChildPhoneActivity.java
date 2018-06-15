@@ -151,6 +151,8 @@ public class AddChildPhoneActivity extends Activity {
         }
         if (currentChildren != null){
             PrivalinoOnboardHandler.parentModel.setChildren(currentChildren);
+        } else {
+            PrivalinoOnboardHandler.parentModel.resetChildren();
         }
         for (int i = 0; i < vgChildPhones.getChildCount(); ++i) {
 
