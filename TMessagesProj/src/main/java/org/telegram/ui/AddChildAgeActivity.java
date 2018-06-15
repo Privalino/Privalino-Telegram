@@ -124,11 +124,13 @@ public class AddChildAgeActivity extends Activity {
     }
 
     /**
-     * Takes data stored in the shared preferences, initilizes the model and adds an element to the
+     * Takes data stored in the shared preferences, initializes the model and adds an element to the
      * view group for each child in the model
      */
     private void addElements(){
-        PrivalinoOnboardHandler.parentModel.parseChildren(preferences.getString(SHAREDPREFS_KEY_CHILDREN, ""));
+        if (PrivalinoOnboardHandler.parentModel.getChildren().size() == 0){
+            PrivalinoOnboardHandler.parentModel.parseChildren(preferences.getString(SHAREDPREFS_KEY_CHILDREN, ""));
+        }
         List<Parent.Child> children = PrivalinoOnboardHandler.parentModel.getChildren();
         for(Parent.Child child: children){
             int birthYear = (child.getBirthYear() == 0)? 2008 : child.getBirthYear();

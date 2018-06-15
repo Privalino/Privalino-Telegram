@@ -46,11 +46,11 @@ public class AddChildPhoneActivity extends Activity {
 
     ViewGroup vgChildPhones;
     private boolean expanded = false;
-    int items = 0;
+    int items;
     EditText[] setFromContact = new EditText[3];
 
     SharedPreferences preferences;
-    //dynamic model to keep track when a child has been deleted so the data is updated to the right child object
+    //dynamic list to keep track when a child has been deleted so the data is updated to the right child object
     ArrayList<Parent.Child> currentChildren = null;
 
      @Override
@@ -62,9 +62,10 @@ public class AddChildPhoneActivity extends Activity {
         vgChildPhones = (LinearLayout) findViewById(R.id.phone_numbers_list);
         preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, Activity.MODE_PRIVATE);
 
+        initialize();
+
         onClickListeners();
 
-        initialize();
     }
 
     /**
@@ -72,11 +73,13 @@ public class AddChildPhoneActivity extends Activity {
      */
     private void initialize() {
 
+        items = 0;
+
         String data = preferences.getString(SHAREDPREFS_KEY_CHILDREN, "");
         if (!data.isEmpty()){
             parentModel.parseChildren(data);
             currentChildren = new ArrayList<>(parentModel.getChildren());
-            for (Parent.Child child: parentModel.getChildren()){
+            for (Parent.Child child: currentChildren){
                 initializeElement(child.getName(), child.getPhoneNumber());
             }
         } else {
@@ -254,8 +257,9 @@ public class AddChildPhoneActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if (items > 1) {
-                    if (currentChildren != null){
-                        currentChildren.remove(vgChildPhones.indexOfChild(item));
+                    int index =  vgChildPhones.indexOfChild(item);
+                    if (currentChildren != null && index < currentChildren.size()) {
+                        currentChildren.remove(index);
                     }
                     vgChildPhones.removeView(item);
                     items--;
@@ -448,13 +452,7 @@ public class AddChildPhoneActivity extends Activity {
         return count;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(currentChildren == null){
-            currentChildren = new ArrayList<>(parentModel.getChildren());
-        }
-    }
+
 
     @Override
     public void onBackPressed() {
