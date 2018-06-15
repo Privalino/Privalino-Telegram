@@ -105,13 +105,9 @@ public class AddChildAgeActivity extends Activity {
      */
     private void updateModel() {
         for (int i = 0; i< vgChildAges.getChildCount(); ++i){
-            String name = ((TextView) vgChildAges.getChildAt(i).findViewById(R.id.child_name_text)).getText().toString();
-            for(Parent.Child child: PrivalinoOnboardHandler.parentModel.getChildren()){
-                if(child.getName().equals(name) || child.getPhoneNumber().equals(name)){
-                    String year = ((TextView) vgChildAges.getChildAt(i).findViewById(R.id.age_text)).getText().toString();
-                    child.setBirthYear(Integer.parseInt(year));
-                }
-            }
+            Parent.Child toUpdate = PrivalinoOnboardHandler.parentModel.getChildren().get(i);
+            String year = ((TextView) vgChildAges.getChildAt(i).findViewById(R.id.age_text)).getText().toString();
+            toUpdate.setBirthYear(Integer.parseInt(year));
         }
         preferences.edit().putString(SHAREDPREFS_KEY_CHILDREN, PrivalinoOnboardHandler.parentModel.getChildrenAsString()).apply();
     }
