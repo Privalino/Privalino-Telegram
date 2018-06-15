@@ -2,6 +2,11 @@ package de.privalino.telegram;
 
 public class AppConstants {
 
+    //user types
+    public static final String USER_TYPE_PARENT = "parent";
+    public static final String USER_TYPE_CHILD = "child";
+
+
     //shared preferences keys
     public static final String SHAREDRPREFS_KEY_ON_BOARDING_INFO = "onboardinfo";
     public static final String SHAREDPREFS_KEY_USER_TYPE_SELECTED = "selected";

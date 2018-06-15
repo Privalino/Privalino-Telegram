@@ -1,17 +1,26 @@
 package de.privalino.telegram.model;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.provider.Settings;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import org.telegram.messenger.ApplicationLoader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import de.privalino.telegram.PrivalinoOnboardHandler;
+
+import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_CHILDREN;
+import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_EMAIL;
+import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_PARENTS;
+import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
 
 public class Child {
 
@@ -71,6 +80,31 @@ public class Child {
     }
 
     /**
+     * Initializes the two default values of this object, user type and android id.
+     * @param context application context to get the android id
+     */
+    public void initialize(Context context){
+        this.setUserType("child");
+        this.setAndroidId(Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
+    }
+
+    /**
+     * Updates missing non-default values (parents numbers) fields from
+     * data stored in shared preferences (if there is any).
+     */
+    public void updateMissingFromSharedPrefs(){
+        SharedPreferences preferences  = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, Activity.MODE_PRIVATE);
+
+        if (parentsNumbers == null){
+            String parents = preferences.getString(SHAREDPREFS_KEY_PARENTS, null);
+            if (parents != null){
+                this.parseParentsNumbersString(parents);
+            }
+        }
+    }
+
+
+    /**
      * Concatenates collected parents phone numbers and joins them into a single string.
      * Delimiter between the joined items is specified with a final class field.
      * @return concatenated parents numbers
@@ -96,12 +130,6 @@ public class Child {
         this.setParentsNumbers(numbers);
     }
 
-    /**
-     * Initializes the two default values of this object, user type and android id.
-     * @param context application context to get the android id
-     */
-    public void initialize(Context context){
-        this.setUserType("child");
-        this.setAndroidId(Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
-    }
+
+
 }

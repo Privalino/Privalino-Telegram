@@ -30,6 +30,7 @@ import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_FROM_INTRO;
 import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_IS_PARENT;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_USER_TYPE_SELECTED;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
+import static de.privalino.telegram.PrivalinoOnboardHandler.childModel;
 import static de.privalino.telegram.PrivalinoOnboardHandler.parentModel;
 
 public class FinishOnboardActivity extends Activity {
@@ -96,6 +97,7 @@ public class FinishOnboardActivity extends Activity {
         nextButton.setClickable(false);
         if (isParent) {
 
+            parentModel.updateMissingFromSharedPrefs();
 
             handler.getAPI().parent(PrivalinoOnboardApi.type, parentModel).enqueue(new Callback<RegisterResponse>() {
                 @Override
@@ -113,6 +115,9 @@ public class FinishOnboardActivity extends Activity {
                 }
             });
         } else {
+
+            childModel.updateMissingFromSharedPrefs();
+
             handler.getAPI().child(PrivalinoOnboardApi.type, PrivalinoOnboardHandler.childModel).enqueue(new Callback<RegisterResponse>() {
                 @Override
                 public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
