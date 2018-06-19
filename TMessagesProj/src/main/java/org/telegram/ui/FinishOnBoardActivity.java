@@ -3,25 +3,19 @@ package org.telegram.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.R;
 
 import de.privalino.telegram.AnimationHelper;
-import de.privalino.telegram.PrivalinoOnboardHandler;
+import de.privalino.telegram.PrivalinoOnBoardHandler;
 import de.privalino.telegram.model.RegisterResponse;
-import de.privalino.telegram.rest.PrivalinoOnboardApi;
+import de.privalino.telegram.rest.PrivalinoOnBoardApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,10 +24,10 @@ import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_FROM_INTRO;
 import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_IS_PARENT;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_USER_TYPE_SELECTED;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
-import static de.privalino.telegram.PrivalinoOnboardHandler.childModel;
-import static de.privalino.telegram.PrivalinoOnboardHandler.parentModel;
+import static de.privalino.telegram.PrivalinoOnBoardHandler.childModel;
+import static de.privalino.telegram.PrivalinoOnBoardHandler.parentModel;
 
-public class FinishOnboardActivity extends Activity {
+public class FinishOnBoardActivity extends Activity {
 
 
     Boolean isParent = null;
@@ -42,7 +36,7 @@ public class FinishOnboardActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_finish_onboard);
+        setContentView(R.layout.activity_finish_on_board);
 
         Bundle extras = getIntent().getExtras();
 
@@ -66,7 +60,7 @@ public class FinishOnboardActivity extends Activity {
     }
 
     private void nextActivity() {
-        Intent intent = new Intent(FinishOnboardActivity.this, LaunchActivity.class);
+        Intent intent = new Intent(FinishOnBoardActivity.this, LaunchActivity.class);
         intent.putExtra(INTENT_EXTRA_KEY_FROM_INTRO, true);
         startActivity(intent);
         AnimationHelper.transitionAnimation(this);
@@ -93,13 +87,13 @@ public class FinishOnboardActivity extends Activity {
      * @param nextButton
      */
     private void postModel(final ImageView nextButton) {
-        PrivalinoOnboardHandler handler = new PrivalinoOnboardHandler();
+        PrivalinoOnBoardHandler handler = new PrivalinoOnBoardHandler();
         nextButton.setClickable(false);
         if (isParent) {
 
             parentModel.updateMissingFromSharedPrefs();
 
-            handler.getAPI().parent(PrivalinoOnboardApi.type, parentModel).enqueue(new Callback<RegisterResponse>() {
+            handler.getAPI().parent(PrivalinoOnBoardApi.type, parentModel).enqueue(new Callback<RegisterResponse>() {
                 @Override
                 public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                     updateSharedPrefs();
@@ -109,7 +103,7 @@ public class FinishOnboardActivity extends Activity {
 
                 @Override
                 public void onFailure(Call<RegisterResponse> call, Throwable throwable) {
-                    Toast.makeText(FinishOnboardActivity.this, R.string.error_warning, Toast.LENGTH_LONG).show();
+                    Toast.makeText(FinishOnBoardActivity.this, R.string.error_warning, Toast.LENGTH_LONG).show();
                     nextButton.setClickable(true);
 
                 }
@@ -118,7 +112,7 @@ public class FinishOnboardActivity extends Activity {
 
             childModel.updateMissingFromSharedPrefs();
 
-            handler.getAPI().child(PrivalinoOnboardApi.type, PrivalinoOnboardHandler.childModel).enqueue(new Callback<RegisterResponse>() {
+            handler.getAPI().child(PrivalinoOnBoardApi.type, PrivalinoOnBoardHandler.childModel).enqueue(new Callback<RegisterResponse>() {
                 @Override
                 public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                     updateSharedPrefs();
@@ -128,7 +122,7 @@ public class FinishOnboardActivity extends Activity {
 
                 @Override
                 public void onFailure(Call<RegisterResponse> call, Throwable throwable) {
-                    Toast.makeText(FinishOnboardActivity.this, R.string.error_warning, Toast.LENGTH_LONG).show();
+                    Toast.makeText(FinishOnBoardActivity.this, R.string.error_warning, Toast.LENGTH_LONG).show();
                     nextButton.setClickable(true);
                 }
             });
@@ -153,7 +147,7 @@ public class FinishOnboardActivity extends Activity {
                 }
             }
         } else {
-            if (PrivalinoOnboardHandler.childModel.getParentsNumbers() != null){
+            if (PrivalinoOnBoardHandler.childModel.getParentsNumbers() != null){
                 editor.putBoolean(AddParentPhoneActivity.class.toString(), true);
             }
 

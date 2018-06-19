@@ -1,14 +1,11 @@
 package org.telegram.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -26,20 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.Manifest;
 import org.telegram.messenger.R;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.privalino.telegram.AnimationHelper;
-import de.privalino.telegram.PrivalinoOnboardHandler;
-import de.privalino.telegram.model.RegisterResponse;
-import de.privalino.telegram.rest.PrivalinoOnboardApi;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static de.privalino.telegram.AnimationHelper.crossfade;
 import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_IS_PARENT;
@@ -47,7 +36,7 @@ import static de.privalino.telegram.AppConstants.MY_PERMISSIONS_REQUEST_READ_CON
 import static de.privalino.telegram.AppConstants.RESULT_PICK_CONTACT;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_PARENTS;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
-import static de.privalino.telegram.PrivalinoOnboardHandler.childModel;
+import static de.privalino.telegram.PrivalinoOnBoardHandler.childModel;
 
 public class AddParentPhoneActivity extends Activity {
 
@@ -109,7 +98,7 @@ public class AddParentPhoneActivity extends Activity {
                     if (items < 3){
                         addElement();
                     } else {
-                        Toast.makeText(AddParentPhoneActivity.this, R.string.parent_limit_warning, Toast.LENGTH_LONG);
+                        Toast.makeText(AddParentPhoneActivity.this, R.string.parent_limit_warning, Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -152,7 +141,7 @@ public class AddParentPhoneActivity extends Activity {
     }
 
     private void nextActivity() {
-        Intent intent = new Intent(AddParentPhoneActivity.this, FinishOnboardActivity.class);
+        Intent intent = new Intent(AddParentPhoneActivity.this, FinishOnBoardActivity.class);
         intent.putExtra(INTENT_EXTRA_KEY_IS_PARENT, false);
         startActivity(intent);
         AnimationHelper.transitionAnimation(this);
@@ -330,9 +319,8 @@ public class AddParentPhoneActivity extends Activity {
                     startPicker();
                 } else if (grantResults[0] == -1){
                 Toast.makeText(AddParentPhoneActivity.this,
-                        R.string.permission_warning, Toast.LENGTH_SHORT);
+                        R.string.permission_warning, Toast.LENGTH_SHORT).show();
             }
-                return;
             }
         }
     }

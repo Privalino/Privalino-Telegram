@@ -1,19 +1,15 @@
 package org.telegram.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.R;
@@ -21,13 +17,8 @@ import org.telegram.messenger.R;
 import java.util.List;
 
 import de.privalino.telegram.AnimationHelper;
-import de.privalino.telegram.PrivalinoOnboardHandler;
+import de.privalino.telegram.PrivalinoOnBoardHandler;
 import de.privalino.telegram.model.Parent;
-import de.privalino.telegram.model.RegisterResponse;
-import de.privalino.telegram.rest.PrivalinoOnboardApi;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static de.privalino.telegram.AnimationHelper.crossfade;
 import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_IS_PARENT;
@@ -105,15 +96,15 @@ public class AddChildAgeActivity extends Activity {
      */
     private void updateModel() {
         for (int i = 0; i< vgChildAges.getChildCount(); ++i){
-            Parent.Child toUpdate = PrivalinoOnboardHandler.parentModel.getChildren().get(i);
+            Parent.Child toUpdate = PrivalinoOnBoardHandler.parentModel.getChildren().get(i);
             String year = ((TextView) vgChildAges.getChildAt(i).findViewById(R.id.age_text)).getText().toString();
             toUpdate.setBirthYear(Integer.parseInt(year));
         }
-        preferences.edit().putString(SHAREDPREFS_KEY_CHILDREN, PrivalinoOnboardHandler.parentModel.getChildrenAsString()).apply();
+        preferences.edit().putString(SHAREDPREFS_KEY_CHILDREN, PrivalinoOnBoardHandler.parentModel.getChildrenAsString()).apply();
     }
 
     private void nextActivity(){
-        Intent intent = new Intent(AddChildAgeActivity.this, FinishOnboardActivity.class);
+        Intent intent = new Intent(AddChildAgeActivity.this, FinishOnBoardActivity.class);
         intent.putExtra(INTENT_EXTRA_KEY_IS_PARENT, true);
         startActivity(intent);
         AnimationHelper.transitionAnimation(this);
@@ -124,10 +115,10 @@ public class AddChildAgeActivity extends Activity {
      * view group for each child in the model
      */
     private void addElements(){
-        if (PrivalinoOnboardHandler.parentModel.getChildren().size() == 0){
-            PrivalinoOnboardHandler.parentModel.parseChildren(preferences.getString(SHAREDPREFS_KEY_CHILDREN, ""));
+        if (PrivalinoOnBoardHandler.parentModel.getChildren().size() == 0){
+            PrivalinoOnBoardHandler.parentModel.parseChildren(preferences.getString(SHAREDPREFS_KEY_CHILDREN, ""));
         }
-        List<Parent.Child> children = PrivalinoOnboardHandler.parentModel.getChildren();
+        List<Parent.Child> children = PrivalinoOnBoardHandler.parentModel.getChildren();
         for(Parent.Child child: children){
             int birthYear = (child.getBirthYear() == 0)? 2008 : child.getBirthYear();
             if (!child.getName().isEmpty()){

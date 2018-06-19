@@ -236,7 +236,7 @@
             android:taskAffinity="${applicationId}.voip"
             android:theme="@style/Theme.TMessages.Transparent" />
         <activity
-            android:name="org.telegram.ui.OnboardingIntroActivity"
+            android:name="org.telegram.ui.OnBoardingIntroActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
@@ -256,7 +256,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name="org.telegram.ui.FinishOnboardActivity"
+            android:name="org.telegram.ui.FinishOnBoardActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
