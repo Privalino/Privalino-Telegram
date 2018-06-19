@@ -15,12 +15,12 @@ public class AppConstants {
     public static final String SHAREDPREFS_KEY_CHILDREN = "children";
     public static final String SHAREDPREFS_KEY_PARENTS = "parents";
 
-    //permision request and result codes
+    //permission request and result codes
     public static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 314;
     public static final int RESULT_PICK_CONTACT = 159;
 
     //intent extras keys
-    public static final String INTENT_EXTRA_KEY_FROM_SETTINGS = "from_settings";
+    public static final String INTENT_EXTRA_KEY_FROM_SETTINGS = "fromSettings";
     public static final String INTENT_EXTRA_KEY_FROM_INTRO = "fromIntro";
     public static final String INTENT_EXTRA_KEY_IS_PARENT = "isParent";
 

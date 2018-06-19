@@ -67,6 +67,7 @@ public class Parent {
     public List<Child> getChildren(){
         return this.children;
     }
+
     public String getUserType() {
         return userType;
     }

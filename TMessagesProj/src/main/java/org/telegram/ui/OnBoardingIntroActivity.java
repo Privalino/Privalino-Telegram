@@ -1,16 +1,11 @@
 package org.telegram.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -21,7 +16,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.R;
 
 import de.privalino.telegram.AnimationHelper;
-import de.privalino.telegram.PrivalinoOnboardHandler;
+import de.privalino.telegram.PrivalinoOnBoardHandler;
 import de.privalino.telegram.model.Child;
 import de.privalino.telegram.model.Parent;
 
@@ -30,7 +25,7 @@ import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_FROM_INTRO;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_IS_PARENT;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
 
-public class OnboardingIntroActivity extends Activity {
+public class OnBoardingIntroActivity extends Activity {
 
     RelativeLayout mainLayout;
     RelativeLayout welcomeLayout;
@@ -49,7 +44,7 @@ public class OnboardingIntroActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_onboarding_intro);
+        setContentView(R.layout.activity_on_boarding_intro);
 
         mainLayout = (RelativeLayout) findViewById(R.id.main_layout);
         welcomeLayout = (RelativeLayout) findViewById(R.id.welcomeLayout);
@@ -85,23 +80,23 @@ public class OnboardingIntroActivity extends Activity {
                     backButton.setVisibility(View.VISIBLE);
                 } else if (chooseLayout.getVisibility() == View.VISIBLE) {
                     if (parentSelected == null) {
-                        Toast.makeText(OnboardingIntroActivity.this,
-                                R.string.user_selection_warning, Toast.LENGTH_SHORT);
+                        Toast.makeText(OnBoardingIntroActivity.this,
+                                R.string.user_selection_warning, Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    Intent intent = null;
+                    Intent intent;
                     if (parentSelected) {
-                        PrivalinoOnboardHandler.parentModel = new Parent();
-                        PrivalinoOnboardHandler.parentModel.initialize(getApplicationContext());
-                        intent = new Intent(OnboardingIntroActivity.this, ParentEmailActivity.class);
+                        PrivalinoOnBoardHandler.parentModel = new Parent();
+                        PrivalinoOnBoardHandler.parentModel.initialize(getApplicationContext());
+                        intent = new Intent(OnBoardingIntroActivity.this, ParentEmailActivity.class);
                     } else {
-                        PrivalinoOnboardHandler.childModel = new Child();
-                        PrivalinoOnboardHandler.childModel.initialize(getApplicationContext());
-                        intent = new Intent(OnboardingIntroActivity.this, AddParentPhoneActivity.class);
+                        PrivalinoOnBoardHandler.childModel = new Child();
+                        PrivalinoOnBoardHandler.childModel.initialize(getApplicationContext());
+                        intent = new Intent(OnBoardingIntroActivity.this, AddParentPhoneActivity.class);
                     }
                     preferences.edit().putBoolean(SHAREDPREFS_KEY_IS_PARENT, parentSelected).apply();
                     startActivity(intent);
-                    AnimationHelper.transitionAnimation(OnboardingIntroActivity.this);
+                    AnimationHelper.transitionAnimation(OnBoardingIntroActivity.this);
                 }
             }
         });
@@ -127,7 +122,7 @@ public class OnboardingIntroActivity extends Activity {
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(OnboardingIntroActivity.this, LaunchActivity.class);
+                Intent intent = new Intent(OnBoardingIntroActivity.this, LaunchActivity.class);
                 intent.putExtra(INTENT_EXTRA_KEY_FROM_INTRO, true);
                 startActivity(intent);
             }

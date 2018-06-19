@@ -85,8 +85,6 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.privalino.telegram.PrivalinoOnboardHandler;
-
 @SuppressLint("HardwareIds")
 public class LoginActivity extends BaseFragment {
 

@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.StatFs;
 import android.provider.ContactsContract;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.ActionMode;
 import android.view.KeyEvent;
@@ -102,7 +101,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.privalino.telegram.PrivalinoOnboardHandler;
+import de.privalino.telegram.PrivalinoOnBoardHandler;
 import de.privalino.telegram.model.Child;
 import de.privalino.telegram.model.Parent;
 
@@ -187,7 +186,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     return;
                 } else {
                     if (!preferences.getBoolean(SHAREDPREFS_KEY_USER_TYPE_SELECTED, false)){
-                        startActivity(new Intent(this, OnboardingIntroActivity.class));
+                        startActivity(new Intent(this, OnBoardingIntroActivity.class));
                         super.onCreate(savedInstanceState);
                         finish();
                         return;
@@ -202,8 +201,8 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             ++i;
                         // if such activity exists start it and initialize the model
                         if (i < screens.length) {
-                            PrivalinoOnboardHandler.parentModel = new Parent();
-                            PrivalinoOnboardHandler.parentModel.initialize(getApplicationContext());
+                            PrivalinoOnBoardHandler.parentModel = new Parent();
+                            PrivalinoOnBoardHandler.parentModel.initialize(getApplicationContext());
                             startActivity(new Intent(this, screens[i]));
                             super.onCreate(savedInstanceState);
                             finish();
@@ -213,8 +212,8 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         // if the on boarding activity was not filled
                         if (!preferences.getBoolean(AddParentPhoneActivity.class.toString(), false)) {
                             //start it, initialize the model
-                            PrivalinoOnboardHandler.childModel = new Child();
-                            PrivalinoOnboardHandler.childModel.initialize(getApplicationContext());
+                            PrivalinoOnBoardHandler.childModel = new Child();
+                            PrivalinoOnBoardHandler.childModel.initialize(getApplicationContext());
                             startActivity(new Intent(this, AddParentPhoneActivity.class));
                             super.onCreate(savedInstanceState);
                             finish();
@@ -467,12 +466,12 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     Class next = null;
                     if (preferences.getBoolean(SHAREDPREFS_KEY_IS_PARENT, true)){
                         next = ParentEmailActivity.class;
-                        PrivalinoOnboardHandler.parentModel = new Parent();
-                        PrivalinoOnboardHandler.parentModel.initialize(LaunchActivity.this);
+                        PrivalinoOnBoardHandler.parentModel = new Parent();
+                        PrivalinoOnBoardHandler.parentModel.initialize(LaunchActivity.this);
 
                     } else {
-                        PrivalinoOnboardHandler.childModel = new Child();
-                        PrivalinoOnboardHandler.childModel.initialize(LaunchActivity.this);
+                        PrivalinoOnBoardHandler.childModel = new Child();
+                        PrivalinoOnBoardHandler.childModel.initialize(LaunchActivity.this);
                         next = AddParentPhoneActivity.class;
                     }
                     Intent intent = new Intent(LaunchActivity.this, next);

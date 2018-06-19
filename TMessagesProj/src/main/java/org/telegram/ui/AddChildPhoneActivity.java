@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -16,7 +15,6 @@ import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,7 +28,7 @@ import org.telegram.messenger.R;
 import java.util.ArrayList;
 
 import de.privalino.telegram.AnimationHelper;
-import de.privalino.telegram.PrivalinoOnboardHandler;
+import de.privalino.telegram.PrivalinoOnBoardHandler;
 import de.privalino.telegram.model.Parent;
 
 import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_IS_PARENT;
@@ -38,8 +36,7 @@ import static de.privalino.telegram.AppConstants.MY_PERMISSIONS_REQUEST_READ_CON
 import static de.privalino.telegram.AppConstants.RESULT_PICK_CONTACT;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_CHILDREN;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
-import static de.privalino.telegram.PrivalinoOnboardHandler.childModel;
-import static de.privalino.telegram.PrivalinoOnboardHandler.parentModel;
+import static de.privalino.telegram.PrivalinoOnBoardHandler.parentModel;
 
 
 public class AddChildPhoneActivity extends Activity {
@@ -150,9 +147,9 @@ public class AddChildPhoneActivity extends Activity {
             return false;
         }
         if (currentChildren != null){
-            PrivalinoOnboardHandler.parentModel.setChildren(currentChildren);
+            PrivalinoOnBoardHandler.parentModel.setChildren(currentChildren);
         } else {
-            PrivalinoOnboardHandler.parentModel.resetChildren();
+            PrivalinoOnBoardHandler.parentModel.resetChildren();
         }
         for (int i = 0; i < vgChildPhones.getChildCount(); ++i) {
 
@@ -168,22 +165,22 @@ public class AddChildPhoneActivity extends Activity {
                 toUpdate.setName(name);
                 toUpdate.setPhoneNumber(phone);
             } else {
-                PrivalinoOnboardHandler.parentModel.addChild(name, phone);
+                PrivalinoOnBoardHandler.parentModel.addChild(name, phone);
             }
         }
-        preferences.edit().putString(SHAREDPREFS_KEY_CHILDREN, PrivalinoOnboardHandler.parentModel.getChildrenAsString()).apply();
+        preferences.edit().putString(SHAREDPREFS_KEY_CHILDREN, PrivalinoOnBoardHandler.parentModel.getChildrenAsString()).apply();
         return true;
     }
 
     private void nextActivity(boolean skip) {
-        Intent intent = null;
+        Intent intent;
         if (!skip) {
             intent = new Intent(AddChildPhoneActivity.this, AddChildAgeActivity.class);
         } else {
-            intent = new Intent(AddChildPhoneActivity.this, FinishOnboardActivity.class);
+            intent = new Intent(AddChildPhoneActivity.this, FinishOnBoardActivity.class);
             intent.putExtra(INTENT_EXTRA_KEY_IS_PARENT, true);
         }
-        startActivity(new Intent(intent));
+        startActivity(intent);
         AnimationHelper.transitionAnimation(this);
 
     }
@@ -369,9 +366,8 @@ public class AddChildPhoneActivity extends Activity {
                     startPicker();
                 } else if (grantResults[0] == -1) {
                     Toast.makeText(AddChildPhoneActivity.this,
-                            R.string.permission_warning, Toast.LENGTH_SHORT);
+                            R.string.permission_warning, Toast.LENGTH_SHORT).show();
                 }
-                return;
             }
         }
     }

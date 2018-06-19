@@ -1,15 +1,9 @@
 package org.telegram.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -20,13 +14,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.R;
 
 import de.privalino.telegram.AnimationHelper;
-import de.privalino.telegram.PrivalinoOnboardHandler;
-import de.privalino.telegram.model.Parent;
-import de.privalino.telegram.model.RegisterResponse;
-import de.privalino.telegram.rest.PrivalinoOnboardApi;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import de.privalino.telegram.PrivalinoOnBoardHandler;
 
 import static de.privalino.telegram.AnimationHelper.crossfade;
 import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_FROM_SETTINGS;
@@ -129,7 +117,7 @@ public class ParentEmailActivity extends Activity {
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             return false;
         }
-        PrivalinoOnboardHandler.parentModel.setEmail(email);
+        PrivalinoOnBoardHandler.parentModel.setEmail(email);
         preferences.edit().putString(SHAREDPREFS_KEY_EMAIL, email).apply();
         return true;
     }
@@ -138,16 +126,16 @@ public class ParentEmailActivity extends Activity {
     private void nextActivity() {
         //find the next activity taking into account was the screen reached from settings (usual flow)
         //or if an activity skipped on last on boarding (start it)
-        Class next = null;
+        Class next;
         if (fromSettings || !preferences.getBoolean(AddChildPhoneActivity.class.toString(), false)){
             next = AddChildPhoneActivity.class;
         } else if (!preferences.getBoolean(AddChildAgeActivity.class.toString(), false)) {
             next = AddChildAgeActivity.class;
         } else {
-            next = FinishOnboardActivity.class;
+            next = FinishOnBoardActivity.class;
         }
         Intent intent = new Intent(ParentEmailActivity.this, next);
-        if (next == FinishOnboardActivity.class){
+        if (next == FinishOnBoardActivity.class){
             intent.putExtra(INTENT_EXTRA_KEY_IS_PARENT, true);
         }
         startActivity(intent);

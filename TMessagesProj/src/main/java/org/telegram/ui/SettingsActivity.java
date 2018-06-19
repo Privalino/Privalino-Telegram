@@ -29,7 +29,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.text.Html;
@@ -109,7 +108,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import de.privalino.telegram.PrivalinoOnboardHandler;
+import de.privalino.telegram.PrivalinoOnBoardHandler;
 import de.privalino.telegram.model.Child;
 import de.privalino.telegram.model.Parent;
 
@@ -482,12 +481,12 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                     Class next = null;
                     if (preferences.getBoolean(SHAREDPREFS_KEY_IS_PARENT, true)){
                         next = ParentEmailActivity.class;
-                        PrivalinoOnboardHandler.parentModel = new Parent();
-                        PrivalinoOnboardHandler.parentModel.initialize(context);
+                        PrivalinoOnBoardHandler.parentModel = new Parent();
+                        PrivalinoOnBoardHandler.parentModel.initialize(context);
 
                     } else {
-                        PrivalinoOnboardHandler.childModel = new Child();
-                        PrivalinoOnboardHandler.childModel.initialize(context);
+                        PrivalinoOnBoardHandler.childModel = new Child();
+                        PrivalinoOnBoardHandler.childModel.initialize(context);
                         next = AddParentPhoneActivity.class;
                     }
                     Intent intent = new Intent(context, next);

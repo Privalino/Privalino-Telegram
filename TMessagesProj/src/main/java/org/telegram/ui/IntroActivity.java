@@ -280,7 +280,7 @@ public class IntroActivity extends Activity implements NotificationCenter.Notifi
                 }
                 startPressed = true;
 //                Intent intent2 = new Intent(IntroActivity.this, LaunchActivity.class);
-                Intent intent2 = new Intent(IntroActivity.this, OnboardingIntroActivity.class);
+                Intent intent2 = new Intent(IntroActivity.this, OnBoardingIntroActivity.class);
 //                intent2.putExtra("fromIntro", true);
                 startActivity(intent2);
                 destroyed = true;

@@ -1,7 +1,6 @@
 package de.privalino.telegram.model;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.provider.Settings;
@@ -15,10 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.privalino.telegram.PrivalinoOnboardHandler;
-
-import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_CHILDREN;
-import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_EMAIL;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_PARENTS;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
 import static de.privalino.telegram.AppConstants.USER_TYPE_CHILD;

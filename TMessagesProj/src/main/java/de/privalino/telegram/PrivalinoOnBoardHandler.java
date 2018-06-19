@@ -1,37 +1,31 @@
 package de.privalino.telegram;
 
-import android.provider.Settings;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.Date;
-
 import de.privalino.telegram.model.Child;
 import de.privalino.telegram.model.Parent;
-import de.privalino.telegram.model.RegisterResponse;
-import de.privalino.telegram.rest.PrivalinoOnboardApi;
-import retrofit2.Call;
+import de.privalino.telegram.rest.PrivalinoOnBoardApi;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class PrivalinoOnboardHandler {
+public class PrivalinoOnBoardHandler {
 
     private static String BASE_URL = "https://api.privalino.de/app-registration/";
 
-    private PrivalinoOnboardApi retrofitAPI;
+    private PrivalinoOnBoardApi retrofitAPI;
 
     //static models which hold the onboarding data
     public static Parent parentModel = null;
     public static Child childModel = null;
 
-    public PrivalinoOnboardHandler() {
+    public PrivalinoOnBoardHandler() {
         this(BASE_URL);
     }
 
 
 
-    public PrivalinoOnboardHandler(String baseUrl) {
+    public PrivalinoOnBoardHandler(String baseUrl) {
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
@@ -40,10 +34,10 @@ public class PrivalinoOnboardHandler {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        retrofitAPI = retrofit.create(PrivalinoOnboardApi.class);
+        retrofitAPI = retrofit.create(PrivalinoOnBoardApi.class);
     }
 
-    public PrivalinoOnboardApi getAPI() {
+    public PrivalinoOnBoardApi getAPI() {
         return retrofitAPI;
     }
 
