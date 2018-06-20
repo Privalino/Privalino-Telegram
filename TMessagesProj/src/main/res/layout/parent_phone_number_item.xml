@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/child_background"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+        >
+
+        <RelativeLayout
+            android:id="@+id/phone_number_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:layout_below="@+id/name_edit_text"
+            >
+            <EditText
+                android:id="@+id/phone_edit_text"
+                android:layout_width="170dp"
+                android:layout_height="24dp"
+                android:layout_toRightOf="@+id/code_edit_text"
+                android:width="150dp"
+                android:height="24dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/phone_number_hint"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:inputType="number"
+                android:textColorHint="@color/parent_phone_hint"
+                android:maxLength="15"/>
+
+            <EditText
+                android:id="@+id/code_edit_text"
+                android:layout_width="48dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:width="48dp"
+                android:height="24dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/country_code_hint"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textColorHint="@color/parent_phone_hint"
+                android:inputType="phone"
+                android:maxLength="4"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/phone_number_layout"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@+id/phone_number_layout"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/ic_delete"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/add_from_contacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/phone_number_layout"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@+id/phone_number_layout"
+            >
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/ic_contacts"
+                />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/edit_text_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/input_field" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
