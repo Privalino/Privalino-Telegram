@@ -2293,7 +2293,7 @@ public class MessageObject {
                     //     }
                     // } else if (entity instanceof TLRPC.TL_messageEntityTextUrl) {
                     //     spannable.setSpan(new URLSpanReplacement(entity.url), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    // }
+                    }
                 }
             }
         }

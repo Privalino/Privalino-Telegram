@@ -92,43 +92,6 @@ public class ApplicationLoader extends Application {
         }
 
         UserConfig.loadConfig();
-        String deviceModel;
-        String systemLangCode;
-        String langCode;
-        String appVersion;
-        String systemVersion;
-        String configPath = getFilesDirFixed().toString();
-
-        try {
-            systemLangCode = LocaleController.getSystemLocaleStringIso639();
-            langCode = LocaleController.getLocaleStringIso639();
-            deviceModel = Build.MANUFACTURER + Build.MODEL;
-            PackageInfo pInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
-            appVersion = pInfo.versionName + " (" + pInfo.versionCode + ")";
-            systemVersion = "SDK " + Build.VERSION.SDK_INT;
-        } catch (Exception e) {
-            systemLangCode = "de";
-            langCode = "";
-            deviceModel = "Android unknown";
-            appVersion = "App version unknown";
-            systemVersion = "SDK " + Build.VERSION.SDK_INT;
-        }
-        if (systemLangCode.trim().length() == 0) {
-            langCode = "de";
-        }
-        if (deviceModel.trim().length() == 0) {
-            deviceModel = "Android unknown";
-        }
-        if (appVersion.trim().length() == 0) {
-            appVersion = "App version unknown";
-        }
-        if (systemVersion.trim().length() == 0) {
-            systemVersion = "SDK Unknown";
-        }
-
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", Activity.MODE_PRIVATE);
-        boolean enablePushConnection = preferences.getBoolean("pushConnection", true);
-
         MessagesController.getInstance();
         ConnectionsManager.getInstance();
         if (UserConfig.getCurrentUser() != null) {

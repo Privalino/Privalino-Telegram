@@ -437,51 +437,29 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     presentFragment(new ContactsActivity(null));
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 6) {
-                    if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                        /*AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
-                        builder.setTopImage(R.drawable.permissions_contacts, 0xff35a8e0);
-                        builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString("ContactsPermissionAlert", R.string.ContactsPermissionAlert)));
-                        builder.setPositiveButton(LocaleController.getString("ContactsPermissionAlertContinue", R.string.ContactsPermissionAlertContinue), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                    presentFragment(new ContactsActivity(null));
+                    drawerLayoutContainer.closeDrawer(false);
+//                } else if (id == 7) {
+//                    SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, Activity.MODE_PRIVATE);
+//                    Class next = null;
+//                    if (preferences.getBoolean(SHAREDPREFS_KEY_IS_PARENT, true)){
+//                        next = ParentEmailActivity.class;
+//                        PrivalinoOnBoardHandler.parentModel = new Parent();
+//                        PrivalinoOnBoardHandler.parentModel.initialize(LaunchActivity.this);
+//
+//                    } else {
+//                        PrivalinoOnBoardHandler.childModel = new Child();
+//                        PrivalinoOnBoardHandler.childModel.initialize(LaunchActivity.this);
+//                        next = AddParentPhoneActivity.class;
+//                    }
+//                    Intent intent = new Intent(LaunchActivity.this, next);
+//                    intent.putExtra(INTENT_EXTRA_KEY_FROM_SETTINGS, true);
+//                    startActivity(intent);
 
-                            }
-                        });
-                        builder.setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", R.string.ContactsPermissionAlertNotNow), null);
-                        showAlertDialog(builder);*/
-                        showLanguageAlert(true);
-                    } else {
-                        try {
-                            Intent intent = new Intent(Intent.ACTION_SEND);
-                            intent.setType("text/plain");
-                            intent.putExtra(Intent.EXTRA_TEXT, ContactsController.getInstance().getInviteText());
-                            startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteFriends", R.string.InviteFriends)), 500);
-                        } catch (Exception e) {
-                            FileLog.e(e);
-                        }
-                        drawerLayoutContainer.closeDrawer(false);
-                    }
                 } else if (id == 7) {
-                    SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, Activity.MODE_PRIVATE);
-                    Class next = null;
-                    if (preferences.getBoolean(SHAREDPREFS_KEY_IS_PARENT, true)){
-                        next = ParentEmailActivity.class;
-                        PrivalinoOnBoardHandler.parentModel = new Parent();
-                        PrivalinoOnBoardHandler.parentModel.initialize(LaunchActivity.this);
-
-                    } else {
-                        PrivalinoOnBoardHandler.childModel = new Child();
-                        PrivalinoOnBoardHandler.childModel.initialize(LaunchActivity.this);
-                        next = AddParentPhoneActivity.class;
-                    }
-                    Intent intent = new Intent(LaunchActivity.this, next);
-                    intent.putExtra(INTENT_EXTRA_KEY_FROM_SETTINGS, true);
-                    startActivity(intent);
-
-                } else if (id == 8) {
                     presentFragment(new SettingsActivity());
                     drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 9) {
+                } else if (id == 8) {
                     Browser.openUrl(LaunchActivity.this, LocaleController.getString("TelegramFaqUrl", R.string.TelegramFaqUrl));
                     drawerLayoutContainer.closeDrawer(false);
                 }
