@@ -144,11 +144,11 @@ public class PrivalinoMessageContainer {
         }
 
         if(getReceiverFirstName() != null){
-            buffer.append("\tReceiveFirstName: " + getReceiverFirstName());
+            buffer.append("\tReceiverFirstName: " + getReceiverFirstName());
         }
 
         if(getReceiverLastName() != null){
-            buffer.append("\tReceiveLastName: " + getReceiverLastName());
+            buffer.append("\tReceiverLastName: " + getReceiverLastName());
         }
 
 

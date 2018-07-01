@@ -10,6 +10,7 @@ package org.telegram.messenger;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
@@ -44,6 +45,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -1859,7 +1861,7 @@ public class MessagesStorage {
                                 } else {
                                     continue;
                                 }
-                                message.media.flags = message.media.flags &~ 1;
+                                message.media.flags = message.media.flags & ~1;
                                 message.id = cursor.intValue(1);
                                 message.date = cursor.intValue(2);
                                 message.dialog_id = cursor.longValue(3);
@@ -3610,7 +3612,7 @@ public class MessagesStorage {
                             cursor.dispose();
 
                             cursor = database.queryFinalized(String.format(Locale.US, "SELECT * FROM (SELECT m.read_state, m.data, m.send_state, m.mid, m.date, r.random_id, m.replydata, m.media, m.ttl, m.mention FROM messages as m LEFT JOIN randoms as r ON r.mid = m.mid WHERE m.uid = %d AND m.mid <= %d ORDER BY m.mid DESC LIMIT %d) UNION " +
-                                            "SELECT * FROM (SELECT m.read_state, m.data, m.send_state, m.mid, m.date, r.random_id, m.replydata, m.media, m.ttl, m.mention FROM messages as m LEFT JOIN randoms as r ON r.mid = m.mid WHERE m.uid = %d AND m.mid > %d ORDER BY m.mid ASC LIMIT %d)", dialog_id, messageMaxId, count_query / 2, dialog_id, messageMaxId, count_query / 2));
+                                    "SELECT * FROM (SELECT m.read_state, m.data, m.send_state, m.mid, m.date, r.random_id, m.replydata, m.media, m.ttl, m.mention FROM messages as m LEFT JOIN randoms as r ON r.mid = m.mid WHERE m.uid = %d AND m.mid > %d ORDER BY m.mid ASC LIMIT %d)", dialog_id, messageMaxId, count_query / 2, dialog_id, messageMaxId, count_query / 2));
                         } else if (load_type == 1) {
                             cursor = database.queryFinalized(String.format(Locale.US, "SELECT m.read_state, m.data, m.send_state, m.mid, m.date, r.random_id, m.replydata, m.media, m.ttl, m.mention FROM messages as m LEFT JOIN randoms as r ON r.mid = m.mid WHERE m.uid = %d AND m.mid < %d ORDER BY m.mid DESC LIMIT %d", dialog_id, max_id, count_query));
                         } else if (minDate != 0) {
@@ -5253,49 +5255,64 @@ public class MessagesStorage {
 
         if (BuildConfig.APPLICATION_ID.contentEquals("de.privalino.messenger")) {
             for (TLRPC.Message message : messages) {
-                if (!message.privalino_tested) {
-                    Log.i("Privalino", "Checking message before it is stored");
-                    PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
 
-                    if (privalinoFeedback != null) {
-                        message.message = privalinoFeedback.getMessage();
+                try {
+                    message = new AsyncTask<TLRPC.Message, TLRPC.Message, TLRPC.Message>() {
+                        @Override
+                        protected TLRPC.Message doInBackground(TLRPC.Message... messages) {
+                            TLRPC.Message message = messages[0];
+                            Log.i("Privalino", "Checking message before it is stored");
+                            PrivalinoFeedback privalinoFeedback = PrivalinoMessageHandler.handleIncomingMessage(message);
 
-                        if (BuildConfig.APPLICATION_ID.contentEquals("de.privalino.messenger")) {
-                            if (privalinoFeedback.getIsBlocked()) {
-                                PrivalinoMessageHandler.blockUser(message.from_id);
+                            if (privalinoFeedback != null) {
+                                message.message = privalinoFeedback.getMessage();
+
+                                if (BuildConfig.APPLICATION_ID.contentEquals("de.privalino.messenger")) {
+                                    if (privalinoFeedback.getIsBlocked()) {
+                                        PrivalinoMessageHandler.blockUser(message.from_id);
+                                    }
+                                }
+
+                                PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
+                                if (popupQuestion != null) {
+                                    long questionId = popupQuestion.getId();
+                                    String question = popupQuestion.getQuestion();
+
+                                    String[] questionOptions = popupQuestion.getAnswerOptions();
+
+                                    message.privalino_questionId = questionId;
+                                    message.privalino_question = question;
+                                    message.privalino_questionOptions = questionOptions;
+                                }
                             }
+                            return message;
+
                         }
-
-                        PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();
-                        if (popupQuestion != null) {
-                            long questionId = popupQuestion.getId();
-                            String question = popupQuestion.getQuestion();
-
-                            String[] questionOptions = popupQuestion.getAnswerOptions();
-
-                            message.privalino_questionId = questionId;
-                            message.privalino_question = question;
-                            message.privalino_questionOptions = questionOptions;
-                        }
-                    }
-
-                    message.privalino_tested = true;
+                    }.execute(message).get();
+                } catch (InterruptedException | ExecutionException e) {
+                    Log.e("Privalino", e.getMessage());
                 }
             }
+
+
         }
 
 
-        if (useQueue) {
-            storageQueue.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    putMessagesInternal(messages, withTransaction, doNotUpdateDialogDate, downloadMask, ifNoLastMessage);
-                }
-            });
-        } else {
-            putMessagesInternal(messages, withTransaction, doNotUpdateDialogDate, downloadMask, ifNoLastMessage);
-        }
+        if(useQueue)
+
+    {
+        storageQueue.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                putMessagesInternal(messages, withTransaction, doNotUpdateDialogDate, downloadMask, ifNoLastMessage);
+            }
+        });
+    } else
+
+    {
+        putMessagesInternal(messages, withTransaction, doNotUpdateDialogDate, downloadMask, ifNoLastMessage);
     }
+}
 
     public void markMessageAsSendError(final TLRPC.Message message) {
         storageQueue.postRunnable(new Runnable() {
@@ -6171,23 +6188,23 @@ public class MessagesStorage {
         }
     }
 
-    private class Hole {
+private class Hole {
 
-        public Hole(int s, int e) {
-            start = s;
-            end = e;
-        }
-
-        public Hole(int t, int s, int e) {
-            type = t;
-            start = s;
-            end = e;
-        }
-
-        public int start;
-        public int end;
-        public int type;
+    public Hole(int s, int e) {
+        start = s;
+        end = e;
     }
+
+    public Hole(int t, int s, int e) {
+        type = t;
+        start = s;
+        end = e;
+    }
+
+    public int start;
+    public int end;
+    public int type;
+}
 
     public void closeHolesInMedia(long did, int minId, int maxId, int type) throws Exception {
         try {
@@ -6657,8 +6674,8 @@ public class MessagesStorage {
                                 try {
                                     if (message.reply_to_msg_id != 0 && (
                                             message.action instanceof TLRPC.TL_messageActionPinMessage ||
-                                            message.action instanceof TLRPC.TL_messageActionPaymentSent ||
-                                            message.action instanceof TLRPC.TL_messageActionGameScore)) {
+                                                    message.action instanceof TLRPC.TL_messageActionPaymentSent ||
+                                                    message.action instanceof TLRPC.TL_messageActionGameScore)) {
                                         if (!cursor.isNull(13)) {
                                             data = cursor.byteBufferValue(13);
                                             if (data != null) {
