@@ -431,14 +431,17 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     args.putBoolean("destroyAfterSelect", true);
                     args.putBoolean("createSecretChat", false);
                     args.putBoolean("allowBots", false);
-                    presentFragment(new ContactsActivity(args));
+                    presentFragment(new ChatActivity(args));
+                    drawerLayoutContainer.closeDrawer(false);
+                } else if (id == 4) {
+                    presentFragment(new ContactsActivity(null));
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 5) {
-                    presentFragment(new ContactsActivity(null));
+                    presentFragment(new InviteContactsActivity());
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 6) {
-                    presentFragment(new ContactsActivity(null));
-                    drawerLayoutContainer.closeDrawer(false);
+//                    presentFragment(new AddParentPhoneActivity());
+//                    drawerLayoutContainer.closeDrawer(false);
 //                } else if (id == 7) {
 //                    SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, Activity.MODE_PRIVATE);
 //                    Class next = null;
