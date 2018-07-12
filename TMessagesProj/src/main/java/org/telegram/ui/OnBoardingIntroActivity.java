@@ -23,6 +23,7 @@ import de.privalino.telegram.model.Parent;
 import static de.privalino.telegram.AnimationHelper.crossfade;
 import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_FROM_INTRO;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_IS_PARENT;
+import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_INSTALLED;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
 
 public class OnBoardingIntroActivity extends Activity {
@@ -64,7 +65,7 @@ public class OnBoardingIntroActivity extends Activity {
             preWelcomeLayout.setVisibility(View.VISIBLE);
             welcomeLayout.setVisibility(View.GONE);
 
-
+            preferences.edit().putBoolean(SHAREDRPREFS_KEY_INSTALLED, true).commit();
         }
 
 
@@ -85,6 +86,7 @@ public class OnBoardingIntroActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if (preWelcomeLayout.getVisibility() == View.VISIBLE) {
+
                     crossfade(preWelcomeLayout, welcomeLayout);
                     skipButton.setVisibility(View.VISIBLE);
 
