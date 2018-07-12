@@ -23,11 +23,13 @@ import de.privalino.telegram.model.Parent;
 import static de.privalino.telegram.AnimationHelper.crossfade;
 import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_FROM_INTRO;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_IS_PARENT;
+import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_INSTALLED;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
 
 public class OnBoardingIntroActivity extends Activity {
 
     RelativeLayout mainLayout;
+    RelativeLayout preWelcomeLayout;
     RelativeLayout welcomeLayout;
     RelativeLayout chooseLayout;
     private Boolean parentSelected = null;
@@ -47,6 +49,7 @@ public class OnBoardingIntroActivity extends Activity {
         setContentView(R.layout.activity_on_boarding_intro);
 
         mainLayout = (RelativeLayout) findViewById(R.id.main_layout);
+        preWelcomeLayout = (RelativeLayout) findViewById(R.id.preWelcomeLayout);
         welcomeLayout = (RelativeLayout) findViewById(R.id.welcomeLayout);
         chooseLayout = (RelativeLayout) findViewById(R.id.chooseLayout);
         skipButton = (TextView) findViewById(R.id.skip_button);
@@ -57,6 +60,14 @@ public class OnBoardingIntroActivity extends Activity {
         parentText = (TextView) findViewById(R.id.parentText);
         childText = (TextView) findViewById(R.id.childText);
         preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, MODE_PRIVATE);
+
+        if(preferences.getAll().isEmpty()){
+            preWelcomeLayout.setVisibility(View.VISIBLE);
+            welcomeLayout.setVisibility(View.GONE);
+
+            preferences.edit().putBoolean(SHAREDRPREFS_KEY_INSTALLED, true).commit();
+        }
+
 
         onClickListeners();
 
@@ -74,10 +85,16 @@ public class OnBoardingIntroActivity extends Activity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (welcomeLayout.getVisibility() == View.VISIBLE) {
+                if (preWelcomeLayout.getVisibility() == View.VISIBLE) {
+
+                    crossfade(preWelcomeLayout, welcomeLayout);
+                    skipButton.setVisibility(View.VISIBLE);
+
+//                    backButton.setVisibility(View.VISIBLE);
+                }else if(welcomeLayout.getVisibility() == View.VISIBLE){
                     crossfade(welcomeLayout, chooseLayout);
                     skipButton.setVisibility(View.VISIBLE);
-                    backButton.setVisibility(View.VISIBLE);
+
                 } else if (chooseLayout.getVisibility() == View.VISIBLE) {
                     if (parentSelected == null) {
                         Toast.makeText(OnBoardingIntroActivity.this,
@@ -128,12 +145,12 @@ public class OnBoardingIntroActivity extends Activity {
             }
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+//        backButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                onBackPressed();
+//            }
+//        });
 
 
     }
@@ -174,7 +191,7 @@ public class OnBoardingIntroActivity extends Activity {
         if (chooseLayout.getVisibility() == View.VISIBLE) {
             crossfade(chooseLayout, welcomeLayout);
             skipButton.setVisibility(View.GONE);
-            backButton.setVisibility(View.GONE);
+//            backButton.setVisibility(View.GONE);
             changeColor(getResources().getColor(R.color.privolino_background));
             setUnselected(parentText, selectParent);
             setUnselected(childText, selectChild);

@@ -178,7 +178,8 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, MODE_PRIVATE);
 
                 if (state.isEmpty()) {
-                    Intent intent2 = new Intent(this, IntroActivity.class);
+//                    Intent intent2 = new Intent(this, IntroActivity.class);
+                    Intent intent2 = new Intent(this,OnBoardingIntroActivity.class);
                     intent2.setData(intent.getData());
                     startActivity(intent2);
                     super.onCreate(savedInstanceState);
@@ -431,30 +432,33 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     args.putBoolean("destroyAfterSelect", true);
                     args.putBoolean("createSecretChat", false);
                     args.putBoolean("allowBots", false);
-                    presentFragment(new ContactsActivity(args));
+                    presentFragment(new ChatActivity(args));
+                    drawerLayoutContainer.closeDrawer(false);
+                } else if (id == 4) {
+                    presentFragment(new ContactsActivity(null));
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 5) {
-                    presentFragment(new ContactsActivity(null));
+                    presentFragment(new InviteContactsActivity());
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 6) {
-                    presentFragment(new ContactsActivity(null));
-                    drawerLayoutContainer.closeDrawer(false);
+//                    presentFragment(new AddParentPhoneActivity());
+//                    drawerLayoutContainer.closeDrawer(false);
 //                } else if (id == 7) {
-//                    SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, Activity.MODE_PRIVATE);
-//                    Class next = null;
-//                    if (preferences.getBoolean(SHAREDPREFS_KEY_IS_PARENT, true)){
-//                        next = ParentEmailActivity.class;
-//                        PrivalinoOnBoardHandler.parentModel = new Parent();
-//                        PrivalinoOnBoardHandler.parentModel.initialize(LaunchActivity.this);
-//
-//                    } else {
-//                        PrivalinoOnBoardHandler.childModel = new Child();
-//                        PrivalinoOnBoardHandler.childModel.initialize(LaunchActivity.this);
-//                        next = AddParentPhoneActivity.class;
-//                    }
-//                    Intent intent = new Intent(LaunchActivity.this, next);
-//                    intent.putExtra(INTENT_EXTRA_KEY_FROM_SETTINGS, true);
-//                    startActivity(intent);
+                    SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, Activity.MODE_PRIVATE);
+                    Class next = null;
+                    if (preferences.getBoolean(SHAREDPREFS_KEY_IS_PARENT, true)){
+                        next = ParentEmailActivity.class;
+                        PrivalinoOnBoardHandler.parentModel = new Parent();
+                        PrivalinoOnBoardHandler.parentModel.initialize(LaunchActivity.this);
+
+                    } else {
+                        PrivalinoOnBoardHandler.childModel = new Child();
+                        PrivalinoOnBoardHandler.childModel.initialize(LaunchActivity.this);
+                        next = AddParentPhoneActivity.class;
+                    }
+                    Intent intent = new Intent(LaunchActivity.this, next);
+                    intent.putExtra(INTENT_EXTRA_KEY_FROM_SETTINGS, true);
+                    startActivity(intent);
 
                 } else if (id == 7) {
                     presentFragment(new SettingsActivity());
@@ -2143,7 +2147,8 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 }
                 rightActionBarLayout.fragmentsStack.clear();
             }
-            Intent intent2 = new Intent(this, IntroActivity.class);
+//            Intent intent2 = new Intent(this, IntroActivity.class);
+            Intent intent2 = new Intent(this, OnBoardingIntroActivity.class);
             startActivity(intent2);
             onFinish();
             finish();

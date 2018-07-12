@@ -8,6 +8,7 @@ public class AppConstants {
 
 
     //shared preferences keys
+    public static final String SHAREDRPREFS_KEY_INSTALLED = "installed";
     public static final String SHAREDRPREFS_KEY_ON_BOARDING_INFO = "onboardinfo";
     public static final String SHAREDPREFS_KEY_USER_TYPE_SELECTED = "selected";
     public static final String SHAREDPREFS_KEY_IS_PARENT = "is_parent";

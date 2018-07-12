@@ -103,7 +103,7 @@ public class FinishOnBoardActivity extends Activity {
 
                 @Override
                 public void onFailure(Call<RegisterResponse> call, Throwable throwable) {
-                    Toast.makeText(FinishOnBoardActivity.this, R.string.error_warning, Toast.LENGTH_LONG).show();
+                    Toast.makeText(FinishOnBoardActivity.this, R.string.error_warning_internet, Toast.LENGTH_LONG).show();
                     nextButton.setClickable(true);
 
                 }
@@ -122,7 +122,7 @@ public class FinishOnBoardActivity extends Activity {
 
                 @Override
                 public void onFailure(Call<RegisterResponse> call, Throwable throwable) {
-                    Toast.makeText(FinishOnBoardActivity.this, R.string.error_warning, Toast.LENGTH_LONG).show();
+                    Toast.makeText(FinishOnBoardActivity.this, R.string.error_warning_internet, Toast.LENGTH_LONG).show();
                     nextButton.setClickable(true);
                 }
             });
