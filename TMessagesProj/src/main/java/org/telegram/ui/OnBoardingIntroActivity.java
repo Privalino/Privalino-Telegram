@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -23,6 +24,7 @@ import de.privalino.telegram.model.Parent;
 import static de.privalino.telegram.AnimationHelper.crossfade;
 import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_FROM_INTRO;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_IS_PARENT;
+import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_PHONE_ID;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_INSTALLED;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
 
@@ -66,6 +68,7 @@ public class OnBoardingIntroActivity extends Activity {
             welcomeLayout.setVisibility(View.GONE);
 
             preferences.edit().putBoolean(SHAREDRPREFS_KEY_INSTALLED, true).commit();
+            preferences.edit().putString(SHAREDPREFS_KEY_PHONE_ID, Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID)).commit();
         }
 
 
