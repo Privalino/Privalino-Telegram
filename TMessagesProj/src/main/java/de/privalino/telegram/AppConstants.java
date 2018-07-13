@@ -8,7 +8,6 @@ public class AppConstants {
 
 
     //shared preferences keys
-    public static final String SHAREDRPREFS_KEY_INSTALLED = "installed";
     public static final String SHAREDRPREFS_KEY_ON_BOARDING_INFO = "onboardinfo";
     public static final String SHAREDPREFS_KEY_USER_TYPE_SELECTED = "selected";
     public static final String SHAREDPREFS_KEY_IS_PARENT = "is_parent";
@@ -24,5 +23,7 @@ public class AppConstants {
     public static final String INTENT_EXTRA_KEY_FROM_SETTINGS = "fromSettings";
     public static final String INTENT_EXTRA_KEY_FROM_INTRO = "fromIntro";
     public static final String INTENT_EXTRA_KEY_IS_PARENT = "isParent";
+    public static final String SHAREDRPREFS_KEY_INSTALLED = "installed";
+    public static final String SHAREDPREFS_KEY_PHONE_ID = "phone_id";
 
 }
