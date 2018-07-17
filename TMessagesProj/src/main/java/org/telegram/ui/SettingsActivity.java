@@ -780,16 +780,16 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         avatarImage.setPivotX(0);
         avatarImage.setPivotY(0);
         frameLayout.addView(avatarImage, LayoutHelper.createFrame(42, 42, Gravity.TOP | Gravity.LEFT, 64, 0, 0, 0));
-        avatarImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TLRPC.User user = MessagesController.getInstance().getUser(UserConfig.getClientUserId());
-                if (user != null && user.photo != null && user.photo.photo_big != null) {
-                    PhotoViewer.getInstance().setParentActivity(getParentActivity());
-                    PhotoViewer.getInstance().openPhoto(user.photo.photo_big, provider);
-                }
-            }
-        });
+//        avatarImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                TLRPC.User user = MessagesController.getInstance().getUser(UserConfig.getClientUserId());
+//                if (user != null && user.photo != null && user.photo.photo_big != null) {
+//                    PhotoViewer.getInstance().setParentActivity(getParentActivity());
+//                    PhotoViewer.getInstance().openPhoto(user.photo.photo_big, provider);
+//                }
+//            }
+//        });
 
         nameTextView = new TextView(context);
         nameTextView.setTextColor(Theme.getColor(Theme.key_profile_title));
@@ -814,74 +814,74 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         onlineTextView.setGravity(Gravity.LEFT);
         frameLayout.addView(onlineTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118, 0, 48, 0));
 
-        writeButton = new ImageView(context);
-        Drawable drawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56), Theme.getColor(Theme.key_profile_actionBackground), Theme.getColor(Theme.key_profile_actionPressedBackground));
-        if (Build.VERSION.SDK_INT < 21) {
-            Drawable shadowDrawable = context.getResources().getDrawable(R.drawable.floating_shadow_profile).mutate();
-            shadowDrawable.setColorFilter(new PorterDuffColorFilter(0xff000000, PorterDuff.Mode.MULTIPLY));
-            CombinedDrawable combinedDrawable = new CombinedDrawable(shadowDrawable, drawable, 0, 0);
-            combinedDrawable.setIconSize(AndroidUtilities.dp(56), AndroidUtilities.dp(56));
-            drawable = combinedDrawable;
-        }
-        writeButton.setBackgroundDrawable(drawable);
-        writeButton.setImageResource(R.drawable.floating_camera);
-        writeButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_profile_actionIcon), PorterDuff.Mode.MULTIPLY));
-        writeButton.setScaleType(ImageView.ScaleType.CENTER);
-        if (Build.VERSION.SDK_INT >= 21) {
-            StateListAnimator animator = new StateListAnimator();
-            animator.addState(new int[]{android.R.attr.state_pressed}, ObjectAnimator.ofFloat(writeButton, "translationZ", AndroidUtilities.dp(2), AndroidUtilities.dp(4)).setDuration(200));
-            animator.addState(new int[]{}, ObjectAnimator.ofFloat(writeButton, "translationZ", AndroidUtilities.dp(4), AndroidUtilities.dp(2)).setDuration(200));
-            writeButton.setStateListAnimator(animator);
-            writeButton.setOutlineProvider(new ViewOutlineProvider() {
-                @SuppressLint("NewApi")
-                @Override
-                public void getOutline(View view, Outline outline) {
-                    outline.setOval(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56));
-                }
-            });
-        }
-        frameLayout.addView(writeButton, LayoutHelper.createFrame(Build.VERSION.SDK_INT >= 21 ? 56 : 60, Build.VERSION.SDK_INT >= 21 ? 56 : 60, Gravity.RIGHT | Gravity.TOP, 0, 0, 16, 0));
-        writeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getParentActivity() == null) {
-                    return;
-                }
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-
-                CharSequence[] items;
-
-                TLRPC.User user = MessagesController.getInstance().getUser(UserConfig.getClientUserId());
-                if (user == null) {
-                    user = UserConfig.getCurrentUser();
-                }
-                if (user == null) {
-                    return;
-                }
-                boolean fullMenu = false;
-                if (user.photo != null && user.photo.photo_big != null && !(user.photo instanceof TLRPC.TL_userProfilePhotoEmpty)) {
-                    items = new CharSequence[]{LocaleController.getString("FromCamera", R.string.FromCamera), LocaleController.getString("FromGalley", R.string.FromGalley), LocaleController.getString("DeletePhoto", R.string.DeletePhoto)};
-                    fullMenu = true;
-                } else {
-                    items = new CharSequence[]{LocaleController.getString("FromCamera", R.string.FromCamera), LocaleController.getString("FromGalley", R.string.FromGalley)};
-                }
-
-                final boolean full = fullMenu;
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (i == 0) {
-                            avatarUpdater.openCamera();
-                        } else if (i == 1) {
-                            avatarUpdater.openGallery();
-                        } else if (i == 2) {
-                            MessagesController.getInstance().deleteUserPhoto(null);
-                        }
-                    }
-                });
-                showDialog(builder.create());
-            }
-        });
+//        writeButton = new ImageView(context);
+//        Drawable drawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56), Theme.getColor(Theme.key_profile_actionBackground), Theme.getColor(Theme.key_profile_actionPressedBackground));
+//        if (Build.VERSION.SDK_INT < 21) {
+//            Drawable shadowDrawable = context.getResources().getDrawable(R.drawable.floating_shadow_profile).mutate();
+//            shadowDrawable.setColorFilter(new PorterDuffColorFilter(0xff000000, PorterDuff.Mode.MULTIPLY));
+//            CombinedDrawable combinedDrawable = new CombinedDrawable(shadowDrawable, drawable, 0, 0);
+//            combinedDrawable.setIconSize(AndroidUtilities.dp(56), AndroidUtilities.dp(56));
+//            drawable = combinedDrawable;
+//        }
+//        writeButton.setBackgroundDrawable(drawable);
+//        writeButton.setImageResource(R.drawable.floating_camera);
+//        writeButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_profile_actionIcon), PorterDuff.Mode.MULTIPLY));
+//        writeButton.setScaleType(ImageView.ScaleType.CENTER);
+//        if (Build.VERSION.SDK_INT >= 21) {
+//            StateListAnimator animator = new StateListAnimator();
+//            animator.addState(new int[]{android.R.attr.state_pressed}, ObjectAnimator.ofFloat(writeButton, "translationZ", AndroidUtilities.dp(2), AndroidUtilities.dp(4)).setDuration(200));
+//            animator.addState(new int[]{}, ObjectAnimator.ofFloat(writeButton, "translationZ", AndroidUtilities.dp(4), AndroidUtilities.dp(2)).setDuration(200));
+//            writeButton.setStateListAnimator(animator);
+//            writeButton.setOutlineProvider(new ViewOutlineProvider() {
+//                @SuppressLint("NewApi")
+//                @Override
+//                public void getOutline(View view, Outline outline) {
+//                    outline.setOval(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56));
+//                }
+//            });
+//        }
+//        frameLayout.addView(writeButton, LayoutHelper.createFrame(Build.VERSION.SDK_INT >= 21 ? 56 : 60, Build.VERSION.SDK_INT >= 21 ? 56 : 60, Gravity.RIGHT | Gravity.TOP, 0, 0, 16, 0));
+//        writeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (getParentActivity() == null) {
+//                    return;
+//                }
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+//
+//                CharSequence[] items;
+//
+//                TLRPC.User user = MessagesController.getInstance().getUser(UserConfig.getClientUserId());
+//                if (user == null) {
+//                    user = UserConfig.getCurrentUser();
+//                }
+//                if (user == null) {
+//                    return;
+//                }
+//                boolean fullMenu = false;
+//                if (user.photo != null && user.photo.photo_big != null && !(user.photo instanceof TLRPC.TL_userProfilePhotoEmpty)) {
+//                    items = new CharSequence[]{LocaleController.getString("FromCamera", R.string.FromCamera), LocaleController.getString("FromGalley", R.string.FromGalley), LocaleController.getString("DeletePhoto", R.string.DeletePhoto)};
+//                    fullMenu = true;
+//                } else {
+//                    items = new CharSequence[]{LocaleController.getString("FromCamera", R.string.FromCamera), LocaleController.getString("FromGalley", R.string.FromGalley)};
+//                }
+//
+//                final boolean full = fullMenu;
+//                builder.setItems(items, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        if (i == 0) {
+//                            avatarUpdater.openCamera();
+//                        } else if (i == 1) {
+//                            avatarUpdater.openGallery();
+//                        } else if (i == 2) {
+//                            MessagesController.getInstance().deleteUserPhoto(null);
+//                        }
+//                    }
+//                });
+//                showDialog(builder.create());
+//            }
+//        });
 
         needLayout();
 
@@ -1069,50 +1069,50 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             shadowView.setTranslationY(newTop + extraHeight);
 
 
-            writeButton.setTranslationY((actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) + ActionBar.getCurrentActionBarHeight() + extraHeight - AndroidUtilities.dp(29.5f));
-
-            final boolean setVisible = diff > 0.2f;
-            boolean currentVisible = writeButton.getTag() == null;
-            if (setVisible != currentVisible) {
-                if (setVisible) {
-                    writeButton.setTag(null);
-                    writeButton.setVisibility(View.VISIBLE);
-                } else {
-                    writeButton.setTag(0);
-                }
-                if (writeButtonAnimation != null) {
-                    AnimatorSet old = writeButtonAnimation;
-                    writeButtonAnimation = null;
-                    old.cancel();
-                }
-                writeButtonAnimation = new AnimatorSet();
-                if (setVisible) {
-                    writeButtonAnimation.setInterpolator(new DecelerateInterpolator());
-                    writeButtonAnimation.playTogether(
-                            ObjectAnimator.ofFloat(writeButton, "scaleX", 1.0f),
-                            ObjectAnimator.ofFloat(writeButton, "scaleY", 1.0f),
-                            ObjectAnimator.ofFloat(writeButton, "alpha", 1.0f)
-                    );
-                } else {
-                    writeButtonAnimation.setInterpolator(new AccelerateInterpolator());
-                    writeButtonAnimation.playTogether(
-                            ObjectAnimator.ofFloat(writeButton, "scaleX", 0.2f),
-                            ObjectAnimator.ofFloat(writeButton, "scaleY", 0.2f),
-                            ObjectAnimator.ofFloat(writeButton, "alpha", 0.0f)
-                    );
-                }
-                writeButtonAnimation.setDuration(150);
-                writeButtonAnimation.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        if (writeButtonAnimation != null && writeButtonAnimation.equals(animation)) {
-                            writeButton.setVisibility(setVisible ? View.VISIBLE : View.GONE);
-                            writeButtonAnimation = null;
-                        }
-                    }
-                });
-                writeButtonAnimation.start();
-            }
+//            writeButton.setTranslationY((actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) + ActionBar.getCurrentActionBarHeight() + extraHeight - AndroidUtilities.dp(29.5f));
+//
+//            final boolean setVisible = diff > 0.2f;
+//            boolean currentVisible = writeButton.getTag() == null;
+//            if (setVisible != currentVisible) {
+//                if (setVisible) {
+//                    writeButton.setTag(null);
+//                    writeButton.setVisibility(View.VISIBLE);
+//                } else {
+//                    writeButton.setTag(0);
+//                }
+//                if (writeButtonAnimation != null) {
+//                    AnimatorSet old = writeButtonAnimation;
+//                    writeButtonAnimation = null;
+//                    old.cancel();
+//                }
+//                writeButtonAnimation = new AnimatorSet();
+//                if (setVisible) {
+//                    writeButtonAnimation.setInterpolator(new DecelerateInterpolator());
+//                    writeButtonAnimation.playTogether(
+//                            ObjectAnimator.ofFloat(writeButton, "scaleX", 1.0f),
+//                            ObjectAnimator.ofFloat(writeButton, "scaleY", 1.0f),
+//                            ObjectAnimator.ofFloat(writeButton, "alpha", 1.0f)
+//                    );
+//                } else {
+//                    writeButtonAnimation.setInterpolator(new AccelerateInterpolator());
+//                    writeButtonAnimation.playTogether(
+//                            ObjectAnimator.ofFloat(writeButton, "scaleX", 0.2f),
+//                            ObjectAnimator.ofFloat(writeButton, "scaleY", 0.2f),
+//                            ObjectAnimator.ofFloat(writeButton, "alpha", 0.0f)
+//                    );
+//                }
+//                writeButtonAnimation.setDuration(150);
+//                writeButtonAnimation.addListener(new AnimatorListenerAdapter() {
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        if (writeButtonAnimation != null && writeButtonAnimation.equals(animation)) {
+//                            writeButton.setVisibility(setVisible ? View.VISIBLE : View.GONE);
+//                            writeButtonAnimation = null;
+//                        }
+//                    }
+//                });
+//                writeButtonAnimation.start();
+//            }
 
             avatarImage.setScaleX((42 + 18 * diff) / 42.0f);
             avatarImage.setScaleY((42 + 18 * diff) / 42.0f);
@@ -1483,9 +1483,9 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 new ThemeDescription(avatarImage, 0, null, null, new Drawable[]{Theme.avatar_photoDrawable, Theme.avatar_broadcastDrawable, Theme.avatar_savedDrawable}, null, Theme.key_avatar_text),
                 new ThemeDescription(avatarImage, 0, null, null, new Drawable[]{avatarDrawable}, null, Theme.key_avatar_backgroundInProfileBlue),
 
-                new ThemeDescription(writeButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_profile_actionIcon),
-                new ThemeDescription(writeButton, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_profile_actionBackground),
-                new ThemeDescription(writeButton, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, Theme.key_profile_actionPressedBackground),
+//                new ThemeDescription(writeButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_profile_actionIcon),
+//                new ThemeDescription(writeButton, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_profile_actionBackground),
+//                new ThemeDescription(writeButton, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, Theme.key_profile_actionPressedBackground),
         };
     }
 }

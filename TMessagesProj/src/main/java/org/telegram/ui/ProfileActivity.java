@@ -1065,24 +1065,24 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         avatarImage.setPivotX(0);
         avatarImage.setPivotY(0);
         frameLayout.addView(avatarImage, LayoutHelper.createFrame(42, 42, Gravity.TOP | Gravity.LEFT, 64, 0, 0, 0));
-        avatarImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (user_id != 0) {
-                    TLRPC.User user = MessagesController.getInstance().getUser(user_id);
-                    if (user.photo != null && user.photo.photo_big != null) {
-                        PhotoViewer.getInstance().setParentActivity(getParentActivity());
-                        PhotoViewer.getInstance().openPhoto(user.photo.photo_big, provider);
-                    }
-                } else if (chat_id != 0) {
-                    TLRPC.Chat chat = MessagesController.getInstance().getChat(chat_id);
-                    if (chat.photo != null && chat.photo.photo_big != null) {
-                        PhotoViewer.getInstance().setParentActivity(getParentActivity());
-                        PhotoViewer.getInstance().openPhoto(chat.photo.photo_big, provider);
-                    }
-                }
-            }
-        });
+//        avatarImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (user_id != 0) {
+//                    TLRPC.User user = MessagesController.getInstance().getUser(user_id);
+//                    if (user.photo != null && user.photo.photo_big != null) {
+//                        PhotoViewer.getInstance().setParentActivity(getParentActivity());
+//                        PhotoViewer.getInstance().openPhoto(user.photo.photo_big, provider);
+//                    }
+//                } else if (chat_id != 0) {
+//                    TLRPC.Chat chat = MessagesController.getInstance().getChat(chat_id);
+//                    if (chat.photo != null && chat.photo.photo_big != null) {
+//                        PhotoViewer.getInstance().setParentActivity(getParentActivity());
+//                        PhotoViewer.getInstance().openPhoto(chat.photo.photo_big, provider);
+//                    }
+//                }
+//            }
+//        });
 
         for (int a = 0; a < 2; a++) {
             if (!playProfileAnimation && a == 0) {

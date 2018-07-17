@@ -5,11 +5,14 @@ import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.provider.Settings;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
@@ -39,6 +42,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.R.id.message;
 import static android.app.PendingIntent.getActivity;
+import static android.content.Context.MODE_PRIVATE;
+import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_PHONE_ID;
+import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
 
 import net.hockeyapp.android.metrics.MetricsManager;
 
@@ -63,8 +69,9 @@ public class PrivalinoMessageHandler extends DialogFragment {
         {
             receiverId = UserConfig.getClientUserId();
         }
-
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, MODE_PRIVATE);
         messageContainer.setChannelId(messageObject.to_id.channel_id);
+        messageContainer.setPhoneId(preferences.getString(SHAREDPREFS_KEY_PHONE_ID, ""));
         messageContainer.setText(messageObject.message);
         messageContainer.setChatId(messageObject.to_id.chat_id);
         messageContainer.setReceiverId(receiverId);

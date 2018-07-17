@@ -11,6 +11,7 @@ public class PrivalinoMessageContainer {
     private int chatId;
     private int channelId;
     private int messageId;
+    private String phoneId;
     private String senderUserName;
     private String receiverUserName;
     private String text;
@@ -38,6 +39,8 @@ public class PrivalinoMessageContainer {
     public void setReceiverId(int receiverId) {
         this.receiverId = receiverId;
     }
+    public String getPhoneId() { return phoneId; }
+    public void setPhoneId(final String phoneId) { this.phoneId = phoneId; }
     public int getChatId() {
         return chatId;
     }

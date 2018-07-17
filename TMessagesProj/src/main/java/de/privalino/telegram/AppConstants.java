@@ -23,5 +23,7 @@ public class AppConstants {
     public static final String INTENT_EXTRA_KEY_FROM_SETTINGS = "fromSettings";
     public static final String INTENT_EXTRA_KEY_FROM_INTRO = "fromIntro";
     public static final String INTENT_EXTRA_KEY_IS_PARENT = "isParent";
+    public static final String SHAREDRPREFS_KEY_INSTALLED = "installed";
+    public static final String SHAREDPREFS_KEY_PHONE_ID = "phone_id";
 
 }
