@@ -12,3 +12,4 @@ google-services.json
 TMessagesProj/.externalNativeBuild
 *.DS_Store
 *.apk
+keystore.jks
