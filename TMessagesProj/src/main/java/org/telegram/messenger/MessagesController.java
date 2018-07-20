@@ -348,7 +348,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         AndroidUtilities.runOnUIThread(new Runnable() {
             @Override
             public void run() {
-                LocaleController.getInstance().loadRemoteLanguages();
                 //maxBroadcastCount = config.broadcast_size_max;
                 maxMegagroupCount = config.megagroup_size_max;
                 maxGroupCount = config.chat_size_max;
