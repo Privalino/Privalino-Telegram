@@ -339,7 +339,6 @@ public class IntroActivity extends Activity implements NotificationCenter.Notifi
             setContentView(scrollView);
         }
 
-        LocaleController.getInstance().loadRemoteLanguages();
         checkContinueText();
         justCreated = true;
         NotificationCenter.getInstance().addObserver(this, NotificationCenter.suggestedLangpack);
