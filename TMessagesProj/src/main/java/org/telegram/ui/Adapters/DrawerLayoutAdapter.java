@@ -95,7 +95,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             return 0;
         } else if (i == 1) {
             return 1;
-        } else if (i == 4) {
+        } else if (i == 3) {
             return 2;
         }
         return 3;
@@ -109,14 +109,14 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         items.add(null); // profile
         items.add(null); // padding
         items.add(new Item(2, LocaleController.getString("NewGroup", R.string.NewGroup), R.drawable.menu_newgroup));
-        items.add(new Item(3, LocaleController.getString("NewSecretChat", R.string.NewSecretChat), R.drawable.floating_message));
+//        items.add(new Item(3, LocaleController.getString("NewSecretChat", R.string.NewSecretChat), R.drawable.floating_message));
 //        items.add(new Item(4, LocaleController.getString("NewChannel", R.string.NewChannel), R.drawable.menu_broadcast));
         items.add(null); // divider
-        items.add(new Item(4, LocaleController.getString("Contacts", R.string.Contacts), R.drawable.menu_contacts));
-        items.add(new Item(5, LocaleController.getString("InviteFriends", R.string.InviteFriends), R.drawable.menu_invite));
-        items.add(new Item(6, mContext.getString(R.string.connect_parent_with_child), R.drawable.ic_child));
-        items.add(new Item(7, LocaleController.getString("Settings", R.string.Settings), R.drawable.menu_settings));
-        items.add(new Item(8, LocaleController.getString("TelegramFaq", R.string.TelegramFaq), R.drawable.menu_help));
+        items.add(new Item(3, LocaleController.getString("Contacts", R.string.Contacts), R.drawable.menu_contacts));
+        items.add(new Item(4, LocaleController.getString("InviteFriends", R.string.InviteFriends), R.drawable.menu_invite));
+        items.add(new Item(5, mContext.getString(R.string.connect_parent_with_child), R.drawable.ic_child));
+        items.add(new Item(6, LocaleController.getString("Settings", R.string.Settings), R.drawable.menu_settings));
+        items.add(new Item(7, LocaleController.getString("TelegramFaq", R.string.TelegramFaq), R.drawable.menu_help));
 
     }
 

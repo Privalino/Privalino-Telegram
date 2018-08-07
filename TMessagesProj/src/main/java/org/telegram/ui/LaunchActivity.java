@@ -426,21 +426,21 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     }
                     presentFragment(new GroupCreateActivity());
                     drawerLayoutContainer.closeDrawer(false);
+//                } else if (id == 3) {
+//                    Bundle args = new Bundle();
+//                    args.putBoolean("onlyUsers", true);
+//                    args.putBoolean("destroyAfterSelect", true);
+//                    args.putBoolean("createSecretChat", false);
+//                    args.putBoolean("allowBots", false);
+//                    presentFragment(new ChatActivity(args));
+//                    drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 3) {
-                    Bundle args = new Bundle();
-                    args.putBoolean("onlyUsers", true);
-                    args.putBoolean("destroyAfterSelect", true);
-                    args.putBoolean("createSecretChat", false);
-                    args.putBoolean("allowBots", false);
-                    presentFragment(new ChatActivity(args));
-                    drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 4) {
                     presentFragment(new ContactsActivity(null));
                     drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 5) {
+                } else if (id == 4) {
                     presentFragment(new InviteContactsActivity());
                     drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 6) {
+                } else if (id == 5) {
 //                    presentFragment(new AddParentPhoneActivity());
 //                    drawerLayoutContainer.closeDrawer(false);
 //                } else if (id == 7) {
@@ -460,10 +460,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     intent.putExtra(INTENT_EXTRA_KEY_FROM_SETTINGS, true);
                     startActivity(intent);
 
-                } else if (id == 7) {
+                } else if (id == 6) {
                     presentFragment(new SettingsActivity());
                     drawerLayoutContainer.closeDrawer(false);
-                } else if (id == 8) {
+                } else if (id == 7) {
                     Browser.openUrl(LaunchActivity.this, LocaleController.getString("TelegramFaqUrl", R.string.TelegramFaqUrl));
                     drawerLayoutContainer.closeDrawer(false);
                 }
