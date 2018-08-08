@@ -32,13 +32,24 @@
         android:gravity="center"
         android:textColor="@color/transparent_white"/>
 
+    <!--<ImageView-->
+        <!--android:id="@+id/done_button"-->
+        <!--android:layout_width="56dp"-->
+        <!--android:layout_height="56dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="96dp"-->
+        <!--android:src="@drawable/button_check" />-->
+
+
     <ImageView
         android:id="@+id/done_button"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="86dp"
+        android:layout_height="86dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="81dp"
+        android:padding="15dp"
         android:src="@drawable/button_check" />
 
 
