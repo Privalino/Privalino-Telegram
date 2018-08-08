@@ -28,11 +28,11 @@
     <RelativeLayout
         android:id="@+id/preWelcomeLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="263dp"
         android:layout_alignParentTop="true"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="100dp">
 
 
         <TextView
@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="263dp"
         android:layout_alignParentTop="true"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="110dp">
 
@@ -166,13 +166,23 @@
 
     </RelativeLayout>
 
+    <!--<ImageView-->
+        <!--android:id="@+id/nextButton"-->
+        <!--android:layout_width="56dp"-->
+        <!--android:layout_height="56dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="57dp"-->
+        <!--android:src="@drawable/next" />-->
+
     <ImageView
         android:id="@+id/nextButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="86dp"
+        android:layout_height="86dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="57dp"
+        android:layout_marginBottom="42dp"
+        android:padding="15dp"
         android:src="@drawable/next" />
 
     <TextView

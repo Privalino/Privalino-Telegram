@@ -314,7 +314,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         saveToGalleryRow = rowCount++;
         supportSectionRow = rowCount++;
         supportSectionRow2 = rowCount++;
-        askQuestionRow = rowCount++;
+//        askQuestionRow = rowCount++;
         telegramFaqRow = rowCount++;
         privacyPolicyRow = rowCount++;
         if (BuildVars.DEBUG_VERSION) {
@@ -492,40 +492,40 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                     Intent intent = new Intent(context, next);
                     intent.putExtra(INTENT_EXTRA_KEY_FROM_SETTINGS, true);
                     context.startActivity(intent);
-                } else if (position == askQuestionRow) {
-                    if (getParentActivity() == null) {
-                        return;
-                    }
-                    final TextView message = new TextView(getParentActivity());
-                    Spannable spanned = new SpannableString(Html.fromHtml(LocaleController.getString("AskAQuestionInfo", R.string.AskAQuestionInfo).replace("\n", "<br>")));
-                    URLSpan[] spans = spanned.getSpans(0, spanned.length(), URLSpan.class);
-                    for (int a = 0; a < spans.length; a++) {
-                        URLSpan span = spans[a];
-                        int start = spanned.getSpanStart(span);
-                        int end = spanned.getSpanEnd(span);
-                        spanned.removeSpan(span);
-                        span = new URLSpanNoUnderline(span.getURL());
-                        spanned.setSpan(span, start, end, 0);
-                    }
-                    message.setText(spanned);
-                    message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-                    message.setLinkTextColor(Theme.getColor(Theme.key_dialogTextLink));
-                    message.setHighlightColor(Theme.getColor(Theme.key_dialogLinkSelection));
-                    message.setPadding(AndroidUtilities.dp(23), 0, AndroidUtilities.dp(23), 0);
-                    message.setMovementMethod(new LinkMovementMethodMy());
-                    message.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                    builder.setView(message);
-                    builder.setTitle(LocaleController.getString("AskAQuestion", R.string.AskAQuestion));
-                    builder.setPositiveButton(LocaleController.getString("AskButton", R.string.AskButton), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            performAskAQuestion();
-                        }
-                    });
-                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                    showDialog(builder.create());
+//                } else if (position == askQuestionRow) {
+//                    if (getParentActivity() == null) {
+//                        return;
+//                    }
+//                    final TextView message = new TextView(getParentActivity());
+//                    Spannable spanned = new SpannableString(Html.fromHtml(LocaleController.getString("AskAQuestionInfo", R.string.AskAQuestionInfo).replace("\n", "<br>")));
+//                    URLSpan[] spans = spanned.getSpans(0, spanned.length(), URLSpan.class);
+//                    for (int a = 0; a < spans.length; a++) {
+//                        URLSpan span = spans[a];
+//                        int start = spanned.getSpanStart(span);
+//                        int end = spanned.getSpanEnd(span);
+//                        spanned.removeSpan(span);
+//                        span = new URLSpanNoUnderline(span.getURL());
+//                        spanned.setSpan(span, start, end, 0);
+//                    }
+//                    message.setText(spanned);
+//                    message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+//                    message.setLinkTextColor(Theme.getColor(Theme.key_dialogTextLink));
+//                    message.setHighlightColor(Theme.getColor(Theme.key_dialogLinkSelection));
+//                    message.setPadding(AndroidUtilities.dp(23), 0, AndroidUtilities.dp(23), 0);
+//                    message.setMovementMethod(new LinkMovementMethodMy());
+//                    message.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+//
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+//                    builder.setView(message);
+//                    builder.setTitle(LocaleController.getString("AskAQuestion", R.string.AskAQuestion));
+//                    builder.setPositiveButton(LocaleController.getString("AskButton", R.string.AskButton), new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i) {
+//                            performAskAQuestion();
+//                        }
+//                    });
+//                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+//                    showDialog(builder.create());
                 } else if (position == sendLogsRow) {
                     sendLogs();
                 } else if (position == clearLogsRow) {
@@ -1252,8 +1252,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                         textCell.setText("Send Logs", true);
                     } else if (position == clearLogsRow) {
                         textCell.setText("Clear Logs", true);
-                    } else if (position == askQuestionRow) {
-                        textCell.setText(LocaleController.getString("AskAQuestion", R.string.AskAQuestion), true);
+//                    } else if (position == askQuestionRow) {
+//                        textCell.setText(LocaleController.getString("AskAQuestion", R.string.AskAQuestion), true);
                     } else if (position == privacyRow) {
                         textCell.setText(LocaleController.getString("PrivacySettings", R.string.PrivacySettings), true);
                     } else if (position == dataRow) {
