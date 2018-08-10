@@ -8,6 +8,8 @@
 
 package org.telegram.tgnet;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -2609,7 +2611,9 @@ public class TLRPC {
 			}
 			int count = stream.readInt32(exception);
 			for (int a = 0; a < count; a++) {
-				PrivacyRule object = PrivacyRule.TLdeserialize(stream, stream.readInt32(exception), exception);
+				int test = stream.readInt32(exception);
+				Log.e("PRIVACYTLRPC", String.valueOf(test));
+				PrivacyRule object = PrivacyRule.TLdeserialize(stream, test, exception);
 				if (object == null) {
 					return;
 				}
