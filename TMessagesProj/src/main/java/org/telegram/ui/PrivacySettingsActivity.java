@@ -349,6 +349,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         int minus = 0;
         for (int a = 0; a < privacyRules.size(); a++) {
             TLRPC.PrivacyRule rule = privacyRules.get(a);
+        //    rule = new TLRPC.TL_privacyValueDisallowUsers();
             if (rule instanceof TLRPC.TL_privacyValueAllowUsers) {
                 plus += rule.users.size();
             } else if (rule instanceof TLRPC.TL_privacyValueDisallowUsers) {
