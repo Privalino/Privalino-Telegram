@@ -23,6 +23,7 @@ import android.os.Build;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.tgnet.ConnectionsManager;
@@ -2064,6 +2065,7 @@ public class ContactsController {
             loadingLastSeenInfo = 1;
             TLRPC.TL_account_getPrivacy req = new TLRPC.TL_account_getPrivacy();
             req.key = new TLRPC.TL_inputPrivacyKeyStatusTimestamp();
+            Log.e("PRIVACY", String.valueOf(privacyRules));
             ConnectionsManager.getInstance().sendRequest(req, new RequestDelegate() {
                 @Override
                 public void run(final TLObject response, final TLRPC.TL_error error) {
@@ -2073,7 +2075,9 @@ public class ContactsController {
                             if (error == null) {
                                 TLRPC.TL_account_privacyRules rules = (TLRPC.TL_account_privacyRules) response;
                                 MessagesController.getInstance().putUsers(rules.users, false);
+                                Log.e("PRIVACY1", String.valueOf(privacyRules));
                                 privacyRules = rules.rules;
+                                Log.e("PRIVACY2", String.valueOf(privacyRules));
                                 loadingLastSeenInfo = 2;
                             } else {
                                 loadingLastSeenInfo = 0;
