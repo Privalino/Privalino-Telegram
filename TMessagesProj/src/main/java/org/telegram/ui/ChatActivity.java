@@ -9921,8 +9921,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             selectedMessagesCanStarIds[a].clear();
             selectedMessagesIds[a].clear();
         }
-        cantDeleteMessagesCount = 0;
-        canEditMessagesCount = 0;
+//        cantDeleteMessagesCount = 0;
+//        canEditMessagesCount = 0;
         actionBar.hideActionMode();
         updatePinnedMessageView(true);
 
@@ -9961,8 +9961,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (type == 0) {
                     items.add(LocaleController.getString("Retry", R.string.Retry));
                     options.add(0);
-                    items.add(LocaleController.getString("Delete", R.string.Delete));
-                    options.add(1);
+//                    items.add(LocaleController.getString("Delete", R.string.Delete));
+//                    options.add(1);
                 } else if (type == 1) {
                     if (currentChat != null && !isBroadcast) {
                         if (allowChatActions) {
@@ -9976,14 +9976,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("PinMessage", R.string.PinMessage));
                             options.add(13);
                         }
-                        if (allowEdit) {
-                            items.add(LocaleController.getString("Edit", R.string.Edit));
-                            options.add(12);
-                        }
-                        if (message.canDeleteMessage(currentChat)) {
-                            items.add(LocaleController.getString("Delete", R.string.Delete));
-                            options.add(1);
-                        }
+//                        if (allowEdit) {
+//                            items.add(LocaleController.getString("Edit", R.string.Edit));
+//                            options.add(12);
+//                        }
+//                        if (message.canDeleteMessage(currentChat)) {
+//                            items.add(LocaleController.getString("Delete", R.string.Delete));
+//                            options.add(1);
+//                        }
                     } else {
 //                        if (message.messageOwner.action != null && message.messageOwner.action instanceof TLRPC.TL_messageActionPhoneCall) {
 //                            TLRPC.TL_messageActionPhoneCall call = (TLRPC.TL_messageActionPhoneCall) message.messageOwner.action;
@@ -9998,18 +9998,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("Reply", R.string.Reply));
                             options.add(8);
                         }
-                        if (message.canDeleteMessage(currentChat)) {
-                            items.add(LocaleController.getString("Delete", R.string.Delete));
-                            options.add(1);
-                        }
+//                        if (message.canDeleteMessage(currentChat)) {
+//                            items.add(LocaleController.getString("Delete", R.string.Delete));
+//                            options.add(1);
+//                        }
                     }
                 } else if (type == 20) {
                     items.add(LocaleController.getString("Retry", R.string.Retry));
                     options.add(0);
                     items.add(LocaleController.getString("Copy", R.string.Copy));
                     options.add(3);
-                    items.add(LocaleController.getString("Delete", R.string.Delete));
-                    options.add(1);
+//                    items.add(LocaleController.getString("Delete", R.string.Delete));
+//                    options.add(1);
                 } else {
                     if (currentEncryptedChat == null) {
                         if (allowChatActions) {
@@ -10127,14 +10127,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("PinMessage", R.string.PinMessage));
                             options.add(13);
                         }
-                        if (allowEdit) {
-                            items.add(LocaleController.getString("Edit", R.string.Edit));
-                            options.add(12);
-                        }
-                        if (message.canDeleteMessage(currentChat)) {
-                            items.add(LocaleController.getString("Delete", R.string.Delete));
-                            options.add(1);
-                        }
+//                        if (allowEdit) {
+//                            items.add(LocaleController.getString("Edit", R.string.Edit));
+//                            options.add(12);
+//                        }
+//                        if (message.canDeleteMessage(currentChat)) {
+//                            items.add(LocaleController.getString("Delete", R.string.Delete));
+//                            options.add(1);
+//                        }
                     } else {
                         if (allowChatActions) {
                             items.add(LocaleController.getString("Reply", R.string.Reply));
@@ -10174,7 +10174,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 //                            items.add(LocaleController.getString("AddToStickers", R.string.AddToStickers));
 //                            options.add(9);
 //                        }
-                        items.add(LocaleController.getString("Delete", R.string.Delete));
+//                        items.add(LocaleController.getString("Delete", R.string.Delete));
                         options.add(1);
                     }
                 }
