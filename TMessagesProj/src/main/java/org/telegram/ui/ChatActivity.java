@@ -222,7 +222,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private FrameLayout actionModeTitleContainer;
     private SimpleTextView actionModeTextView;
     private SimpleTextView actionModeSubTextView;
-    private RecyclerListView stickersListView;
+//    private RecyclerListView stickersListView;
     private ImageView stickersPanelArrow;
     private RecyclerListView.OnItemClickListener stickersOnItemClickListener;
     private RecyclerListView.OnItemClickListener mentionsOnItemClickListener;
@@ -3373,33 +3373,33 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         stickersPanel.setVisibility(View.GONE);
         contentView.addView(stickersPanel, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 81.5f, Gravity.LEFT | Gravity.BOTTOM, 0, 0, 0, 38));
 
-        stickersListView = new RecyclerListView(context) {
-            @Override
-            public boolean onInterceptTouchEvent(MotionEvent event) {
-                boolean result = StickerPreviewViewer.getInstance().onInterceptTouchEvent(event, stickersListView, 0, null);
-                return super.onInterceptTouchEvent(event) || result;
-            }
-        };
-        stickersListView.setTag(3);
-        stickersListView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return StickerPreviewViewer.getInstance().onTouch(event, stickersListView, 0, stickersOnItemClickListener, null);
-            }
-        });
-        stickersListView.setDisallowInterceptTouchEvents(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        stickersListView.setLayoutManager(layoutManager);
-        stickersListView.setClipToPadding(false);
-        stickersListView.setOverScrollMode(RecyclerListView.OVER_SCROLL_NEVER);
-        stickersPanel.addView(stickersListView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 78));
-        initStickers();
-
-        stickersPanelArrow = new ImageView(context);
-        stickersPanelArrow.setImageResource(R.drawable.stickers_back_arrow);
-        stickersPanelArrow.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_stickersHintPanel), PorterDuff.Mode.MULTIPLY));
-        stickersPanel.addView(stickersPanelArrow, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM | Gravity.LEFT, 53, 0, 0, 0));
+//        stickersListView = new RecyclerListView(context) {
+//            @Override
+//            public boolean onInterceptTouchEvent(MotionEvent event) {
+//                boolean result = StickerPreviewViewer.getInstance().onInterceptTouchEvent(event, stickersListView, 0, null);
+//                return super.onInterceptTouchEvent(event) || result;
+//            }
+//        };
+//        stickersListView.setTag(3);
+//        stickersListView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return StickerPreviewViewer.getInstance().onTouch(event, stickersListView, 0, stickersOnItemClickListener, null);
+//            }
+//        });
+//        stickersListView.setDisallowInterceptTouchEvents(true);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+//        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+//        stickersListView.setLayoutManager(layoutManager);
+//        stickersListView.setClipToPadding(false);
+//        stickersListView.setOverScrollMode(RecyclerListView.OVER_SCROLL_NEVER);
+//        stickersPanel.addView(stickersListView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 78));
+//        initStickers();
+//
+//        stickersPanelArrow = new ImageView(context);
+//        stickersPanelArrow.setImageResource(R.drawable.stickers_back_arrow);
+//        stickersPanelArrow.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_stickersHintPanel), PorterDuff.Mode.MULTIPLY));
+//        stickersPanel.addView(stickersPanelArrow, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM | Gravity.LEFT, 53, 0, 0, 0));
 
         searchContainer = new FrameLayout(context) {
             @Override
@@ -4002,76 +4002,76 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         return false;
     }
 
-    private void initStickers() {
-        if (chatActivityEnterView == null || getParentActivity() == null || stickersAdapter != null || currentEncryptedChat != null && AndroidUtilities.getPeerLayerVersion(currentEncryptedChat.layer) < 23) {
-            return;
-        }
-        if (stickersAdapter != null) {
-            stickersAdapter.onDestroy();
-        }
-        stickersListView.setPadding(AndroidUtilities.dp(18), 0, AndroidUtilities.dp(18), 0);
-        stickersListView.setAdapter(stickersAdapter = new StickersAdapter(getParentActivity(), new StickersAdapter.StickersAdapterDelegate() {
-            @Override
-            public void needChangePanelVisibility(final boolean show) {
-                if (show && stickersPanel.getVisibility() == View.VISIBLE || !show && stickersPanel.getVisibility() == View.GONE) {
-                    return;
-                }
-                if (show) {
-                    stickersListView.scrollToPosition(0);
-                    stickersPanel.setVisibility(allowStickersPanel ? View.VISIBLE : View.INVISIBLE);
-                }
-                if (runningAnimation != null) {
-                    runningAnimation.cancel();
-                    runningAnimation = null;
-                }
-                if (stickersPanel.getVisibility() != View.INVISIBLE) {
-                    runningAnimation = new AnimatorSet();
-                    runningAnimation.playTogether(
-                            ObjectAnimator.ofFloat(stickersPanel, "alpha", show ? 0.0f : 1.0f, show ? 1.0f : 0.0f)
-                    );
-                    runningAnimation.setDuration(150);
-                    runningAnimation.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            if (runningAnimation != null && runningAnimation.equals(animation)) {
-                                if (!show) {
-                                    stickersAdapter.clearStickers();
-                                    stickersPanel.setVisibility(View.GONE);
-                                    if (StickerPreviewViewer.getInstance().isVisible()) {
-                                        StickerPreviewViewer.getInstance().close();
-                                    }
-                                    StickerPreviewViewer.getInstance().reset();
-                                }
-                                runningAnimation = null;
-                            }
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-                            if (runningAnimation != null && runningAnimation.equals(animation)) {
-                                runningAnimation = null;
-                            }
-                        }
-                    });
-                    runningAnimation.start();
-                } else if (!show) {
-                    stickersPanel.setVisibility(View.GONE);
-                }
-            }
-        }));
-        stickersListView.setOnItemClickListener(stickersOnItemClickListener = new RecyclerListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                TLRPC.Document document = stickersAdapter.getItem(position);
-                if (document instanceof TLRPC.TL_document) {
-                    SendMessagesHelper.getInstance().sendSticker(document, dialog_id, replyingMessageObject);
-                    showReplyPanel(false, null, null, null, false);
-                    chatActivityEnterView.addStickerToRecent(document);
-                }
-                chatActivityEnterView.setFieldText("");
-            }
-        });
-    }
+//    private void initStickers() {
+//        if (chatActivityEnterView == null || getParentActivity() == null || stickersAdapter != null || currentEncryptedChat != null && AndroidUtilities.getPeerLayerVersion(currentEncryptedChat.layer) < 23) {
+//            return;
+//        }
+//        if (stickersAdapter != null) {
+//            stickersAdapter.onDestroy();
+//        }
+//        stickersListView.setPadding(AndroidUtilities.dp(18), 0, AndroidUtilities.dp(18), 0);
+//        stickersListView.setAdapter(stickersAdapter = new StickersAdapter(getParentActivity(), new StickersAdapter.StickersAdapterDelegate() {
+//            @Override
+//            public void needChangePanelVisibility(final boolean show) {
+//                if (show && stickersPanel.getVisibility() == View.VISIBLE || !show && stickersPanel.getVisibility() == View.GONE) {
+//                    return;
+//                }
+//                if (show) {
+//                    stickersListView.scrollToPosition(0);
+//                    stickersPanel.setVisibility(allowStickersPanel ? View.VISIBLE : View.INVISIBLE);
+//                }
+//                if (runningAnimation != null) {
+//                    runningAnimation.cancel();
+//                    runningAnimation = null;
+//                }
+//                if (stickersPanel.getVisibility() != View.INVISIBLE) {
+//                    runningAnimation = new AnimatorSet();
+//                    runningAnimation.playTogether(
+//                            ObjectAnimator.ofFloat(stickersPanel, "alpha", show ? 0.0f : 1.0f, show ? 1.0f : 0.0f)
+//                    );
+//                    runningAnimation.setDuration(150);
+//                    runningAnimation.addListener(new AnimatorListenerAdapter() {
+//                        @Override
+//                        public void onAnimationEnd(Animator animation) {
+//                            if (runningAnimation != null && runningAnimation.equals(animation)) {
+//                                if (!show) {
+//                                    stickersAdapter.clearStickers();
+//                                    stickersPanel.setVisibility(View.GONE);
+//                                    if (StickerPreviewViewer.getInstance().isVisible()) {
+//                                        StickerPreviewViewer.getInstance().close();
+//                                    }
+//                                    StickerPreviewViewer.getInstance().reset();
+//                                }
+//                                runningAnimation = null;
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onAnimationCancel(Animator animation) {
+//                            if (runningAnimation != null && runningAnimation.equals(animation)) {
+//                                runningAnimation = null;
+//                            }
+//                        }
+//                    });
+//                    runningAnimation.start();
+//                } else if (!show) {
+//                    stickersPanel.setVisibility(View.GONE);
+//                }
+//            }
+//        }));
+//        stickersListView.setOnItemClickListener(stickersOnItemClickListener = new RecyclerListView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                TLRPC.Document document = stickersAdapter.getItem(position);
+//                if (document instanceof TLRPC.TL_document) {
+//                    SendMessagesHelper.getInstance().sendSticker(document, dialog_id, replyingMessageObject);
+//                    showReplyPanel(false, null, null, null, false);
+//                    chatActivityEnterView.addStickerToRecent(document);
+//                }
+//                chatActivityEnterView.setFieldText("");
+//            }
+//        });
+//    }
 
     public void shareMyContact(final MessageObject messageObject) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
@@ -7979,7 +7979,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 currentEncryptedChat = chat;
                 updateContactStatus();
                 updateSecretStatus();
-                initStickers();
+             //   initStickers();
                 if (chatActivityEnterView != null) {
                     chatActivityEnterView.setAllowStickersAndGifs(currentEncryptedChat == null || AndroidUtilities.getPeerLayerVersion(currentEncryptedChat.layer) >= 23, currentEncryptedChat == null || AndroidUtilities.getPeerLayerVersion(currentEncryptedChat.layer) >= 46);
                     chatActivityEnterView.checkRoundVideo();
@@ -9921,8 +9921,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             selectedMessagesCanStarIds[a].clear();
             selectedMessagesIds[a].clear();
         }
-        cantDeleteMessagesCount = 0;
-        canEditMessagesCount = 0;
+//        cantDeleteMessagesCount = 0;
+//        canEditMessagesCount = 0;
         actionBar.hideActionMode();
         updatePinnedMessageView(true);
 
@@ -9961,8 +9961,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (type == 0) {
                     items.add(LocaleController.getString("Retry", R.string.Retry));
                     options.add(0);
-                    items.add(LocaleController.getString("Delete", R.string.Delete));
-                    options.add(1);
+//                    items.add(LocaleController.getString("Delete", R.string.Delete));
+//                    options.add(1);
                 } else if (type == 1) {
                     if (currentChat != null && !isBroadcast) {
                         if (allowChatActions) {
@@ -9976,14 +9976,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("PinMessage", R.string.PinMessage));
                             options.add(13);
                         }
-                        if (allowEdit) {
-                            items.add(LocaleController.getString("Edit", R.string.Edit));
-                            options.add(12);
-                        }
-                        if (message.canDeleteMessage(currentChat)) {
-                            items.add(LocaleController.getString("Delete", R.string.Delete));
-                            options.add(1);
-                        }
+//                        if (allowEdit) {
+//                            items.add(LocaleController.getString("Edit", R.string.Edit));
+//                            options.add(12);
+//                        }
+//                        if (message.canDeleteMessage(currentChat)) {
+//                            items.add(LocaleController.getString("Delete", R.string.Delete));
+//                            options.add(1);
+//                        }
                     } else {
 //                        if (message.messageOwner.action != null && message.messageOwner.action instanceof TLRPC.TL_messageActionPhoneCall) {
 //                            TLRPC.TL_messageActionPhoneCall call = (TLRPC.TL_messageActionPhoneCall) message.messageOwner.action;
@@ -9998,18 +9998,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("Reply", R.string.Reply));
                             options.add(8);
                         }
-                        if (message.canDeleteMessage(currentChat)) {
-                            items.add(LocaleController.getString("Delete", R.string.Delete));
-                            options.add(1);
-                        }
+//                        if (message.canDeleteMessage(currentChat)) {
+//                            items.add(LocaleController.getString("Delete", R.string.Delete));
+//                            options.add(1);
+//                        }
                     }
                 } else if (type == 20) {
                     items.add(LocaleController.getString("Retry", R.string.Retry));
                     options.add(0);
                     items.add(LocaleController.getString("Copy", R.string.Copy));
                     options.add(3);
-                    items.add(LocaleController.getString("Delete", R.string.Delete));
-                    options.add(1);
+//                    items.add(LocaleController.getString("Delete", R.string.Delete));
+//                    options.add(1);
                 } else {
                     if (currentEncryptedChat == null) {
                         if (allowChatActions) {
@@ -10127,14 +10127,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("PinMessage", R.string.PinMessage));
                             options.add(13);
                         }
-                        if (allowEdit) {
-                            items.add(LocaleController.getString("Edit", R.string.Edit));
-                            options.add(12);
-                        }
-                        if (message.canDeleteMessage(currentChat)) {
-                            items.add(LocaleController.getString("Delete", R.string.Delete));
-                            options.add(1);
-                        }
+//                        if (allowEdit) {
+//                            items.add(LocaleController.getString("Edit", R.string.Edit));
+//                            options.add(12);
+//                        }
+//                        if (message.canDeleteMessage(currentChat)) {
+//                            items.add(LocaleController.getString("Delete", R.string.Delete));
+//                            options.add(1);
+//                        }
                     } else {
                         if (allowChatActions) {
                             items.add(LocaleController.getString("Reply", R.string.Reply));
@@ -10174,7 +10174,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 //                            items.add(LocaleController.getString("AddToStickers", R.string.AddToStickers));
 //                            options.add(9);
 //                        }
-                        items.add(LocaleController.getString("Delete", R.string.Delete));
+//                        items.add(LocaleController.getString("Delete", R.string.Delete));
                         options.add(1);
                     }
                 }
@@ -12250,8 +12250,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
                 new ThemeDescription(progressBar, ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, Theme.key_chat_serviceText),
 
-                new ThemeDescription(stickersPanelArrow, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_chat_stickersHintPanel),
-                new ThemeDescription(stickersListView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{StickerCell.class}, null, null, null, Theme.key_chat_stickersHintPanel),
+//                new ThemeDescription(stickersPanelArrow, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_chat_stickersHintPanel),
+//                new ThemeDescription(stickersListView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{StickerCell.class}, null, null, null, Theme.key_chat_stickersHintPanel),
 
                 new ThemeDescription(chatListView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE, new Class[]{ChatUnreadCell.class}, new String[]{"backgroundLayout"}, null, null, null, Theme.key_chat_unreadMessagesStartBackground),
                 new ThemeDescription(chatListView, ThemeDescription.FLAG_IMAGECOLOR, new Class[]{ChatUnreadCell.class}, new String[]{"imageView"}, null, null, null, Theme.key_chat_unreadMessagesStartArrowIcon),
