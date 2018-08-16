@@ -19,7 +19,6 @@ import java.util.Optional;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_CHILDREN;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_EMAIL;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_PARENTS;
-import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_PHONE_NUMBER;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
 import static de.privalino.telegram.AppConstants.USER_TYPE_PARENT;
 
