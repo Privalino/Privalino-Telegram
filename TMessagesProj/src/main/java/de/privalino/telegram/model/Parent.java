@@ -18,6 +18,8 @@ import java.util.Optional;
 
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_CHILDREN;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_EMAIL;
+import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_PARENTS;
+import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_PHONE_NUMBER;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
 import static de.privalino.telegram.AppConstants.USER_TYPE_PARENT;
 
@@ -115,6 +117,10 @@ public class Parent {
 
         if (email == null){
             this.setEmail(preferences.getString(SHAREDPREFS_KEY_EMAIL, null));
+        }
+
+        if (phoneNumber == null){
+            this.setPhoneNumber(preferences.getString(SHAREDPREFS_KEY_PARENTS, null));
         }
 
         if (children.size() == 0){

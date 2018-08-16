@@ -12,6 +12,7 @@ public class AppConstants {
     public static final String SHAREDPREFS_KEY_USER_TYPE_SELECTED = "selected";
     public static final String SHAREDPREFS_KEY_IS_PARENT = "is_parent";
     public static final String SHAREDPREFS_KEY_EMAIL = "email";
+    public static final String SHAREDPREFS_KEY_PHONE_NUMBER = "phone_number";
     public static final String SHAREDPREFS_KEY_CHILDREN = "children";
     public static final String SHAREDPREFS_KEY_PARENTS = "parents";
 
