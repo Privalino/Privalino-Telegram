@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:hint="carrie.ortiz@mail.com"
+                android:hint="petra.schmidt@mail.de"
                 android:lineSpacingMultiplier="1.20"
                 android:textSize="20sp"
                 android:background="@android:color/transparent"
