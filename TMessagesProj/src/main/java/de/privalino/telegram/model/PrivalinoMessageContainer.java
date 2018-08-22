@@ -12,6 +12,7 @@ public class PrivalinoMessageContainer {
     private int channelId;
     private int messageId;
     private String phoneId;
+    private String phoneNumber;
     private String senderUserName;
     private String receiverUserName;
     private String text;
@@ -20,7 +21,8 @@ public class PrivalinoMessageContainer {
     private String receiverFirstName;
     private String receiverLastName;
 
-
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(final String phoneNumber) { this.phoneNumber = phoneNumber; }
     public boolean isIncoming() {
         return isIncoming;
     }
