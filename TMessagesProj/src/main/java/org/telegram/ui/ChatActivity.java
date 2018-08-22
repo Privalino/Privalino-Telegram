@@ -553,7 +553,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     private final static int copy = 10;
     private final static int forward = 11;
-    private final static int delete = 12;
+//    private final static int delete = 12;
     private final static int chat_enc_timer = 13;
     private final static int chat_menu_attach = 14;
     private final static int clear_history = 15;
@@ -1033,11 +1033,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     actionBar.hideActionMode();
                     updatePinnedMessageView(true);
                     updateVisibleRows();
-                } else if (id == delete) {
-                    if (getParentActivity() == null) {
-                        return;
-                    }
-                    createDeleteMessagesAlert(null, null);
+//                } else if (id == delete) {
+//                    if (getParentActivity() == null) {
+//                        return;
+//                    }
+//                    createDeleteMessagesAlert(null, null);
                 } else if (id == forward) {
                     Bundle args = new Bundle();
                     args.putBoolean("onlySelect", true);
@@ -1429,18 +1429,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             actionModeViews.add(actionMode.addItemWithWidth(star, R.drawable.ic_ab_fave, AndroidUtilities.dp(54)));
             actionModeViews.add(actionMode.addItemWithWidth(copy, R.drawable.ic_ab_copy, AndroidUtilities.dp(54)));
             actionModeViews.add(actionMode.addItemWithWidth(forward, R.drawable.ic_ab_forward, AndroidUtilities.dp(54)));
-            actionModeViews.add(actionMode.addItemWithWidth(delete, R.drawable.ic_ab_delete, AndroidUtilities.dp(54)));
+//            actionModeViews.add(actionMode.addItemWithWidth(delete, R.drawable.ic_ab_delete, AndroidUtilities.dp(54)));
         } else {
             actionModeViews.add(actionMode.addItemWithWidth(edit, R.drawable.group_edit, AndroidUtilities.dp(54)));
             actionModeViews.add(actionMode.addItemWithWidth(reply, R.drawable.ic_ab_reply, AndroidUtilities.dp(54)));
             actionModeViews.add(actionMode.addItemWithWidth(star, R.drawable.ic_ab_fave, AndroidUtilities.dp(54)));
             actionModeViews.add(actionMode.addItemWithWidth(copy, R.drawable.ic_ab_copy, AndroidUtilities.dp(54)));
-            actionModeViews.add(actionMode.addItemWithWidth(delete, R.drawable.ic_ab_delete, AndroidUtilities.dp(54)));
+//            actionModeViews.add(actionMode.addItemWithWidth(delete, R.drawable.ic_ab_delete, AndroidUtilities.dp(54)));
         }
         actionMode.getItem(edit).setVisibility(canEditMessagesCount == 1 && selectedMessagesIds[0].size() + selectedMessagesIds[1].size() == 1 ? View.VISIBLE : View.GONE);
         actionMode.getItem(copy).setVisibility(selectedMessagesCanCopyIds[0].size() + selectedMessagesCanCopyIds[1].size() != 0 ? View.VISIBLE : View.GONE);
         actionMode.getItem(star).setVisibility(selectedMessagesCanStarIds[0].size() + selectedMessagesCanStarIds[1].size() != 0 ? View.VISIBLE : View.GONE);
-        actionMode.getItem(delete).setVisibility(cantDeleteMessagesCount == 0 ? View.VISIBLE : View.GONE);
+//        actionMode.getItem(delete).setVisibility(cantDeleteMessagesCount == 0 ? View.VISIBLE : View.GONE);
         checkActionBarMenu();
 
         fragmentView = new SizeNotifierFrameLayout(context) {
@@ -5984,7 +5984,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 starItem.setVisibility(StickersQuery.canAddStickerToFavorites() && (selectedMessagesCanStarIds[0].size() + selectedMessagesCanStarIds[1].size()) == selectedCount ? View.VISIBLE : View.GONE);
                 int newCopyVisible = copyItem.getVisibility();
                 int newStarVisible = starItem.getVisibility();
-                actionBar.createActionMode().getItem(delete).setVisibility(cantDeleteMessagesCount == 0 ? View.VISIBLE : View.GONE);
+//                actionBar.createActionMode().getItem(delete).setVisibility(cantDeleteMessagesCount == 0 ? View.VISIBLE : View.GONE);
                 if (editItem != null) {
                     editItem.setVisibility(canEditMessagesCount == 1 && selectedMessagesIds[0].size() + selectedMessagesIds[1].size() == 1 ? View.VISIBLE : View.GONE);
                 }
@@ -10204,10 +10204,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (item != null) {
             item.setVisibility(View.VISIBLE);
         }
-        item = actionMode.getItem(delete);
-        if (item != null) {
-            item.setVisibility(View.VISIBLE);
-        }
+//        item = actionMode.getItem(delete);
+//        if (item != null) {
+//            item.setVisibility(View.VISIBLE);
+//        }
 
         actionBar.showActionMode();
         updatePinnedMessageView(true);
@@ -10258,7 +10258,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         actionMode.getItem(reply).setVisibility(View.GONE);
         actionMode.getItem(copy).setVisibility(View.GONE);
         actionMode.getItem(forward).setVisibility(View.GONE);
-        actionMode.getItem(delete).setVisibility(View.GONE);
+//        actionMode.getItem(delete).setVisibility(View.GONE);
         actionMode.getItem(edit).setVisibility(View.GONE);
 
         actionBar.showActionMode();
