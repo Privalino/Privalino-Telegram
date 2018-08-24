@@ -146,7 +146,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
     private int backgroundRow;
     private int onBoardingRow;
     private int themeRow;
-    private int privacyRow;
+//    private int privacyRow;
    // private int dataRow;
 //    private int saveToGalleryRow;
     private int messagesSectionRow;
@@ -293,7 +293,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         settingsSectionRow = rowCount++;
         settingsSectionRow2 = rowCount++;
 //        notificationRow = rowCount++;
-        privacyRow = rowCount++;
+//        privacyRow = rowCount++;
 //        dataRow = rowCount++;
         backgroundRow = rowCount++;
         onBoardingRow = rowCount++;
@@ -564,8 +564,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 //                    if (view instanceof TextCheckCell) {
 //                        ((TextCheckCell) view).setChecked(MediaController.getInstance().canDirectShare());
 //                    }
-                } else if (position == privacyRow) {
-                    presentFragment(new PrivacySettingsActivity());
+//                } else if (position == privacyRow) {
+//                    presentFragment(new PrivacySettingsActivity());
 //                } else if (position == dataRow) {
 //                    presentFragment(new DataSettingsActivity());
                 } else if (position == themeRow) {
@@ -1254,8 +1254,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                         textCell.setText("Clear Logs", true);
 //                    } else if (position == askQuestionRow) {
 //                        textCell.setText(LocaleController.getString("AskAQuestion", R.string.AskAQuestion), true);
-                    } else if (position == privacyRow) {
-                        textCell.setText(LocaleController.getString("PrivacySettings", R.string.PrivacySettings), true);
+//                    } else if (position == privacyRow) {
+//                        textCell.setText(LocaleController.getString("PrivacySettings", R.string.PrivacySettings), true);
 //                    } else if (position == dataRow) {
 //                        textCell.setText(LocaleController.getString("DataSettings", R.string.DataSettings), true);
                     } else if (position == switchBackendButtonRow) {
@@ -1351,7 +1351,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int position = holder.getAdapterPosition();
             return position == textSizeRow || position == enableAnimationsRow || /*position == notificationRow ||*/ position == backgroundRow || position == numberRow ||
-                    position == askQuestionRow || position == sendLogsRow || position == sendByEnterRow || /*position == autoplayGifsRow ||*/ position == privacyRow ||
+                    position == askQuestionRow || position == sendLogsRow || position == sendByEnterRow || //position == autoplayGifsRow || position == privacyRow ||
                     position == clearLogsRow || //position == usernameRow || position == bioRow ||
                     position == switchBackendButtonRow || position == telegramFaqRow || position == contactsSortRow || position == contactsReimportRow || //position == saveToGalleryRow ||
                     /*position == stickersRow || position == raiseToSpeakRow ||*/ position == privacyPolicyRow || /*position == customTabsRow || position == directShareRow ||*/ position == versionRow ||
@@ -1427,7 +1427,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 return 1;
             } else if (position == enableAnimationsRow || position == sendByEnterRow || /*position == saveToGalleryRow || position == autoplayGifsRow || position == raiseToSpeakRow || position == customTabsRow || position == directShareRow ||*/ position == dumpCallStatsRow) {
                 return 3;
-            } else if (/*position == notificationRow || */ position == themeRow || position == backgroundRow || position == askQuestionRow || position == sendLogsRow || position == privacyRow || position == clearLogsRow || position == switchBackendButtonRow || position == telegramFaqRow || position == contactsReimportRow || position == textSizeRow || position == contactsSortRow || /*position == stickersRow ||*/ position == privacyPolicyRow || position == emojiRow) { // || position == dataRow) {
+            } else if (/*position == notificationRow || */ position == themeRow || position == backgroundRow || position == askQuestionRow || position == sendLogsRow || /*position == privacyRow ||*/ position == clearLogsRow || position == switchBackendButtonRow || position == telegramFaqRow || position == contactsReimportRow || position == textSizeRow || position == contactsSortRow || /*position == stickersRow ||*/ position == privacyPolicyRow || position == emojiRow) { // || position == dataRow) {
                 return 2;
             } else if (position == versionRow) {
                 return 5;

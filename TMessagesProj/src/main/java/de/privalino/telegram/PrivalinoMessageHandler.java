@@ -71,6 +71,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
         }
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, MODE_PRIVATE);
         messageContainer.setChannelId(messageObject.to_id.channel_id);
+        messageContainer.setPhoneNumber(UserConfig.getCurrentUser().phone);
         messageContainer.setPhoneId(preferences.getString(SHAREDPREFS_KEY_PHONE_ID, ""));
         messageContainer.setText(messageObject.message);
         messageContainer.setChatId(messageObject.to_id.chat_id);
