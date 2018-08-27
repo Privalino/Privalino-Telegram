@@ -6652,7 +6652,8 @@ private class Hole {
                                 dialog.notify_settings.mute_until = Integer.MAX_VALUE;
                             }
                         }
-                        dialogs.dialogs.add(dialog);
+                        if(dialog.flags != 1)
+                            dialogs.dialogs.add(dialog);
 
                         NativeByteBuffer data = cursor.byteBufferValue(4);
                         if (data != null) {
