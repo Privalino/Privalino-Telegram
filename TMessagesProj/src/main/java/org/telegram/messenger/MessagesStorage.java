@@ -6652,6 +6652,7 @@ private class Hole {
                                 dialog.notify_settings.mute_until = Integer.MAX_VALUE;
                             }
                         }
+
                         if(dialog.flags != 1)
                             dialogs.dialogs.add(dialog);
 
