@@ -177,7 +177,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
 
                 preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, MODE_PRIVATE);
 
-                if (state.isEmpty()) {
+//                if (state.isEmpty()) {
 //                    Intent intent2 = new Intent(this, IntroActivity.class);
                     Intent intent2 = new Intent(this,OnBoardingIntroActivity.class);
                     intent2.setData(intent.getData());
@@ -185,44 +185,44 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     super.onCreate(savedInstanceState);
                     finish();
                     return;
-                } else {
-                    if (!preferences.getBoolean(SHAREDPREFS_KEY_USER_TYPE_SELECTED, false)){
-                        startActivity(new Intent(this, OnBoardingIntroActivity.class));
-                        super.onCreate(savedInstanceState);
-                        finish();
-                        return;
-                    }
-
-                    if (preferences.getBoolean(SHAREDPREFS_KEY_IS_PARENT, true)) {
-
-                        Class[] screens = new Class[]{ParentEmailActivity.class, AddChildPhoneActivity.class, AddChildAgeActivity.class};
-                        int i = 0;
-                        //find the first index of an activity class in the array screens which was not filled in previous on boardings
-                        while (i < screens.length && preferences.getBoolean(screens[i].toString(), false))
-                            ++i;
-                        // if such activity exists start it and initialize the model
-                        if (i < screens.length) {
-                            PrivalinoOnBoardHandler.parentModel = new Parent();
-                            PrivalinoOnBoardHandler.parentModel.initialize(getApplicationContext());
-                            startActivity(new Intent(this, screens[i]));
-                            super.onCreate(savedInstanceState);
-                            finish();
-                            return;
-                        }
-                    } else {
-                        // if the on boarding activity was not filled
-                        if (!preferences.getBoolean(AddParentPhoneActivity.class.toString(), false)) {
-                            //start it, initialize the model
-                            PrivalinoOnBoardHandler.childModel = new Child();
-                            PrivalinoOnBoardHandler.childModel.initialize(getApplicationContext());
-                            startActivity(new Intent(this, AddParentPhoneActivity.class));
-                            super.onCreate(savedInstanceState);
-                            finish();
-                            return;
-                        }
-                    }
-
-                }
+//                } else {
+//                    if (!preferences.getBoolean(SHAREDPREFS_KEY_USER_TYPE_SELECTED, false)){
+//                        startActivity(new Intent(this, OnBoardingIntroActivity.class));
+//                        super.onCreate(savedInstanceState);
+//                        finish();
+//                        return;
+//                    }
+//
+//                    if (preferences.getBoolean(SHAREDPREFS_KEY_IS_PARENT, true)) {
+//
+//                        Class[] screens = new Class[]{ParentEmailActivity.class, AddChildPhoneActivity.class, AddChildAgeActivity.class};
+//                        int i = 0;
+//                        //find the first index of an activity class in the array screens which was not filled in previous on boardings
+//                        while (i < screens.length && preferences.getBoolean(screens[i].toString(), false))
+//                            ++i;
+//                        // if such activity exists start it and initialize the model
+//                        if (i < screens.length) {
+//                            PrivalinoOnBoardHandler.parentModel = new Parent();
+//                            PrivalinoOnBoardHandler.parentModel.initialize(getApplicationContext());
+//                            startActivity(new Intent(this, screens[i]));
+//                            super.onCreate(savedInstanceState);
+//                            finish();
+//                            return;
+//                        }
+//                    } else {
+//                        // if the on boarding activity was not filled
+//                        if (!preferences.getBoolean(AddParentPhoneActivity.class.toString(), false)) {
+//                            //start it, initialize the model
+//                            PrivalinoOnBoardHandler.childModel = new Child();
+//                            PrivalinoOnBoardHandler.childModel.initialize(getApplicationContext());
+//                            startActivity(new Intent(this, AddParentPhoneActivity.class));
+//                            super.onCreate(savedInstanceState);
+//                            finish();
+//                            return;
+//                        }
+//                    }
+//
+//                }
             }
         }
 
@@ -446,16 +446,17 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
 //                } else if (id == 7) {
                     SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, Activity.MODE_PRIVATE);
                     Class next = null;
-                    if (preferences.getBoolean(SHAREDPREFS_KEY_IS_PARENT, true)){
-                        next = ParentEmailActivity.class;
-                        PrivalinoOnBoardHandler.parentModel = new Parent();
-                        PrivalinoOnBoardHandler.parentModel.initialize(LaunchActivity.this);
-
-                    } else {
-                        PrivalinoOnBoardHandler.childModel = new Child();
-                        PrivalinoOnBoardHandler.childModel.initialize(LaunchActivity.this);
-                        next = AddParentPhoneActivity.class;
-                    }
+//                    if (preferences.getBoolean(SHAREDPREFS_KEY_IS_PARENT, true)){
+//                        next = ParentEmailActivity.class;
+//                        PrivalinoOnBoardHandler.parentModel = new Parent();
+//                        PrivalinoOnBoardHandler.parentModel.initialize(LaunchActivity.this);
+//
+//                    } else {
+//                        PrivalinoOnBoardHandler.childModel = new Child();
+//                        PrivalinoOnBoardHandler.childModel.initialize(LaunchActivity.this);
+//                        next = AddParentPhoneActivity.class;
+//                    }
+                    next = OnBoardingIntroActivity.class;
                     Intent intent = new Intent(LaunchActivity.this, next);
                     intent.putExtra(INTENT_EXTRA_KEY_FROM_SETTINGS, true);
                     startActivity(intent);
