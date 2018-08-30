@@ -175,6 +175,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 preferences = ApplicationLoader.applicationContext.getSharedPreferences("logininfo2", MODE_PRIVATE);
                 Map<String, ?> state = preferences.getAll();
 
+
                 preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, MODE_PRIVATE);
 
 //                if (state.isEmpty()) {
