@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.R;
+import org.telegram.messenger.UserConfig;
 
 import de.privalino.telegram.AnimationHelper;
 import de.privalino.telegram.PrivalinoOnBoardHandler;
@@ -63,17 +64,25 @@ public class OnBoardingIntroActivity extends Activity {
         childText = (TextView) findViewById(R.id.childText);
         preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, MODE_PRIVATE);
 
-        if(preferences.getAll().isEmpty()){
+        if (preferences.getAll().isEmpty()) {
             preWelcomeLayout.setVisibility(View.VISIBLE);
             welcomeLayout.setVisibility(View.GONE);
 
             preferences.edit().putBoolean(SHAREDRPREFS_KEY_INSTALLED, true).commit();
             preferences.edit().putString(SHAREDPREFS_KEY_PHONE_ID, Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID)).commit();
+        } else {
+            preWelcomeLayout.setVisibility(View.GONE);
+
+            if (UserConfig.isClientActivated()) {
+                welcomeLayout.setVisibility(View.GONE);
+                chooseLayout.setVisibility(View.VISIBLE);
+                backButton.setVisibility(View.VISIBLE);
+            } else {
+                backButton.setVisibility(View.GONE);
+            }
         }
 
-
         onClickListeners();
-
     }
 
     private void onClickListeners() {
@@ -84,8 +93,8 @@ public class OnBoardingIntroActivity extends Activity {
         final TextView parentText = (TextView) findViewById(R.id.parentText);
         final TextView childText = (TextView) findViewById(R.id.childText);
 
-
         nextButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 if (preWelcomeLayout.getVisibility() == View.VISIBLE) {
@@ -94,14 +103,13 @@ public class OnBoardingIntroActivity extends Activity {
                     skipButton.setVisibility(View.VISIBLE);
 
 //                    backButton.setVisibility(View.VISIBLE);
-                }else if(welcomeLayout.getVisibility() == View.VISIBLE){
+                } else if (welcomeLayout.getVisibility() == View.VISIBLE) {
                     crossfade(welcomeLayout, chooseLayout);
                     skipButton.setVisibility(View.VISIBLE);
-
                 } else if (chooseLayout.getVisibility() == View.VISIBLE) {
                     if (parentSelected == null) {
                         Toast.makeText(OnBoardingIntroActivity.this,
-                                R.string.user_selection_warning, Toast.LENGTH_SHORT).show();
+                                       R.string.user_selection_warning, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     Intent intent;
@@ -122,6 +130,7 @@ public class OnBoardingIntroActivity extends Activity {
         });
 
         parentText.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 parentSelected = true;
@@ -131,6 +140,7 @@ public class OnBoardingIntroActivity extends Activity {
         });
 
         childText.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 parentSelected = false;
@@ -140,6 +150,7 @@ public class OnBoardingIntroActivity extends Activity {
         });
 
         skipButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(OnBoardingIntroActivity.this, LaunchActivity.class);
@@ -148,14 +159,13 @@ public class OnBoardingIntroActivity extends Activity {
             }
         });
 
-//        backButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                onBackPressed();
-//            }
-//        });
+        backButton.setOnClickListener(new View.OnClickListener() {
 
-
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     private void selectButton(TextView selectedText, ImageView selectedView, TextView unselectedText, ImageView unselectedView) {
@@ -177,6 +187,7 @@ public class OnBoardingIntroActivity extends Activity {
     /**
      * Changes the color of the main layout to the given new color.
      * Interpolates between the current color and the given new color to create a transition.
+     *
      * @param newColor color to set tha main layouts background to
      */
     private void changeColor(int newColor) {
@@ -187,11 +198,16 @@ public class OnBoardingIntroActivity extends Activity {
         currentColor = newColor;
     }
 
-
-
     @Override
     public void onBackPressed() {
         if (chooseLayout.getVisibility() == View.VISIBLE) {
+
+            if (UserConfig.isClientActivated()) {
+                super.onBackPressed();
+                AnimationHelper.transitionAnimation(this);
+                return;
+            }
+
             crossfade(chooseLayout, welcomeLayout);
             skipButton.setVisibility(View.GONE);
 //            backButton.setVisibility(View.GONE);
@@ -202,6 +218,5 @@ public class OnBoardingIntroActivity extends Activity {
             super.onBackPressed();
             AnimationHelper.transitionAnimation(this);
         }
-
     }
 }
