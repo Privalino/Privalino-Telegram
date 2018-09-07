@@ -903,8 +903,8 @@ public class Theme {
         defaultColors.put(key_dialogCheckboxSquareDisabled, 0xffb0b0b0);
         defaultColors.put(key_dialogRadioBackground, 0xffb3b3b3);
         defaultColors.put(key_dialogRadioBackgroundChecked, 0xff37a9f0);
-        defaultColors.put(key_dialogProgressCircle, 0xff4fb7ba);
-        defaultColors.put(key_dialogLineProgress, 0xff4fb7ba);
+        defaultColors.put(key_dialogProgressCircle, 0xff2A9D8F); //0xff4fb7ba);
+        defaultColors.put(key_dialogLineProgress, 0xff2A9D8F); //0xff4fb7ba);
         defaultColors.put(key_dialogLineProgressBackground, 0xffdbdbdb);
         defaultColors.put(key_dialogButton, 0xff4991cc);
         defaultColors.put(key_dialogButtonSelector, 0x0f000000);
@@ -915,7 +915,7 @@ public class Theme {
         defaultColors.put(key_dialogBadgeText, 0xffffffff);
 
         defaultColors.put(key_windowBackgroundWhite, 0xffffffff);
-        defaultColors.put(key_progressCircle, 0xff4fb7ba);
+        defaultColors.put(key_progressCircle, 0xff2A9D8F); //0xff4fb7ba);
         defaultColors.put(key_windowBackgroundWhiteGrayIcon, 0xff737373);
         defaultColors.put(key_windowBackgroundWhiteBlueText, 0xff3b84c0);
         defaultColors.put(key_windowBackgroundWhiteBlueText2, 0xff348bc1);
@@ -977,29 +977,29 @@ public class Theme {
 
         defaultColors.put(key_avatar_text, 0xffffffff);
 
-        defaultColors.put(key_avatar_backgroundSaved, 0xff66bffa);
-        defaultColors.put(key_avatar_backgroundRed, 0xffe56555);
-        defaultColors.put(key_avatar_backgroundOrange, 0xfff28c48);
-        defaultColors.put(key_avatar_backgroundViolet, 0xff8e85ee);
-        defaultColors.put(key_avatar_backgroundGreen, 0xff76c84d);
-        defaultColors.put(key_avatar_backgroundCyan, 0xff5fbed5);
-        defaultColors.put(key_avatar_backgroundBlue, 0xff549cdd);
-        defaultColors.put(key_avatar_backgroundPink, 0xfff2749a);
-        defaultColors.put(key_avatar_backgroundGroupCreateSpanBlue, 0xffbfd6ea);
-        defaultColors.put(key_avatar_backgroundInProfileRed, 0xffd86f65);
-        defaultColors.put(key_avatar_backgroundInProfileOrange, 0xfff69d61);
-        defaultColors.put(key_avatar_backgroundInProfileViolet, 0xff8c79d2);
-        defaultColors.put(key_avatar_backgroundInProfileGreen, 0xff67b35d);
-        defaultColors.put(key_avatar_backgroundInProfileCyan, 0xff56a2bb);
-        defaultColors.put(key_avatar_backgroundInProfileBlue, 0xff5085b1);
-        defaultColors.put(key_avatar_backgroundInProfilePink, 0xfff37fa6);
-        defaultColors.put(key_avatar_backgroundActionBarRed, 0xffca6056);
-        defaultColors.put(key_avatar_backgroundActionBarOrange, 0xfff18944);
-        defaultColors.put(key_avatar_backgroundActionBarViolet, 0xff7d6ac4);
-        defaultColors.put(key_avatar_backgroundActionBarGreen, 0xff56a14c);
-        defaultColors.put(key_avatar_backgroundActionBarCyan, 0xff4492ac);
-        defaultColors.put(key_avatar_backgroundActionBarBlue, 0xff598fba);
-        defaultColors.put(key_avatar_backgroundActionBarPink, 0xff598fba);
+        defaultColors.put(key_avatar_backgroundSaved, 0xff66bffa); // 0xff66bffa);
+        defaultColors.put(key_avatar_backgroundRed, 0xffE76F51); //0xffe56555);
+        defaultColors.put(key_avatar_backgroundOrange, 0xffF4A261); //0xfff28c48);
+        defaultColors.put(key_avatar_backgroundViolet, 0xff264653); //0xff8e85ee);
+        defaultColors.put(key_avatar_backgroundGreen, 0xffE9C46A); //0xff76c84d);
+        defaultColors.put(key_avatar_backgroundCyan, 0xff264653); //0xff5fbed5);
+        defaultColors.put(key_avatar_backgroundBlue, 0xffE9C46A); //0xff549cdd);
+        defaultColors.put(key_avatar_backgroundPink, 0xffE76F51); //0xfff2749a);
+        defaultColors.put(key_avatar_backgroundGroupCreateSpanBlue, 0xff2A9D8F); //0xffbfd6ea);
+        defaultColors.put(key_avatar_backgroundInProfileRed, 0xffE76F51); //0xffd86f65);
+        defaultColors.put(key_avatar_backgroundInProfileOrange, 0xffF4A261); //0xfff69d61);
+        defaultColors.put(key_avatar_backgroundInProfileViolet, 0xff264653); //0xff8c79d2);
+        defaultColors.put(key_avatar_backgroundInProfileGreen, 0xffE9C46A); //0xff67b35d);
+        defaultColors.put(key_avatar_backgroundInProfileCyan, 0xff264653); //0xff56a2bb);
+        defaultColors.put(key_avatar_backgroundInProfileBlue, 0xffE9C46A); //0xff5085b1);
+        defaultColors.put(key_avatar_backgroundInProfilePink, 0xffE76F51); //0xfff37fa6);
+        defaultColors.put(key_avatar_backgroundActionBarRed, 0xff2A9D8F);  //0xffca6056);
+        defaultColors.put(key_avatar_backgroundActionBarOrange, 0xff2A9D8F); //0xfff18944);
+        defaultColors.put(key_avatar_backgroundActionBarViolet, 0xff2A9D8F); //0xff7d6ac4);
+        defaultColors.put(key_avatar_backgroundActionBarGreen, 0xff2A9D8F); //0xff56a14c);
+        defaultColors.put(key_avatar_backgroundActionBarCyan, 0xff2A9D8F); //0xff4492ac);
+        defaultColors.put(key_avatar_backgroundActionBarBlue, 0xff2A9D8F); //0xff598fba);
+        defaultColors.put(key_avatar_backgroundActionBarPink, 0xff2A9D8F); //0xff598fba);
         defaultColors.put(key_avatar_subtitleInProfileRed, 0xfff9cbc5);
         defaultColors.put(key_avatar_subtitleInProfileOrange, 0xfffdddc8);
         defaultColors.put(key_avatar_subtitleInProfileViolet, 0xffcdc4ed);
@@ -1029,7 +1029,7 @@ public class Theme {
         defaultColors.put(key_avatar_actionBarIconBlue, 0xffffffff);
         defaultColors.put(key_avatar_actionBarIconPink, 0xffffffff);
 
-        defaultColors.put(key_actionBarDefault, 0xff4fb7ba);
+        defaultColors.put(key_actionBarDefault, 0xff2A9D8F); //0xff4fb7ba);
         defaultColors.put(key_actionBarDefaultIcon, 0xffffffff);
         defaultColors.put(key_actionBarActionModeDefault, 0xffffffff);
         defaultColors.put(key_actionBarActionModeDefaultTop, 0x99000000);
@@ -1076,7 +1076,7 @@ public class Theme {
         defaultColors.put(key_chats_menuCloud, 0xffffffff);
         defaultColors.put(key_chats_menuCloudBackgroundCats, 0xff427ba9);
         defaultColors.put(key_chats_actionIcon, 0xffffffff);
-        defaultColors.put(key_chats_actionBackground, 0xff4fb7ba);
+        defaultColors.put(key_chats_actionBackground, 0xff2A9D8F); //0xff4fb7ba);
         defaultColors.put(key_chats_actionPressedBackground, 0xff5792c2);
 
         defaultColors.put(key_chat_lockIcon, 0xffffffff);
