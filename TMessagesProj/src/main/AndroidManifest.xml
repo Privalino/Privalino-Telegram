@@ -470,6 +470,9 @@
             android:name="android.max_aspect"
             android:value="2.5"/>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="ada583d81014c0e1619babba061e54bd2bd0d0ff" />
     </application>
 
 </manifest>

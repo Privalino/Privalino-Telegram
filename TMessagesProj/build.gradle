@@ -1,9 +1,20 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 repositories {
     jcenter()
     mavenCentral()
     google()
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 configurations {
@@ -36,6 +47,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     // Optional -- Mockito framework
     testImplementation 'org.mockito:mockito-core:1.10.19'
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
+        transitive = true;
+    }
+    compile('com.crashlytics.sdk.android:crashlytics-ndk:2.0.5@aar') {
+        transitive = true;
+    }
 }
 
 android {
@@ -221,3 +238,9 @@ android {
 }
 
 //apply plugin: 'com.google.gms.google-services'
+
+crashlytics {
+    enableNdk true
+    androidNdkOut 'src/main/obj'
+    androidNdkLibsOut 'src/main/libs'
+}
