@@ -43,6 +43,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.ndk.CrashlyticsNdk;
+import io.fabric.sdk.android.Fabric;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.BuildVars;
@@ -101,6 +104,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//import com.crashlytics.android.Crashlytics;
+//import io.fabric.sdk.android.Fabric;
+
 import de.privalino.telegram.PrivalinoOnBoardHandler;
 import de.privalino.telegram.model.Child;
 import de.privalino.telegram.model.Parent;
@@ -109,6 +115,7 @@ import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_FROM_SETTINGS;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_IS_PARENT;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_USER_TYPE_SELECTED;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
+import static org.telegram.messenger.NativeCrashManager.handleDumpFiles;
 
 public class LaunchActivity extends Activity implements ActionBarLayout.ActionBarLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
 
@@ -154,8 +161,14 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Fabric.with(this, new Crashlytics());
+//        CRASH
+//        Integer test = null;
+//        Toast.makeText(this,test, Toast.LENGTH_LONG).show();
+
+//        NativeCrashManager., new CrashlyticsNdk()handleDumpFiles(this);
+
         ApplicationLoader.postInitApplication();
-        NativeCrashManager.handleDumpFiles(this);
         AndroidUtilities.checkDisplaySize(this, getResources().getConfiguration());
 
         if (!UserConfig.isClientActivated()) {
