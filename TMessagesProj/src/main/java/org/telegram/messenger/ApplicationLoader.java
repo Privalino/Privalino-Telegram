@@ -22,9 +22,11 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.text.TextUtils;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.Components.ForegroundDetector;
@@ -119,7 +121,8 @@ public class ApplicationLoader extends Application {
 
         applicationHandler = new Handler(applicationContext.getMainLooper());
 
-        startPushService();
+        AndroidUtilities.runOnUIThread(ApplicationLoader::startPushService);
+//        startPushService();
     }
 
     /*public static void sendRegIdToBackend(final String token) {
@@ -171,28 +174,64 @@ public class ApplicationLoader extends Application {
     }
 
     private void initPlayServices() {
-        AndroidUtilities.runOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                if (checkPlayServices()) {
-                    if (UserConfig.pushString != null && UserConfig.pushString.length() != 0) {
-                        FileLog.d("GCM regId = " + UserConfig.pushString);
-                    } else {
-                        FileLog.d("GCM Registration not found.");
-                    }
-
-                    //if (UserConfig.pushString == null || UserConfig.pushString.length() == 0) {
-                    Intent intent = new Intent(applicationContext, GcmRegistrationIntentService.class);
-                    startService(intent);
-                    //} else {
-                    //    FileLog.d("GCM regId = " + UserConfig.pushString);
-                    //}
+        AndroidUtilities.runOnUIThread(() -> {
+            if (checkPlayServices()) {
+//                final String currentPushString = SharedConfig.pushString;
+                if (UserConfig.pushString != null && UserConfig.pushString.length() != 0) {
+                    FileLog.d("GCM regId = " + UserConfig.pushString);
                 } else {
+                    FileLog.d("GCM Registration not found.");
+                }
+//                if (!TextUtils.isEmpty(currentPushString)) {
+//                    if (BuildVars.LOGS_ENABLED) {
+//                        FileLog.d("GCM regId = " + currentPushString);
+//                    }
+//                } else {
+//                    if (BuildVars.LOGS_ENABLED) {
+//                        FileLog.d("GCM Registration not found.");
+//                    }
+//                }
+                Utilities.globalQueue.postRunnable(() -> {
+                    try {
+                        String token = FirebaseInstanceId.getInstance().getToken();
+                        if (!TextUtils.isEmpty(token)) {
+                            GcmInstanceIDListenerService.sendRegistrationToServer(token);
+                        }
+                    } catch (Throwable e) {
+                        FileLog.e(e);
+                    }
+                });
+            } else {
+                if (BuildVars.LOGS_ENABLED) {
                     FileLog.d("No valid Google Play Services APK found.");
                 }
             }
         }, 1000);
     }
+
+//    private void initPlayServices() {
+//        AndroidUtilities.runOnUIThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (checkPlayServices()) {
+//                    if (UserConfig.pushString != null && UserConfig.pushString.length() != 0) {
+//                        FileLog.d("GCM regId = " + UserConfig.pushString);
+//                    } else {
+//                        FileLog.d("GCM Registration not found.");
+//                    }
+//
+//                    //if (UserConfig.pushString == null || UserConfig.pushString.length() == 0) {
+//                    Intent intent = new Intent(applicationContext, GcmRegistrationIntentService.class);
+//                    startService(intent);
+//                    //} else {
+//                    //    FileLog.d("GCM regId = " + UserConfig.pushString);
+//                    //}
+//                } else {
+//                    FileLog.d("No valid Google Play Services APK found.");
+//                }
+//            }
+//        }, 1000);
+//    }
 
     /*private void initPlayServices() {
         AndroidUtilities.runOnUIThread(new Runnable() {
