@@ -11,17 +11,53 @@ package org.telegram.messenger;
 import android.content.Intent;
 
 import com.google.android.gms.iid.InstanceIDListenerService;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 
-public class GcmInstanceIDListenerService extends InstanceIDListenerService {
+//public class GcmInstanceIDListenerService extends InstanceIDListenerService {
+//
+//    @Override
+//    public void onTokenRefresh() {
+//        AndroidUtilities.runOnUIThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                ApplicationLoader.postInitApplication();
+//                Intent intent = new Intent(ApplicationLoader.applicationContext, GcmRegistrationIntentService.class);
+//                startService(intent);
+//            }
+//        });
+//    }
+//}
+
+public class GcmInstanceIDListenerService extends FirebaseInstanceIdService {
 
     @Override
     public void onTokenRefresh() {
-        AndroidUtilities.runOnUIThread(new Runnable() {
-            @Override
-            public void run() {
+        try {
+            final String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            AndroidUtilities.runOnUIThread(() -> {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.d("Refreshed token: " + refreshedToken);
+                }
                 ApplicationLoader.postInitApplication();
-                Intent intent = new Intent(ApplicationLoader.applicationContext, GcmRegistrationIntentService.class);
-                startService(intent);
+                sendRegistrationToServer(refreshedToken);
+            });
+        } catch (Throwable e) {
+            FileLog.e(e);
+        }
+    }
+
+    public static void sendRegistrationToServer(final String token) {
+        Utilities.stageQueue.postRunnable(() -> {
+            UserConfig.pushString = token;
+            for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+                UserConfig userConfig = UserConfig.getInstance(a);
+                userConfig.registeredForPush = false;
+                userConfig.saveConfig(false);
+                if (userConfig.getClientUserId() != 0) {
+                    final int currentAccount = a;
+                    AndroidUtilities.runOnUIThread(() -> MessagesController.getInstance().registerForPush(token));
+                }
             }
         });
     }

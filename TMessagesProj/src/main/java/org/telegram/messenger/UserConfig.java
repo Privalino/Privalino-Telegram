@@ -21,6 +21,8 @@ import java.util.Map;
 
 public class UserConfig {
 
+    public final static int MAX_ACCOUNT_COUNT = 3;
+
     private static TLRPC.User currentUser;
     public static boolean registeredForPush;
     public static String pushString = "";
@@ -68,6 +70,35 @@ public class UserConfig {
     public static int dialogsLoadOffsetChatId = 0;
     public static int dialogsLoadOffsetChannelId = 0;
     public static long dialogsLoadOffsetAccess = 0;
+
+    private int currentAccount;
+    private static volatile UserConfig[] Instance = new UserConfig[UserConfig.MAX_ACCOUNT_COUNT];
+    public static UserConfig getInstance(int num) {
+        UserConfig localInstance = Instance[num];
+        if (localInstance == null) {
+            synchronized (UserConfig.class) {
+                localInstance = Instance[num];
+                if (localInstance == null) {
+                    Instance[num] = localInstance = new UserConfig(num);
+                }
+            }
+        }
+        return localInstance;
+    }
+
+    public static int getActivatedAccountsCount() {
+        int count = 0;
+        for (int a = 0; a < MAX_ACCOUNT_COUNT; a++) {
+            if (getInstance(a).isClientActivated()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public UserConfig(int instance) {
+        currentAccount = instance;
+    }
 
     public static int getNewMessageId() {
         int id;
