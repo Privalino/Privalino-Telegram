@@ -11,10 +11,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 repositories {
-    jcenter()
     mavenCentral()
     google()
     maven { url 'https://maven.fabric.io/public' }
+    jcenter()
 }
 
 configurations {
