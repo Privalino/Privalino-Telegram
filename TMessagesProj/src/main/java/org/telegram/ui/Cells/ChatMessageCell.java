@@ -500,7 +500,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     if (end >= block.charactersEnd) {
                                         for (int a = blockNum + 1; a < currentMessageObject.textLayoutBlocks.size(); a++) {
                                             MessageObject.TextLayoutBlock nextBlock = currentMessageObject.textLayoutBlocks.get(a);
-                                            CharacterStyle[] nextLink = buffer.getSpans(nextBlock.charactersOffset, nextBlock.charactersOffset, isMono ? URLSpanMono.class : ClickableSpan.class);
+                                            CharacterStyle[] nextLink = buffer.getSpans(off, off, ClickableSpan.class);
+
+//                                            CharacterStyle[] nextLink = buffer.getSpans(nextBlock.charactersOffset, nextBlock.charactersOffset, isMono ? URLSpanMono.class : ClickableSpan.class);
                                             if (nextLink == null || nextLink.length == 0 || nextLink[0] != pressedLink) {
                                                 break;
                                             }
@@ -513,19 +515,37 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                         }
                                     }
                                     if (start <= block.charactersOffset) {
-                                        int offsetY = 0;
-                                        for (int a = blockNum - 1; a >= 0; a--) {
+//                                        int offsetY = 0;
+//                                        for (int a = blockNum - 1; a >= 0; a--) {
+//                                            MessageObject.TextLayoutBlock nextBlock = currentMessageObject.textLayoutBlocks.get(a);
+//                                            CharacterStyle[] nextLink = buffer.getSpans(nextBlock.charactersEnd - 1, nextBlock.charactersEnd - 1, isMono ? URLSpanMono.class : ClickableSpan.class);
+//                                            if (nextLink == null || nextLink.length == 0 || nextLink[0] != pressedLink) {
+//                                                break;
+//                                            }
+//                                            path = obtainNewUrlPath(false);
+//                                            start = buffer.getSpanStart(pressedLink);
+//                                            offsetY -= nextBlock.height;
+//                                            path.setCurrentLayout(nextBlock.textLayout, start, offsetY);
+//                                            nextBlock.textLayout.getSelectionPath(start, buffer.getSpanEnd(pressedLink), path);
+//                                            if (start > nextBlock.charactersOffset) {
+//                                                break;
+//                                            }
+//                                        }
+                                        for (int a = blockNum + 1; a < currentMessageObject.textLayoutBlocks.size(); a++) {
                                             MessageObject.TextLayoutBlock nextBlock = currentMessageObject.textLayoutBlocks.get(a);
-                                            CharacterStyle[] nextLink = buffer.getSpans(nextBlock.charactersEnd - 1, nextBlock.charactersEnd - 1, isMono ? URLSpanMono.class : ClickableSpan.class);
+                                            CharacterStyle[] nextLink;
+                                            if (isMono) {
+                                                nextLink = buffer.getSpans(nextBlock.charactersOffset, nextBlock.charactersOffset, URLSpanMono.class);
+                                            } else {
+                                                nextLink = buffer.getSpans(nextBlock.charactersOffset, nextBlock.charactersOffset, ClickableSpan.class);
+                                            }
                                             if (nextLink == null || nextLink.length == 0 || nextLink[0] != pressedLink) {
                                                 break;
                                             }
                                             path = obtainNewUrlPath(false);
-                                            start = buffer.getSpanStart(pressedLink);
-                                            offsetY -= nextBlock.height;
-                                            path.setCurrentLayout(nextBlock.textLayout, start, offsetY);
-                                            nextBlock.textLayout.getSelectionPath(start, buffer.getSpanEnd(pressedLink), path);
-                                            if (start > nextBlock.charactersOffset) {
+                                            path.setCurrentLayout(nextBlock.textLayout, 0, nextBlock.textYOffset - block.textYOffset);
+                                            nextBlock.textLayout.getSelectionPath(0, end, path);
+                                            if (end < nextBlock.charactersEnd - 1) {
                                                 break;
                                             }
                                         }
