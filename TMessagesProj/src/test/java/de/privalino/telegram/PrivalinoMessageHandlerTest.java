@@ -5,7 +5,7 @@ import android.util.Log;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.telegram.messenger.UserConfig;
+import org.privalino.messenger.UserConfig;
 
 import de.privalino.telegram.model.PrivalinoBlockedUser;
 import de.privalino.telegram.rest.PrivalinoBlockedUserApi;
