@@ -5,8 +5,8 @@
     <PreferenceScreen android:key="account_settings"
         android:title="@string/AccountSettings"
         android:summary="">
-        <intent android:action="org.privalino.messenger.OPEN_ACCOUNT"
-            android:targetPackage="org.privalino.messenger"
-            android:targetClass="org.privalino.ui.LaunchActivity"/>
+        <intent android:action="de.privalino.messenger.OPEN_ACCOUNT"
+            android:targetPackage="de.privalino.messenger"
+            android:targetClass="de.privalino.ui.LaunchActivity"/>
     </PreferenceScreen>
 </PreferenceScreen>

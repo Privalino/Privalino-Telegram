@@ -8,7 +8,7 @@ import android.provider.Settings;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.privalino.messenger.ApplicationLoader;
+import de.privalino.messenger.ApplicationLoader;
 
 import java.util.ArrayList;
 import java.util.Arrays;

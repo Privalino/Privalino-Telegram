@@ -113,7 +113,7 @@ void cancelLoadOperation(JNIEnv *env, jclass c, jint address) {
     }
 }
 
-static const char *FileLoadOperationClassPathName = "org/privalino/tgnet/FileLoadOperation";
+static const char *FileLoadOperationClassPathName = "de/privalino/tgnet/FileLoadOperation";
 static JNINativeMethod FileLoadOperationMethods[] = {
         {"native_createLoadOpetation", "(IJJJI[B[BLjava/lang/String;IILjava/lang/String;Ljava/lang/String;Ljava/lang/Object;)I", (void *) createLoadOpetation},
         {"native_startLoadOperation", "(I)V", (void *) startLoadOperation},
@@ -144,7 +144,7 @@ jobject getJavaByteBuffer(JNIEnv *env, jclass c, jint address) {
     return buffer->getJavaByteBuffer();
 }
 
-static const char *NativeByteBufferClassPathName = "org/privalino/tgnet/NativeByteBuffer";
+static const char *NativeByteBufferClassPathName = "de/privalino/tgnet/NativeByteBuffer";
 static JNINativeMethod NativeByteBufferMethods[] = {
         {"native_getFreeBuffer", "(I)I", (void *) getFreeBuffer},
         {"native_limit", "(I)I", (void *) limit},
@@ -391,13 +391,13 @@ void setJava(JNIEnv *env, jclass c, jboolean useJavaByteBuffers) {
     ConnectionsManager::getInstance().setDelegate(new Delegate());
 }
 
-static const char *ConnectionsManagerClassPathName = "org/privalino/tgnet/ConnectionsManager";
+static const char *ConnectionsManagerClassPathName = "de/privalino/tgnet/ConnectionsManager";
 static JNINativeMethod ConnectionsManagerMethods[] = {
         {"native_getCurrentTimeMillis", "()J", (void *) getCurrentTimeMillis},
         {"native_getCurrentTime", "()I", (void *) getCurrentTime},
         {"native_isTestBackend", "()I", (void *) isTestBackend},
         {"native_getTimeDifference", "()I", (void *) getTimeDifference},
-        {"native_sendRequest", "(ILorg/privalino/tgnet/RequestDelegateInternal;Lorg/privalino/tgnet/QuickAckDelegate;Lorg/privalino/tgnet/WriteToSocketDelegate;IIIZI)V", (void *) sendRequest},
+        {"native_sendRequest", "(ILde/privalino/tgnet/RequestDelegateInternal;Lde/privalino/tgnet/QuickAckDelegate;Lde/privalino/tgnet/WriteToSocketDelegate;IIIZI)V", (void *) sendRequest},
         {"native_cancelRequest", "(IZ)V", (void *) cancelRequest},
         {"native_cleanUp", "()V", (void *) cleanUp},
         {"native_cancelRequestsForGuid", "(I)V", (void *) cancelRequestsForGuid},
@@ -446,7 +446,7 @@ extern "C" int registerNativeTgNetFunctions(JavaVM *vm, JNIEnv *env) {
         return JNI_FALSE;
     }
     
-    jclass_RequestDelegateInternal = (jclass) env->NewGlobalRef(env->FindClass("org/privalino/tgnet/RequestDelegateInternal"));
+    jclass_RequestDelegateInternal = (jclass) env->NewGlobalRef(env->FindClass("de/privalino/tgnet/RequestDelegateInternal"));
     if (jclass_RequestDelegateInternal == 0) {
         return JNI_FALSE;
     }
@@ -455,7 +455,7 @@ extern "C" int registerNativeTgNetFunctions(JavaVM *vm, JNIEnv *env) {
         return JNI_FALSE;
     }
 
-    jclass_QuickAckDelegate = (jclass) env->NewGlobalRef(env->FindClass("org/privalino/tgnet/QuickAckDelegate"));
+    jclass_QuickAckDelegate = (jclass) env->NewGlobalRef(env->FindClass("de/privalino/tgnet/QuickAckDelegate"));
     if (jclass_RequestDelegateInternal == 0) {
         return JNI_FALSE;
     }
@@ -464,7 +464,7 @@ extern "C" int registerNativeTgNetFunctions(JavaVM *vm, JNIEnv *env) {
         return JNI_FALSE;
     }
 
-    jclass_WriteToSocketDelegate = (jclass) env->NewGlobalRef(env->FindClass("org/privalino/tgnet/WriteToSocketDelegate"));
+    jclass_WriteToSocketDelegate = (jclass) env->NewGlobalRef(env->FindClass("de/privalino/tgnet/WriteToSocketDelegate"));
     if (jclass_WriteToSocketDelegate == 0) {
         return JNI_FALSE;
     }
@@ -473,7 +473,7 @@ extern "C" int registerNativeTgNetFunctions(JavaVM *vm, JNIEnv *env) {
         return JNI_FALSE;
     }
 
-    jclass_FileLoadOperationDelegate = (jclass) env->NewGlobalRef(env->FindClass("org/privalino/tgnet/FileLoadOperationDelegate"));
+    jclass_FileLoadOperationDelegate = (jclass) env->NewGlobalRef(env->FindClass("de/privalino/tgnet/FileLoadOperationDelegate"));
     if (jclass_FileLoadOperationDelegate == 0) {
         return JNI_FALSE;
     }
@@ -493,7 +493,7 @@ extern "C" int registerNativeTgNetFunctions(JavaVM *vm, JNIEnv *env) {
         return JNI_FALSE;
     }
 
-    jclass_ConnectionsManager = (jclass) env->NewGlobalRef(env->FindClass("org/privalino/tgnet/ConnectionsManager"));
+    jclass_ConnectionsManager = (jclass) env->NewGlobalRef(env->FindClass("de/privalino/tgnet/ConnectionsManager"));
     if (jclass_ConnectionsManager == 0) {
         return JNI_FALSE;
     }

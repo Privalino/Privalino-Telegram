@@ -9,7 +9,7 @@ import com.google.android.gms.common.api.Api;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.privalino.messenger.ApplicationLoader;
+import de.privalino.messenger.ApplicationLoader;
 
 import java.io.Serializable;
 import java.util.ArrayList;

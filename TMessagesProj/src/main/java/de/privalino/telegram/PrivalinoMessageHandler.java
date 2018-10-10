@@ -7,14 +7,14 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import org.privalino.messenger.ApplicationLoader;
-import org.privalino.messenger.LocaleController;
-import org.privalino.messenger.MessagesController;
-import org.privalino.messenger.MessagesStorage;
-import org.privalino.messenger.R;
-import org.privalino.messenger.SendMessagesHelper;
-import org.privalino.messenger.UserConfig;
-import org.privalino.tgnet.TLRPC;
+import de.privalino.messenger.ApplicationLoader;
+import de.privalino.messenger.LocaleController;
+import de.privalino.messenger.MessagesController;
+import de.privalino.messenger.MessagesStorage;
+import de.privalino.messenger.R;
+import de.privalino.messenger.SendMessagesHelper;
+import de.privalino.messenger.UserConfig;
+import de.privalino.tgnet.TLRPC;
 
 import java.io.IOException;
 import java.util.HashMap;

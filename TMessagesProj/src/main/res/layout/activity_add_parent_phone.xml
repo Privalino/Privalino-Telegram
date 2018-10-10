@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/child_background"
-    tools:context="org.privalino.ui.AddParentPhoneActivity">
+    tools:context="de.privalino.ui.AddParentPhoneActivity">
 
     <RelativeLayout
         android:id="@+id/back_button"
