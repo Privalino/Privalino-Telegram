@@ -5,8 +5,8 @@
     <PreferenceScreen android:key="account_settings"
         android:title="@string/AccountSettings"
         android:summary="">
-        <intent android:action="org.telegram.messenger.OPEN_ACCOUNT"
-            android:targetPackage="org.telegram.messenger"
-            android:targetClass="org.telegram.ui.LaunchActivity"/>
+        <intent android:action="de.privalino.messenger.OPEN_ACCOUNT"
+            android:targetPackage="de.privalino.messenger"
+            android:targetClass="de.privalino.ui.LaunchActivity"/>
     </PreferenceScreen>
 </PreferenceScreen>

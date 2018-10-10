@@ -3,31 +3,20 @@ package de.privalino.telegram;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.provider.Settings;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesStorage;
-import org.telegram.messenger.R;
-import org.telegram.messenger.SendMessagesHelper;
-import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.ChatActivity;
+import de.privalino.messenger.ApplicationLoader;
+import de.privalino.messenger.LocaleController;
+import de.privalino.messenger.MessagesController;
+import de.privalino.messenger.MessagesStorage;
+import de.privalino.messenger.R;
+import de.privalino.messenger.SendMessagesHelper;
+import de.privalino.messenger.UserConfig;
+import de.privalino.tgnet.TLRPC;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 
 import de.privalino.telegram.model.PrivalinoBlockedUser;
@@ -40,7 +29,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static android.R.id.message;
 import static android.app.PendingIntent.getActivity;
 import static android.content.Context.MODE_PRIVATE;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_PHONE_ID;

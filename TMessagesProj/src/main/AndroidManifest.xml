@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.telegram.messenger"
+    package="de.privalino.messenger"
     android:installLocation="auto">
 
     <supports-screens
@@ -82,11 +82,11 @@
         android:hardwareAccelerated="@bool/useHardwareAcceleration"
         android:icon="@drawable/ic_launcher"
         android:largeHeap="true"
-        android:manageSpaceActivity="org.telegram.ui.ManageSpaceActivity"
+        android:manageSpaceActivity="de.privalino.ui.ManageSpaceActivity"
         android:roundIcon="@drawable/ic_launcher"
         android:theme="@style/Theme.TMessages.Start">
         <activity
-            android:name="org.telegram.ui.LaunchActivity"
+            android:name="de.privalino.ui.LaunchActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:hardwareAccelerated="@bool/useHardwareAcceleration"
             android:launchMode="singleTask"
@@ -134,7 +134,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.item/vnd.org.telegram.messenger.android.profile" />
+                <data android:mimeType="vnd.android.cursor.item/vnd.de.privalino.messenger.android.profile" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -183,7 +183,7 @@
                 android:value=".TgChooserTargetService" />
         </activity>
         <activity
-            android:name="org.telegram.ui.ShareActivity"
+            android:name="de.privalino.ui.ShareActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
             android:hardwareAccelerated="@bool/useHardwareAcceleration"
@@ -202,13 +202,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.telegram.ui.ManageSpaceActivity"
+            android:name="de.privalino.ui.ManageSpaceActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:hardwareAccelerated="@bool/useHardwareAcceleration"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="org.telegram.ui.IntroActivity"
+            android:name="de.privalino.ui.IntroActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask" />
         <activity
@@ -216,7 +216,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:exported="true" />
         <activity
-            android:name="org.telegram.ui.PopupNotificationActivity"
+            android:name="de.privalino.ui.PopupNotificationActivity"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
@@ -225,43 +225,43 @@
             android:theme="@style/Theme.TMessages.PopupNotification"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="org.telegram.ui.VoIPActivity"
+            android:name="de.privalino.ui.VoIPActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
             android:taskAffinity="${applicationId}.voip" />
         <activity
-            android:name="org.telegram.ui.VoIPPermissionActivity"
+            android:name="de.privalino.ui.VoIPPermissionActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
             android:taskAffinity="${applicationId}.voip"
             android:theme="@style/Theme.TMessages.Transparent" />
         <activity
-            android:name="org.telegram.ui.OnBoardingIntroActivity"
+            android:name="de.privalino.ui.OnBoardingIntroActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name="org.telegram.ui.ParentEmailActivity"
+            android:name="de.privalino.ui.ParentEmailActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name="org.telegram.ui.AddChildPhoneActivity"
+            android:name="de.privalino.ui.AddChildPhoneActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name="org.telegram.ui.AddChildAgeActivity"
+            android:name="de.privalino.ui.AddChildAgeActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name="org.telegram.ui.AddParentPhoneActivity"
+            android:name="de.privalino.ui.AddParentPhoneActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name="org.telegram.ui.FinishOnBoardActivity"
+            android:name="de.privalino.ui.FinishOnBoardActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <activity
-            android:name="org.telegram.ui.VoIPFeedbackActivity"
+            android:name="de.privalino.ui.VoIPFeedbackActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
             android:taskAffinity="${applicationId}.voip_feedback"
@@ -271,14 +271,14 @@
             android:name=".AutoMessageHeardReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="org.telegram.messenger.ACTION_MESSAGE_HEARD" />
+                <action android:name="de.privalino.messenger.ACTION_MESSAGE_HEARD" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".AutoMessageReplyReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="org.telegram.messenger.ACTION_MESSAGE_REPLY" />
+                <action android:name="de.privalino.messenger.ACTION_MESSAGE_REPLY" />
             </intent-filter>
         </receiver>
         <receiver android:name=".CallReceiver">
@@ -356,11 +356,11 @@
 
         <receiver android:name=".MusicPlayerReceiver">
             <intent-filter>
-                <action android:name="org.telegram.android.musicplayer.close" />
-                <action android:name="org.telegram.android.musicplayer.pause" />
-                <action android:name="org.telegram.android.musicplayer.next" />
-                <action android:name="org.telegram.android.musicplayer.play" />
-                <action android:name="org.telegram.android.musicplayer.previous" />
+                <action android:name="de.privalino.android.musicplayer.close" />
+                <action android:name="de.privalino.android.musicplayer.pause" />
+                <action android:name="de.privalino.android.musicplayer.next" />
+                <action android:name="de.privalino.android.musicplayer.play" />
+                <action android:name="de.privalino.android.musicplayer.previous" />
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
                 <action android:name="android.media.AUDIO_BECOMING_NOISY" />
             </intent-filter>
@@ -374,7 +374,7 @@
             android:name=".AppStartReceiver"
             android:enabled="true">
             <intent-filter>
-                <action android:name="org.telegram.start" />
+                <action android:name="de.privalino.start" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>

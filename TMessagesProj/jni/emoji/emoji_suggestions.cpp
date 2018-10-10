@@ -1,8 +1,8 @@
 /*
-This file is part of Telegram Desktop,
-the official desktop version of Telegram messaging app, see https://telegram.org
+This file is part of privalino Desktop,
+the official desktop version of privalino messaging app, see https://privalino.org
 
-Telegram Desktop is free software: you can redistribute it and/or modify
+privalino Desktop is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -15,8 +15,8 @@ GNU General Public License for more details.
 In addition, as a special exception, the copyright holders give permission
 to link the code of portions of this program with the OpenSSL library.
 
-Full license: https://github.com/telegramdesktop/tdesktop/blob/master/LICENSE
-Copyright (c) 2014-2017 John Preston, https://desktop.telegram.org
+Full license: https://github.com/privalinodesktop/tdesktop/blob/master/LICENSE
+Copyright (c) 2014-2017 John Preston, https://desktop.privalino.org
 */
 
 #include "emoji_suggestions.h"
@@ -415,7 +415,7 @@ jmethodID jclass_Suggestion_constructor;
 extern "C" {
 
 jobjectArray
-Java_org_telegram_messenger_Emoji_getSuggestion(JNIEnv *env, jobject object, jstring query) {
+Java_de_privalino_messenger_Emoji_getSuggestion(JNIEnv *env, jobject object, jstring query) {
     const jchar *raw = env->GetStringChars(query, 0);
     jsize len = env->GetStringLength(query);
     std::vector<Suggestion> suggestions = GetSuggestions(utf16string(raw, len));
@@ -426,7 +426,7 @@ Java_org_telegram_messenger_Emoji_getSuggestion(JNIEnv *env, jobject object, jst
     }
 
     if (jclass_Suggestion == nullptr) {
-        jclass_Suggestion = (jclass) env->NewGlobalRef(env->FindClass("org/telegram/messenger/EmojiSuggestion"));
+        jclass_Suggestion = (jclass) env->NewGlobalRef(env->FindClass("de/privalino/messenger/EmojiSuggestion"));
         jclass_Suggestion_constructor = env->GetMethodID(jclass_Suggestion, "<init>",
                                                          "(Ljava/lang/String;Ljava/lang/String;)V");
     }

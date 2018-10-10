@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/parent_background"
-    tools:context="org.telegram.ui.AddChildPhoneActivity"
+    tools:context="de.privalino.ui.AddChildPhoneActivity"
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
