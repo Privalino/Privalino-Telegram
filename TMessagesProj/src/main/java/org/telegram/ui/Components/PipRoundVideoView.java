@@ -27,6 +27,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.os.Build;
+import android.support.annotation.Keep;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.TextureView;
@@ -37,6 +38,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.Bitmaps;
@@ -44,7 +47,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.exoplayer2.ui.AspectRatioFrameLayout;
+import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
 
@@ -54,6 +57,7 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
 
     private FrameLayout windowView;
     private Activity parentActivity;
+    private int currentAccount;
     private TextureView textureView;
     private ImageView imageView;
     private AspectRatioFrameLayout aspectRatioFrameLayout;
@@ -279,7 +283,8 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
             return;
         }
         parentActivity = activity;
-        NotificationCenter.getInstance().addObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
+        currentAccount = UserConfig.selectedAccount;
+        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
         runShowHideAnimation(true);
     }
 
@@ -305,7 +310,7 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
     }
 
     @Override
-    public void didReceivedNotification(int id, Object... args) {
+    public void didReceivedNotification(int id, int account, Object... args) {
         if (id == NotificationCenter.messagePlayingProgressDidChanged) {
             if (aspectRatioFrameLayout != null) {
                 aspectRatioFrameLayout.invalidate();
@@ -352,7 +357,7 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
                 instance = null;
             }
             parentActivity = null;
-            NotificationCenter.getInstance().removeObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
+            NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
         }
     }
 
@@ -518,6 +523,7 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
         return windowLayoutParams.y;
     }
 
+    @Keep
     public void setX(int value) {
         windowLayoutParams.x = value;
         try {
@@ -527,6 +533,7 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
         }
     }
 
+    @Keep
     public void setY(int value) {
         windowLayoutParams.y = value;
         try {

@@ -9,7 +9,6 @@
 package org.telegram.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -77,11 +76,11 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     public ChatUsersActivity(Bundle args) {
         super(args);
         chatId = arguments.getInt("chat_id");
-        currentChat = MessagesController.getInstance().getChat(chatId);
+        currentChat = MessagesController.getInstance(currentAccount).getChat(chatId);
     }
 
     private void updateRows() {
-        currentChat = MessagesController.getInstance().getChat(chatId);
+        currentChat = MessagesController.getInstance(currentAccount).getChat(chatId);
         if (currentChat == null) {
             return;
         }
@@ -106,7 +105,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     @Override
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
-        NotificationCenter.getInstance().addObserver(this, NotificationCenter.chatInfoDidLoaded);
+        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.chatInfoDidLoaded);
         fetchUsers();
         return true;
     }
@@ -126,7 +125,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     @Override
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
-        NotificationCenter.getInstance().removeObserver(this, NotificationCenter.chatInfoDidLoaded);
+        NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.chatInfoDidLoaded);
     }
 
     @Override
@@ -202,44 +201,35 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         listView.setVerticalScrollbarPosition(LocaleController.isRTL ? RecyclerListView.SCROLLBAR_POSITION_LEFT : RecyclerListView.SCROLLBAR_POSITION_RIGHT);
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
-        listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                final TLRPC.ChatParticipant participant;
-                int user_id = 0;
-                int promoted_by = 0;
-                boolean canEditAdmin = false;
-                if (listView.getAdapter() == listViewAdapter) {
-                    participant = listViewAdapter.getItem(position);
-                    if (participant != null) {
-                        user_id = participant.user_id;
-                    }
+        listView.setOnItemClickListener((view, position) -> {
+            final TLRPC.ChatParticipant participant;
+            int user_id = 0;
+            int promoted_by = 0;
+            boolean canEditAdmin = false;
+            if (listView.getAdapter() == listViewAdapter) {
+                participant = listViewAdapter.getItem(position);
+                if (participant != null) {
+                    user_id = participant.user_id;
+                }
+            } else {
+                TLObject object = searchListViewAdapter.getItem(position);
+                if (object instanceof TLRPC.ChatParticipant) {
+                    participant = (TLRPC.ChatParticipant) object;
                 } else {
-                    TLObject object = searchListViewAdapter.getItem(position);
-                    if (object instanceof TLRPC.ChatParticipant) {
-                        participant = (TLRPC.ChatParticipant) object;
-                    } else {
-                        participant = null;
-                    }
-                    if (participant != null) {
-                        user_id = participant.user_id;
-                    }
+                    participant = null;
                 }
-                if (user_id != 0) {
-                    Bundle args = new Bundle();
-                    args.putInt("user_id", user_id);
-                    presentFragment(new ProfileActivity(args));
+                if (participant != null) {
+                    user_id = participant.user_id;
                 }
+            }
+            if (user_id != 0) {
+                Bundle args = new Bundle();
+                args.putInt("user_id", user_id);
+                presentFragment(new ProfileActivity(args));
             }
         });
 
-        listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemClick(View view, int position) {
-                return !(getParentActivity() == null || listView.getAdapter() != listViewAdapter) && createMenuForParticipant(listViewAdapter.getItem(position), false);
-
-            }
-        });
+        listView.setOnItemLongClickListener((view, position) -> !(getParentActivity() == null || listView.getAdapter() != listViewAdapter) && createMenuForParticipant(listViewAdapter.getItem(position), false));
 
         listView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -268,7 +258,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         if (participant == null) {
             return false;
         }
-        int currentUserId = UserConfig.getClientUserId();
+        int currentUserId = UserConfig.getInstance(currentAccount).getClientUserId();
         if (participant.user_id == currentUserId) {
             return false;
         }
@@ -291,12 +281,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         items.add(LocaleController.getString("KickFromGroup", R.string.KickFromGroup));
         actions.add(0);
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setItems(items.toArray(new CharSequence[actions.size()]), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, final int i) {
-                if (actions.get(i) == 0) {
-                    MessagesController.getInstance().deleteUserFromChat(chatId, MessagesController.getInstance().getUser(participant.user_id), info);
-                }
+        builder.setItems(items.toArray(new CharSequence[actions.size()]), (dialogInterface, i) -> {
+            if (actions.get(i) == 0) {
+                MessagesController.getInstance(currentAccount).deleteUserFromChat(chatId, MessagesController.getInstance(currentAccount).getUser(participant.user_id), info);
             }
         });
         showDialog(builder.create());
@@ -304,7 +291,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     @Override
-    public void didReceivedNotification(int id, Object... args) {
+    public void didReceivedNotification(int id, int account, Object... args) {
         if (id == NotificationCenter.chatInfoDidLoaded) {
             TLRPC.ChatFull chatFull = (TLRPC.ChatFull) args[0];
             boolean byChannelUsers = (Boolean) args[2];
@@ -376,76 +363,66 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         }
 
         private void processSearch(final String query) {
-            AndroidUtilities.runOnUIThread(new Runnable() {
-                @Override
-                public void run() {
-                    final ArrayList<TLRPC.ChatParticipant> contactsCopy = new ArrayList<>();
-                    contactsCopy.addAll(participants);
-                    Utilities.searchQueue.postRunnable(new Runnable() {
-                        @Override
-                        public void run() {
-                            String search1 = query.trim().toLowerCase();
-                            if (search1.length() == 0) {
-                                updateSearchResults(new ArrayList<TLRPC.ChatParticipant>(), new ArrayList<CharSequence>());
-                                return;
-                            }
-                            String search2 = LocaleController.getInstance().getTranslitString(search1);
-                            if (search1.equals(search2) || search2.length() == 0) {
-                                search2 = null;
-                            }
-                            String search[] = new String[1 + (search2 != null ? 1 : 0)];
-                            search[0] = search1;
-                            if (search2 != null) {
-                                search[1] = search2;
-                            }
+            AndroidUtilities.runOnUIThread(() -> {
+                final ArrayList<TLRPC.ChatParticipant> contactsCopy = new ArrayList<>(participants);
+                Utilities.searchQueue.postRunnable(() -> {
+                    String search1 = query.trim().toLowerCase();
+                    if (search1.length() == 0) {
+                        updateSearchResults(new ArrayList<>(), new ArrayList<>());
+                        return;
+                    }
+                    String search2 = LocaleController.getInstance().getTranslitString(search1);
+                    if (search1.equals(search2) || search2.length() == 0) {
+                        search2 = null;
+                    }
+                    String search[] = new String[1 + (search2 != null ? 1 : 0)];
+                    search[0] = search1;
+                    if (search2 != null) {
+                        search[1] = search2;
+                    }
 
-                            ArrayList<TLRPC.ChatParticipant> resultArray = new ArrayList<>();
-                            ArrayList<CharSequence> resultArrayNames = new ArrayList<>();
+                    ArrayList<TLRPC.ChatParticipant> resultArray = new ArrayList<>();
+                    ArrayList<CharSequence> resultArrayNames = new ArrayList<>();
 
-                            for (int a = 0; a < contactsCopy.size(); a++) {
-                                TLRPC.ChatParticipant participant = contactsCopy.get(a);
-                                TLRPC.User user = MessagesController.getInstance().getUser(participant.user_id);
+                    for (int a = 0; a < contactsCopy.size(); a++) {
+                        TLRPC.ChatParticipant participant = contactsCopy.get(a);
+                        TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(participant.user_id);
 
-                                String name = ContactsController.formatName(user.first_name, user.last_name).toLowerCase();
-                                String tName = LocaleController.getInstance().getTranslitString(name);
-                                if (name.equals(tName)) {
-                                    tName = null;
-                                }
-
-                                int found = 0;
-                                for (String q : search) {
-                                    if (name.startsWith(q) || name.contains(" " + q) || tName != null && (tName.startsWith(q) || tName.contains(" " + q))) {
-                                        found = 1;
-                                    } else if (user.username != null && user.username.startsWith(q)) {
-                                        found = 2;
-                                    }
-
-                                    if (found != 0) {
-                                        if (found == 1) {
-                                            resultArrayNames.add(AndroidUtilities.generateSearchName(user.first_name, user.last_name, q));
-                                        } else {
-                                            resultArrayNames.add(AndroidUtilities.generateSearchName("@" + user.username, null, "@" + q));
-                                        }
-                                        resultArray.add(participant);
-                                        break;
-                                    }
-                                }
-                            }
-                            updateSearchResults(resultArray, resultArrayNames);
+                        String name = ContactsController.formatName(user.first_name, user.last_name).toLowerCase();
+                        String tName = LocaleController.getInstance().getTranslitString(name);
+                        if (name.equals(tName)) {
+                            tName = null;
                         }
-                    });
-                }
+
+                        int found = 0;
+                        for (String q : search) {
+                            if (name.startsWith(q) || name.contains(" " + q) || tName != null && (tName.startsWith(q) || tName.contains(" " + q))) {
+                                found = 1;
+                            } else if (user.username != null && user.username.startsWith(q)) {
+                                found = 2;
+                            }
+
+                            if (found != 0) {
+                                if (found == 1) {
+                                    resultArrayNames.add(AndroidUtilities.generateSearchName(user.first_name, user.last_name, q));
+                                } else {
+                                    resultArrayNames.add(AndroidUtilities.generateSearchName("@" + user.username, null, "@" + q));
+                                }
+                                resultArray.add(participant);
+                                break;
+                            }
+                        }
+                    }
+                    updateSearchResults(resultArray, resultArrayNames);
+                });
             });
         }
 
         private void updateSearchResults(final ArrayList<TLRPC.ChatParticipant> users, final ArrayList<CharSequence> names) {
-            AndroidUtilities.runOnUIThread(new Runnable() {
-                @Override
-                public void run() {
-                    searchResult = users;
-                    searchResultNames = names;
-                    notifyDataSetChanged();
-                }
+            AndroidUtilities.runOnUIThread(() -> {
+                searchResult = users;
+                searchResultNames = names;
+                notifyDataSetChanged();
             });
         }
 
@@ -467,16 +444,13 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = new ManageChatUserCell(mContext, 2, true);
             view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-            ((ManageChatUserCell) view).setDelegate(new ManageChatUserCell.ManageChatUserCellDelegate() {
-                @Override
-                public boolean onOptionsButtonCheck(ManageChatUserCell cell, boolean click) {
-                    TLObject object = getItem((Integer) cell.getTag());
-                    if (object instanceof TLRPC.ChatParticipant) {
-                        TLRPC.ChatParticipant participant = (TLRPC.ChatParticipant) getItem((Integer) cell.getTag());
-                        return createMenuForParticipant(participant, !click);
-                    } else {
-                        return false;
-                    }
+            ((ManageChatUserCell) view).setDelegate((cell, click) -> {
+                TLObject object = getItem((Integer) cell.getTag());
+                if (object instanceof TLRPC.ChatParticipant) {
+                    TLRPC.ChatParticipant participant = (TLRPC.ChatParticipant) getItem((Integer) cell.getTag());
+                    return createMenuForParticipant(participant, !click);
+                } else {
+                    return false;
                 }
             });
             return new RecyclerListView.Holder(view);
@@ -489,7 +463,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             if (object instanceof TLRPC.User) {
                 user = (TLRPC.User) object;
             } else {
-                user = MessagesController.getInstance().getUser(((TLRPC.ChatParticipant) object).user_id);
+                user = MessagesController.getInstance(currentAccount).getUser(((TLRPC.ChatParticipant) object).user_id);
             }
 
             String un = user.username;
@@ -549,12 +523,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 case 0:
                     view = new ManageChatUserCell(mContext, 1, true);
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    ((ManageChatUserCell) view).setDelegate(new ManageChatUserCell.ManageChatUserCellDelegate() {
-                        @Override
-                        public boolean onOptionsButtonCheck(ManageChatUserCell cell, boolean click) {
-                            TLRPC.ChatParticipant participant = listViewAdapter.getItem((Integer) cell.getTag());
-                            return createMenuForParticipant(participant, !click);
-                        }
+                    ((ManageChatUserCell) view).setDelegate((cell, click) -> {
+                        TLRPC.ChatParticipant participant = listViewAdapter.getItem((Integer) cell.getTag());
+                        return createMenuForParticipant(participant, !click);
                     });
                     break;
                 case 1:
@@ -573,7 +544,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     ManageChatUserCell userCell = (ManageChatUserCell) holder.itemView;
                     userCell.setTag(position);
                     TLRPC.ChatParticipant participant = getItem(position);
-                    TLRPC.User user = MessagesController.getInstance().getUser(participant.user_id);
+                    TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(participant.user_id);
                     if (user != null) {
                         userCell.setData(user, null, null);
                     }
@@ -614,9 +585,8 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
     @Override
     public ThemeDescription[] getThemeDescriptions() {
-        ThemeDescription.ThemeDescriptionDelegate сellDelegate = new ThemeDescription.ThemeDescriptionDelegate() {
-            @Override
-            public void didSetColor(int color) {
+        ThemeDescription.ThemeDescriptionDelegate cellDelegate = () -> {
+            if (listView != null) {
                 int count = listView.getChildCount();
                 for (int a = 0; a < count; a++) {
                     View child = listView.getChildAt(a);
@@ -645,16 +615,16 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 new ThemeDescription(listView, 0, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText4),
 
                 new ThemeDescription(listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"nameTextView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText),
-                new ThemeDescription(listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"statusColor"}, null, null, сellDelegate, Theme.key_windowBackgroundWhiteGrayText),
-                new ThemeDescription(listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"statusOnlineColor"}, null, null, сellDelegate, Theme.key_windowBackgroundWhiteBlueText),
+                new ThemeDescription(listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"statusColor"}, null, null, cellDelegate, Theme.key_windowBackgroundWhiteGrayText),
+                new ThemeDescription(listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"statusOnlineColor"}, null, null, cellDelegate, Theme.key_windowBackgroundWhiteBlueText),
                 new ThemeDescription(listView, 0, new Class[]{ManageChatUserCell.class}, null, new Drawable[]{Theme.avatar_photoDrawable, Theme.avatar_broadcastDrawable, Theme.avatar_savedDrawable}, null, Theme.key_avatar_text),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundRed),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundOrange),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundViolet),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundGreen),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundCyan),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundBlue),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundPink),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundRed),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundOrange),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundViolet),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundGreen),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundCyan),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundBlue),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundPink),
         };
     }
 }

@@ -9,12 +9,12 @@
 package org.telegram.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +34,6 @@ import org.telegram.messenger.UserObject;
 import org.telegram.messenger.support.widget.LinearLayoutManager;
 import org.telegram.messenger.support.widget.RecyclerView;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -58,17 +57,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.CountDownLatch;
 
 public class ChannelEditActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private RecyclerListView listView;
     private ListAdapter listViewAdapter;
     private SearchAdapter searchListViewAdapter;
+    private LinearLayoutManager layoutManager;
     private int chat_id;
 
     private boolean loadingUsers;
-    private HashMap<Integer, TLRPC.ChatParticipant> participantsMap = new HashMap<>();
+    private SparseArray<TLRPC.ChatParticipant> participantsMap = new SparseArray<>();
     private boolean usersEndReached;
 
     private TLRPC.ChatFull info;
@@ -100,30 +100,28 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
     @Override
     public boolean onFragmentCreate() {
         chat_id = getArguments().getInt("chat_id", 0);
-        currentChat = MessagesController.getInstance().getChat(chat_id);
+        currentChat = MessagesController.getInstance(currentAccount).getChat(chat_id);
         if (currentChat == null) {
-            final Semaphore semaphore = new Semaphore(0);
-            MessagesStorage.getInstance().getStorageQueue().postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    currentChat = MessagesStorage.getInstance().getChat(chat_id);
-                    semaphore.release();
-                }
+            final CountDownLatch countDownLatch = new CountDownLatch(1);
+            MessagesStorage.getInstance(currentAccount).getStorageQueue().postRunnable(() -> {
+                currentChat = MessagesStorage.getInstance(currentAccount).getChat(chat_id);
+                countDownLatch.countDown();
             });
             try {
-                semaphore.acquire();
+                countDownLatch.await();
             } catch (Exception e) {
                 FileLog.e(e);
             }
             if (currentChat != null) {
-                MessagesController.getInstance().putChat(currentChat, true);
+                MessagesController.getInstance(currentAccount).putChat(currentChat, true);
             } else {
                 return false;
             }
         }
 
         getChannelParticipants(true);
-        NotificationCenter.getInstance().addObserver(this, NotificationCenter.chatInfoDidLoaded);
+        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.chatInfoDidLoaded);
+        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.closeChats);
 
         sortedUsers = new ArrayList<>();
         updateRowsIds();
@@ -134,7 +132,8 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
     @Override
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
-        NotificationCenter.getInstance().removeObserver(this, NotificationCenter.chatInfoDidLoaded);
+        NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.chatInfoDidLoaded);
+        NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.closeChats);
     }
 
     @Override
@@ -221,73 +220,76 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
         };
         listView.setVerticalScrollBarEnabled(false);
         listView.setEmptyView(emptyView);
-        listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        listView.setLayoutManager(layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
 
         listView.setAdapter(listViewAdapter);
-        listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, final int position) {
-                if (getParentActivity() == null) {
-                    return;
-                }
-                if (listView.getAdapter() == searchListViewAdapter) {
-                    Bundle args = new Bundle();
-                    args.putInt("user_id", searchListViewAdapter.getItem(position).user_id);
-                    presentFragment(new ProfileActivity(args));
-                } else {
-                    if (position >= membersStartRow && position < membersEndRow) {
-                        int user_id;
-                        if (!sortedUsers.isEmpty()) {
-                            user_id = info.participants.participants.get(sortedUsers.get(position - membersStartRow)).user_id;
-                        } else {
-                            user_id = info.participants.participants.get(position - membersStartRow).user_id;
-                        }
-                        Bundle args = new Bundle();
-                        args.putInt("user_id", user_id);
-                        presentFragment(new ProfileActivity(args));
-                    } else if (position == blockedUsersRow || position == managementRow) {
-                        Bundle args = new Bundle();
-                        args.putInt("chat_id", chat_id);
-                        if (position == blockedUsersRow) {
-                            args.putInt("type", 0);
-                        } else if (position == managementRow) {
-                            args.putInt("type", 1);
-                        }
-                        presentFragment(new ChannelUsersActivity(args));
-                    } else if (position == permissionsRow) {
-                        ChannelPermissionsActivity permissions = new ChannelPermissionsActivity(chat_id);
-                        permissions.setInfo(info);
-                        presentFragment(permissions);
-                    } else if (position == eventLogRow) {
-                        presentFragment(new ChannelAdminLogActivity(currentChat));
-                    } else if (position == infoRow) {
-                        Bundle args = new Bundle();
-                        args.putInt("chat_id", chat_id);
-                        ChannelEditInfoActivity fragment = new ChannelEditInfoActivity(args);
-                        fragment.setInfo(info);
-                        presentFragment(fragment);
+        listView.setOnItemClickListener((view, position) -> {
+            if (getParentActivity() == null) {
+                return;
+            }
+            if (listView.getAdapter() == searchListViewAdapter) {
+                Bundle args = new Bundle();
+                args.putInt("user_id", searchListViewAdapter.getItem(position).user_id);
+                presentFragment(new ProfileActivity(args));
+            } else {
+                if (position >= membersStartRow && position < membersEndRow) {
+                    int user_id;
+                    if (!sortedUsers.isEmpty()) {
+                        user_id = info.participants.participants.get(sortedUsers.get(position - membersStartRow)).user_id;
+                    } else {
+                        user_id = info.participants.participants.get(position - membersStartRow).user_id;
                     }
+                    Bundle args = new Bundle();
+                    args.putInt("user_id", user_id);
+                    presentFragment(new ProfileActivity(args));
+                } else if (position == blockedUsersRow || position == managementRow) {
+                    Bundle args = new Bundle();
+                    args.putInt("chat_id", chat_id);
+                    if (position == blockedUsersRow) {
+                        args.putInt("type", 0);
+                    } else if (position == managementRow) {
+                        args.putInt("type", 1);
+                    }
+                    presentFragment(new ChannelUsersActivity(args));
+                } else if (position == permissionsRow) {
+                    ChannelPermissionsActivity permissions = new ChannelPermissionsActivity(chat_id);
+                    permissions.setInfo(info);
+                    presentFragment(permissions);
+                } else if (position == eventLogRow) {
+                    presentFragment(new ChannelAdminLogActivity(currentChat));
+                } else if (position == infoRow) {
+                    Bundle args = new Bundle();
+                    args.putInt("chat_id", chat_id);
+                    ChannelEditInfoActivity fragment = new ChannelEditInfoActivity(args);
+                    fragment.setInfo(info);
+                    presentFragment(fragment);
                 }
             }
         });
 
-        listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemClick(View view, int position) {
-                if (position >= membersStartRow && position < membersEndRow) {
-                    if (getParentActivity() == null) {
-                        return false;
-                    }
-                    final TLRPC.TL_chatChannelParticipant user;
-                    if (!sortedUsers.isEmpty()) {
-                        user = (TLRPC.TL_chatChannelParticipant) info.participants.participants.get(sortedUsers.get(position - membersStartRow));
-                    } else {
-                        user = (TLRPC.TL_chatChannelParticipant) info.participants.participants.get(position - membersStartRow);
-                    }
-                    return createMenuForParticipant(user, null, false);
+        listView.setOnItemLongClickListener((view, position) -> {
+            if (position >= membersStartRow && position < membersEndRow) {
+                if (getParentActivity() == null) {
+                    return false;
                 }
-                return false;
+                final TLRPC.TL_chatChannelParticipant user;
+                if (!sortedUsers.isEmpty()) {
+                    user = (TLRPC.TL_chatChannelParticipant) info.participants.participants.get(sortedUsers.get(position - membersStartRow));
+                } else {
+                    user = (TLRPC.TL_chatChannelParticipant) info.participants.participants.get(position - membersStartRow);
+                }
+                return createMenuForParticipant(user, null, false);
+            }
+            return false;
+        });
+
+        listView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (participantsMap != null && loadMoreMembersRow != -1 && layoutManager.findLastVisibleItemPosition() > loadMoreMembersRow - 8) {
+                    getChannelParticipants(false);
+                }
             }
         });
 
@@ -296,7 +298,7 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
 
     @SuppressWarnings("unchecked")
     @Override
-    public void didReceivedNotification(int id, final Object... args) {
+    public void didReceivedNotification(int id, int account, Object... args) {
         if (id == NotificationCenter.chatInfoDidLoaded) {
             TLRPC.ChatFull chatFull = (TLRPC.ChatFull) args[0];
             if (chatFull.id == chat_id) {
@@ -313,7 +315,7 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
                 if (listViewAdapter != null) {
                     listViewAdapter.notifyDataSetChanged();
                 }
-                TLRPC.Chat newChat = MessagesController.getInstance().getChat(chat_id);
+                TLRPC.Chat newChat = MessagesController.getInstance(currentAccount).getChat(chat_id);
                 if (newChat != null) {
                     currentChat = newChat;
                 }
@@ -321,6 +323,8 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
                     getChannelParticipants(true);
                 }
             }
+        } else if (id == NotificationCenter.closeChats) {
+            removeSelfFromStack();
         }
     }
 
@@ -337,50 +341,42 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
             return;
         }
         loadingUsers = true;
-        final int delay = !participantsMap.isEmpty() && reload ? 300 : 0;
+        final int delay = participantsMap.size() != 0 && reload ? 300 : 0;
 
         final TLRPC.TL_channels_getParticipants req = new TLRPC.TL_channels_getParticipants();
-        req.channel = MessagesController.getInputChannel(chat_id);
+        req.channel = MessagesController.getInstance(currentAccount).getInputChannel(chat_id);
         req.filter = new TLRPC.TL_channelParticipantsRecent();
         req.offset = reload ? 0 : participantsMap.size();
         req.limit = 200;
-        int reqId = ConnectionsManager.getInstance().sendRequest(req, new RequestDelegate() {
-            @Override
-            public void run(final TLObject response, final TLRPC.TL_error error) {
-                AndroidUtilities.runOnUIThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (error == null) {
-                            TLRPC.TL_channels_channelParticipants res = (TLRPC.TL_channels_channelParticipants) response;
-                            MessagesController.getInstance().putUsers(res.users, false);
-                            if (res.users.size() != 200) {
-                                usersEndReached = true;
-                            }
-                            if (req.offset == 0) {
-                                participantsMap.clear();
-                                info.participants = new TLRPC.TL_chatParticipants();
-                                MessagesStorage.getInstance().putUsersAndChats(res.users, null, true, true);
-                                MessagesStorage.getInstance().updateChannelUsers(chat_id, res.participants);
-                            }
-                            for (int a = 0; a < res.participants.size(); a++) {
-                                TLRPC.TL_chatChannelParticipant participant = new TLRPC.TL_chatChannelParticipant();
-                                participant.channelParticipant = res.participants.get(a);
-                                participant.inviter_id = participant.channelParticipant.inviter_id;
-                                participant.user_id = participant.channelParticipant.user_id;
-                                participant.date = participant.channelParticipant.date;
-                                if (!participantsMap.containsKey(participant.user_id)) {
-                                    info.participants.participants.add(participant);
-                                    participantsMap.put(participant.user_id, participant);
-                                }
-                            }
-                        }
-                        loadingUsers = false;
-                        NotificationCenter.getInstance().postNotificationName(NotificationCenter.chatInfoDidLoaded, info, 0, true, null);
+        int reqId = ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+            if (error == null) {
+                TLRPC.TL_channels_channelParticipants res = (TLRPC.TL_channels_channelParticipants) response;
+                MessagesController.getInstance(currentAccount).putUsers(res.users, false);
+                if (res.users.size() < 200) {
+                    usersEndReached = true;
+                }
+                if (req.offset == 0) {
+                    participantsMap.clear();
+                    info.participants = new TLRPC.TL_chatParticipants();
+                    MessagesStorage.getInstance(currentAccount).putUsersAndChats(res.users, null, true, true);
+                    MessagesStorage.getInstance(currentAccount).updateChannelUsers(chat_id, res.participants);
+                }
+                for (int a = 0; a < res.participants.size(); a++) {
+                    TLRPC.TL_chatChannelParticipant participant = new TLRPC.TL_chatChannelParticipant();
+                    participant.channelParticipant = res.participants.get(a);
+                    participant.inviter_id = participant.channelParticipant.inviter_id;
+                    participant.user_id = participant.channelParticipant.user_id;
+                    participant.date = participant.channelParticipant.date;
+                    if (participantsMap.indexOfKey(participant.user_id) < 0) {
+                        info.participants.participants.add(participant);
+                        participantsMap.put(participant.user_id, participant);
                     }
-                }, delay);
+                }
             }
-        });
-        ConnectionsManager.getInstance().bindRequestToGuid(reqId, classGuid);
+            loadingUsers = false;
+            NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.chatInfoDidLoaded, info, 0, true, null);
+        }, delay));
+        ConnectionsManager.getInstance(currentAccount).bindRequestToGuid(reqId, classGuid);
     }
 
     public void setInfo(TLRPC.ChatFull chatInfo) {
@@ -410,11 +406,7 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
         }*/
         eventLogRow = rowCount++;
         managementRow = rowCount++;
-        if (currentChat.megagroup || info != null && (info.banned_count != 0 || info.kicked_count != 0)) {
-            blockedUsersRow = rowCount++;
-        } else {
-            blockedUsersRow = -1;
-        }
+        blockedUsersRow = rowCount++;
         membersSectionRow = rowCount++;
         if (info != null && info.participants != null && !info.participants.participants.isEmpty()) {
             membersStartRow = rowCount;
@@ -438,7 +430,7 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
         if (user == null && channelParticipant == null) {
             return false;
         }
-        int currentUserId = UserConfig.getClientUserId();
+        int currentUserId = UserConfig.getInstance(currentAccount).getClientUserId();
         final int uid;
         if (channelParticipant != null) {
             if (currentUserId == channelParticipant.user_id) {
@@ -450,7 +442,7 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
                 channelParticipant = user.channelParticipant;
             }
         } else {
-            if (user.user_id == UserConfig.getClientUserId()) {
+            if (user.user_id == UserConfig.getInstance(currentAccount).getClientUserId()) {
                 return false;
             }
             uid = user.user_id;
@@ -458,7 +450,7 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
         }
 
 
-        TLRPC.User u = MessagesController.getInstance().getUser(uid);
+        TLRPC.User u = MessagesController.getInstance(currentAccount).getUser(uid);
         boolean allowSetAdmin = channelParticipant instanceof TLRPC.TL_channelParticipant || channelParticipant instanceof TLRPC.TL_channelParticipantBanned;
         boolean canEditAdmin = !(channelParticipant instanceof TLRPC.TL_channelParticipantAdmin || channelParticipant instanceof TLRPC.TL_channelParticipantCreator) || channelParticipant.can_edit;
 
@@ -498,64 +490,58 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
         final TLRPC.ChannelParticipant channelParticipantFinal = channelParticipant;
         final TLRPC.TL_chatChannelParticipant userFinal = user;
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, final int i) {
-                if (actions.get(i) == 2) {
-                    MessagesController.getInstance().deleteUserFromChat(chat_id, MessagesController.getInstance().getUser(uid), info);
-                } else {
-                    ChannelRightsEditActivity fragment = new ChannelRightsEditActivity(channelParticipantFinal.user_id, chat_id, channelParticipantFinal.admin_rights, channelParticipantFinal.banned_rights, actions.get(i), true);
-                    fragment.setDelegate(new ChannelRightsEditActivity.ChannelRightsEditActivityDelegate() {
-                        @Override
-                        public void didSetRights(int rights, TLRPC.TL_channelAdminRights rightsAdmin, TLRPC.TL_channelBannedRights rightsBanned) {
-                            channelParticipantFinal.admin_rights = rightsAdmin;
-                            channelParticipantFinal.banned_rights = rightsBanned;
-                            if (actions.get(i) == 0) {
-                                if (userFinal != null) {
-                                    if (rights == 1) {
-                                        userFinal.channelParticipant = new TLRPC.TL_channelParticipantAdmin();
-                                    } else {
-                                        userFinal.channelParticipant = new TLRPC.TL_channelParticipant();
+        builder.setItems(items.toArray(new CharSequence[items.size()]), (dialogInterface, i) -> {
+            if (actions.get(i) == 2) {
+                MessagesController.getInstance(currentAccount).deleteUserFromChat(chat_id, MessagesController.getInstance(currentAccount).getUser(uid), info);
+            } else {
+                ChannelRightsEditActivity fragment = new ChannelRightsEditActivity(channelParticipantFinal.user_id, chat_id, channelParticipantFinal.admin_rights, channelParticipantFinal.banned_rights, actions.get(i), true);
+                fragment.setDelegate((rights, rightsAdmin, rightsBanned) -> {
+                    channelParticipantFinal.admin_rights = rightsAdmin;
+                    channelParticipantFinal.banned_rights = rightsBanned;
+                    if (actions.get(i) == 0) {
+                        if (userFinal != null) {
+                            if (rights == 1) {
+                                userFinal.channelParticipant = new TLRPC.TL_channelParticipantAdmin();
+                            } else {
+                                userFinal.channelParticipant = new TLRPC.TL_channelParticipant();
+                            }
+                            userFinal.channelParticipant.inviter_id = UserConfig.getInstance(currentAccount).getClientUserId();
+                            userFinal.channelParticipant.user_id = userFinal.user_id;
+                            userFinal.channelParticipant.date = userFinal.date;
+                        }
+                    } else if (actions.get(i) == 1) {
+                        if (rights == 0) {
+                            if (currentChat.megagroup && info != null && info.participants != null) {
+                                boolean changed = false;
+                                for (int a = 0; a < info.participants.participants.size(); a++) {
+                                    TLRPC.ChannelParticipant p = ((TLRPC.TL_chatChannelParticipant) info.participants.participants.get(a)).channelParticipant;
+                                    if (p.user_id == uid) {
+                                        if (info != null) {
+                                            info.participants_count--;
+                                        }
+                                        info.participants.participants.remove(a);
+                                        changed = true;
+                                        break;
                                     }
-                                    userFinal.channelParticipant.inviter_id = UserConfig.getClientUserId();
-                                    userFinal.channelParticipant.user_id = userFinal.user_id;
-                                    userFinal.channelParticipant.date = userFinal.date;
                                 }
-                            } else if (actions.get(i) == 1) {
-                                if (rights == 0) {
-                                    if (currentChat.megagroup && info != null && info.participants != null) {
-                                        boolean changed = false;
-                                        for (int a = 0; a < info.participants.participants.size(); a++) {
-                                            TLRPC.ChannelParticipant p = ((TLRPC.TL_chatChannelParticipant) info.participants.participants.get(a)).channelParticipant;
-                                            if (p.user_id == uid) {
-                                                if (info != null) {
-                                                    info.participants_count--;
-                                                }
-                                                info.participants.participants.remove(a);
-                                                changed = true;
-                                                break;
-                                            }
-                                        }
-                                        if (info != null && info.participants != null) {
-                                            for (int a = 0; a < info.participants.participants.size(); a++) {
-                                                TLRPC.ChatParticipant p = info.participants.participants.get(a);
-                                                if (p.user_id == uid) {
-                                                    info.participants.participants.remove(a);
-                                                    changed = true;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        if (changed) {
-                                            NotificationCenter.getInstance().postNotificationName(NotificationCenter.chatInfoDidLoaded, info, 0, true, null);
+                                if (info != null && info.participants != null) {
+                                    for (int a = 0; a < info.participants.participants.size(); a++) {
+                                        TLRPC.ChatParticipant p = info.participants.participants.get(a);
+                                        if (p.user_id == uid) {
+                                            info.participants.participants.remove(a);
+                                            changed = true;
+                                            break;
                                         }
                                     }
+                                }
+                                if (changed) {
+                                    NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.chatInfoDidLoaded, info, 0, true, null);
                                 }
                             }
                         }
-                    });
-                    presentFragment(fragment);
-                }
+                    }
+                });
+                presentFragment(fragment);
             }
         });
         showDialog(builder.create());
@@ -570,7 +556,7 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
 
         public SearchAdapter(Context context) {
             mContext = context;
-            searchAdapterHelper = new SearchAdapterHelper();
+            searchAdapterHelper = new SearchAdapterHelper(true);
             searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() {
                 @Override
                 public void onDataSetChanged() {
@@ -613,12 +599,7 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
         }
 
         private void processSearch(final String query) {
-            AndroidUtilities.runOnUIThread(new Runnable() {
-                @Override
-                public void run() {
-                    searchAdapterHelper.queryServerSearch(query, false, false, true, true, chat_id, false);
-                }
-            });
+            AndroidUtilities.runOnUIThread(() -> searchAdapterHelper.queryServerSearch(query, false, false, true, true, chat_id, false));
         }
 
         @Override
@@ -639,12 +620,7 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = new ManageChatUserCell(mContext, 8, true);
             view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-            ((ManageChatUserCell) view).setDelegate(new ManageChatUserCell.ManageChatUserCellDelegate() {
-                @Override
-                public boolean onOptionsButtonCheck(ManageChatUserCell cell, boolean click) {
-                    return createMenuForParticipant(null, getItem((Integer) cell.getTag()), !click);
-                }
-            });
+            ((ManageChatUserCell) view).setDelegate((cell, click) -> createMenuForParticipant(null, getItem((Integer) cell.getTag()), !click));
             return new RecyclerListView.Holder(view);
         }
 
@@ -666,7 +642,7 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
                         }
                     } else {
                         isAdmin = object instanceof TLRPC.TL_channelParticipantAdmin || object instanceof TLRPC.TL_channelParticipantCreator;
-                        user = MessagesController.getInstance().getUser(((TLRPC.ChannelParticipant) object).user_id);
+                        user = MessagesController.getInstance(currentAccount).getUser(((TLRPC.ChannelParticipant) object).user_id);
                     }
                     CharSequence name = null;
                     String nameSearch = searchAdapterHelper.getLastFoundChannel();
@@ -715,18 +691,15 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
                 case 1:
                     view = new ManageChatUserCell(mContext, 8, true);
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    ((ManageChatUserCell) view).setDelegate(new ManageChatUserCell.ManageChatUserCellDelegate() {
-                        @Override
-                        public boolean onOptionsButtonCheck(ManageChatUserCell cell, boolean click) {
-                            int i = (Integer) cell.getTag();
-                            TLRPC.ChatParticipant part;
-                            if (!sortedUsers.isEmpty()) {
-                                part = info.participants.participants.get(sortedUsers.get(i - membersStartRow));
-                            } else {
-                                part = info.participants.participants.get(i - membersStartRow);
-                            }
-                            return createMenuForParticipant((TLRPC.TL_chatChannelParticipant) part, null, !click);
+                    ((ManageChatUserCell) view).setDelegate((cell, click) -> {
+                        int i = (Integer) cell.getTag();
+                        TLRPC.ChatParticipant part;
+                        if (!sortedUsers.isEmpty()) {
+                            part = info.participants.participants.get(sortedUsers.get(i - membersStartRow));
+                        } else {
+                            part = info.participants.participants.get(i - membersStartRow);
                         }
+                        return createMenuForParticipant((TLRPC.TL_chatChannelParticipant) part, null, !click);
                     });
                     break;
                 case 2:
@@ -784,7 +757,7 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
                         } else {
                             userCell.setIsAdmin(part instanceof TLRPC.TL_chatParticipantAdmin);
                         }
-                        userCell.setData(MessagesController.getInstance().getUser(part.user_id), null, null);
+                        userCell.setData(MessagesController.getInstance(currentAccount).getUser(part.user_id), null, null);
                     }
                     break;
                 case 2:
@@ -825,9 +798,8 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
 
     @Override
     public ThemeDescription[] getThemeDescriptions() {
-        ThemeDescription.ThemeDescriptionDelegate сellDelegate = new ThemeDescription.ThemeDescriptionDelegate() {
-            @Override
-            public void didSetColor(int color) {
+        ThemeDescription.ThemeDescriptionDelegate cellDelegate = () -> {
+            if (listView != null) {
                 int count = listView.getChildCount();
                 for (int a = 0; a < count; a++) {
                     View child = listView.getChildAt(a);
@@ -838,7 +810,8 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
             }
         };
         return new ThemeDescription[]{
-                new ThemeDescription(listView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_windowBackgroundWhite),
+                new ThemeDescription(listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{ManageChatTextCell.class, ManageChatUserCell.class}, null, null, null, Theme.key_windowBackgroundWhite),
+                new ThemeDescription(fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_windowBackgroundGray),
                 new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_SUBMENUBACKGROUND, null, null, null, null, Theme.key_actionBarDefaultSubmenuBackground),
                 new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_SUBMENUITEM, null, null, null, null, Theme.key_actionBarDefaultSubmenuItem),
 
@@ -850,22 +823,24 @@ public class ChannelEditActivity extends BaseFragment implements NotificationCen
                 new ThemeDescription(listView, 0, new Class[]{View.class}, Theme.dividerPaint, null, null, Theme.key_divider),
                 new ThemeDescription(listView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{ShadowSectionCell.class}, null, null, null, Theme.key_windowBackgroundGrayShadow),
 
-                new ThemeDescription(listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{ManageChatTextCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText),
-                new ThemeDescription(listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{ManageChatTextCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteGreenText2),
-                new ThemeDescription(listView, ThemeDescription.FLAG_CHECKTAG, new Class[]{ManageChatTextCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteRedText5),
+                new ThemeDescription(listView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG, new Class[]{ManageChatTextCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText),
+                new ThemeDescription(listView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG, new Class[]{ManageChatTextCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteGreenText2),
+                new ThemeDescription(listView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG, new Class[]{ManageChatTextCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteRedText5),
+                new ThemeDescription(listView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{ManageChatTextCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteValueText),
                 new ThemeDescription(listView, 0, new Class[]{ManageChatTextCell.class}, new String[]{"imageView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayIcon),
 
                 new ThemeDescription(listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"nameTextView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText),
-                new ThemeDescription(listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"statusColor"}, null, null, сellDelegate, Theme.key_windowBackgroundWhiteGrayText),
-                new ThemeDescription(listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"statusOnlineColor"}, null, null, сellDelegate, Theme.key_windowBackgroundWhiteBlueText),
+                new ThemeDescription(listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"statusColor"}, null, null, cellDelegate, Theme.key_windowBackgroundWhiteGrayText),
+                new ThemeDescription(listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"statusOnlineColor"}, null, null, cellDelegate, Theme.key_windowBackgroundWhiteBlueText),
+                new ThemeDescription(listView, 0, new Class[]{ManageChatUserCell.class}, new String[]{"optionsButton"}, null, null, null, Theme.key_stickers_menu),
                 new ThemeDescription(listView, 0, new Class[]{ManageChatUserCell.class}, null, new Drawable[]{Theme.avatar_photoDrawable, Theme.avatar_broadcastDrawable, Theme.avatar_savedDrawable}, null, Theme.key_avatar_text),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundRed),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundOrange),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundViolet),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundGreen),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundCyan),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundBlue),
-                new ThemeDescription(null, 0, null, null, null, сellDelegate, Theme.key_avatar_backgroundPink),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundRed),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundOrange),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundViolet),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundGreen),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundCyan),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundBlue),
+                new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundPink),
 
                 new ThemeDescription(listView, 0, new Class[]{LoadingCell.class}, new String[]{"progressBar"}, null, null, null, Theme.key_progressCircle),
 

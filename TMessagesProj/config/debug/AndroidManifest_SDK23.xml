@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
 
@@ -30,7 +31,9 @@
         android:theme="@style/Theme.TMessages.Start"
         android:name=".ApplicationLoader"
         android:hardwareAccelerated="@bool/useHardwareAcceleration"
-        android:largeHeap="true">
+        android:largeHeap="true"
+        android:supportsRtl="false"
+        tools:replace="android:supportsRtl">
 
         <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyA-t0jLPjUt2FxrA8VPK2EiYHcYcboIR6k" />
 
@@ -47,22 +50,16 @@
             </intent-filter>
         </receiver>
         <service
-            android:name=".GcmPushListenerService"
-            android:exported="false" >
+            android:name=".GcmPushListenerService">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name=".GcmInstanceIDListenerService"
-            android:exported="false">
+            android:name=".GcmInstanceIDListenerService">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-        </service>
-        <service
-            android:name=".GcmRegistrationIntentService"
-            android:exported="false">
         </service>
 
         <uses-library android:name="com.google.android.maps" android:required="false"/>
