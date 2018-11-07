@@ -115,6 +115,7 @@ import static de.privalino.telegram.AppConstants.INTENT_EXTRA_KEY_FROM_SETTINGS;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_IS_PARENT;
 import static de.privalino.telegram.AppConstants.SHAREDPREFS_KEY_USER_TYPE_SELECTED;
 import static de.privalino.telegram.AppConstants.SHAREDRPREFS_KEY_ON_BOARDING_INFO;
+import static org.telegram.messenger.NativeCrashManager.handleDumpFiles;
 
 public class LaunchActivity extends Activity implements ActionBarLayout.ActionBarLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
 
