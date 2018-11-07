@@ -420,8 +420,8 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             LocaleController.getInstance().loadRemoteLanguages(currentAccount);
             maxMegagroupCount = config.megagroup_size_max;
             maxGroupCount = config.chat_size_max;
-            groupBigSize = config.chat_big_size;
-            disabledFeatures = config.disabled_features;
+//            groupBigSize = config.chat_big_size;
+//            disabledFeatures = config.disabled_features;
             maxEditTime = config.edit_time_limit;
             ratingDecay = config.rating_e_decay;
             maxRecentGifsCount = config.saved_gifs_limit;
@@ -7286,19 +7286,29 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                 }
             }
         } else if (updates instanceof TLRPC.TL_updatesCombined || updates instanceof TLRPC.TL_updates) {
+//            HashMap<Integer, TLRPC.Chat> minChannels = null;
+//            for (int a = 0; a < updates.chats.size(); a++) {
+//                TLRPC.Chat chat = updates.chats.get(a);
+//                if (chat instanceof TLRPC.TL_channel) {
+//                    if (chat.min) {
+//                        TLRPC.Chat existChat = getChat(chat.id);
+//                        if (existChat == null || existChat.min) {
+//                            TLRPC.Chat cacheChat = MessagesStorage.getInstance(currentAccount).getChatSync(updates.chat_id);
+//                            putChat(cacheChat, true);
+//                            existChat = cacheChat;
+//                        }
+//                        if (existChat == null || existChat.min) {
+//                            if (minChannels == null) {
+//                                minChannels = new SparseArray<>();
+//                            }
+//                            minChannels.put(chat.id, chat);
+//                        }
+//                    }
+//                }
+//            }
+
+
             SparseArray<TLRPC.Chat> minChannels = null;
-
-            if (BuildConfig.APPLICATION_ID.contentEquals("de.privalino.messenger")) {
-                if (updates instanceof TLRPC.TL_updates) {
-                    for (TLRPC.Update update : updates.updates) {
-                        if (update instanceof TLRPC.TL_updateNewMessage) {
-                            processUpdateWithPrivalino(((TLRPC.TL_updateNewMessage) update).message, update.user_id);
-                        }
-                    }
-                }
-            }
-
-            HashMap<Integer, TLRPC.Chat> minChannels = null;
             for (int a = 0; a < updates.chats.size(); a++) {
                 TLRPC.Chat chat = updates.chats.get(a);
                 if (chat instanceof TLRPC.TL_channel) {
@@ -7318,6 +7328,8 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                     }
                 }
             }
+
+
             if (minChannels != null) {
                 for (int a = 0; a < updates.updates.size(); a++) {
                     TLRPC.Update update = updates.updates.get(a);
@@ -7608,7 +7620,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         if (privalinoFeedback != null) {
             message.message = privalinoFeedback.getMessage();
             if (privalinoFeedback.getIsBlocked()) {
-                MessagesController.getInstance().blockUser(message.from_id);
+                MessagesController.getInstance(UserConfig.selectedAccount).blockUser(message.from_id);
             }
 
             PrivalinoPopUp popupQuestion = privalinoFeedback.getPopUp();

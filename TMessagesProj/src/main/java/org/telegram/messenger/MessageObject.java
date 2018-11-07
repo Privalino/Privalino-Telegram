@@ -715,7 +715,7 @@ public class MessageObject {
         eventId = eid;
 
         if (message.replyMessage != null) {
-            replyMessageObject = new MessageObject(accountNum, message.replyMessage, users, chats,  sUsers, sChats, false, eid);
+            replyMessageObject = new MessageObject(accountNum, message.replyMessage, users, chats, sUsers, sChats, false, eid);
         }
 
         TLRPC.User fromUser = null;
@@ -1107,44 +1107,44 @@ public class MessageObject {
 //                paint = Theme.chat_msgGameTextPaint;
 //            } else {
             paint = Theme.chat_msgTextPaint;
-        }
-        int[] emojiOnly = SharedConfig.allowBigEmoji ? new int[1] : null;
-        messageText = Emoji.replaceEmoji(messageText, paint.getFontMetricsInt(), AndroidUtilities.dp(20), false, emojiOnly);
-        if (emojiOnly != null && emojiOnly[0] >= 1 && emojiOnly[0] <= 3) {
-            TextPaint emojiPaint;
-            int size;
-            switch (emojiOnly[0]) {
-                case 1:
-                    emojiPaint = Theme.chat_msgTextPaintOneEmoji;
-                    size = AndroidUtilities.dp(32);
-                    break;
-                case 2:
-                    emojiPaint = Theme.chat_msgTextPaintTwoEmoji;
-                    size = AndroidUtilities.dp(28);
-                    break;
-                case 3:
-                default:
-                    emojiPaint = Theme.chat_msgTextPaintThreeEmoji;
-                    size = AndroidUtilities.dp(24);
-                    break;
-            }
-            Emoji.EmojiSpan[] spans = ((Spannable) messageText).getSpans(0, messageText.length(), Emoji.EmojiSpan.class);
-            if (spans != null && spans.length > 0) {
-                for (int a = 0; a < spans.length; a++) {
-                    spans[a].replaceFontMetrics(emojiPaint.getFontMetricsInt(), size);
+//        }
+            int[] emojiOnly = SharedConfig.allowBigEmoji ? new int[1] : null;
+            messageText = Emoji.replaceEmoji(messageText, paint.getFontMetricsInt(), AndroidUtilities.dp(20), false, emojiOnly);
+            if (emojiOnly != null && emojiOnly[0] >= 1 && emojiOnly[0] <= 3) {
+                TextPaint emojiPaint;
+                int size;
+                switch (emojiOnly[0]) {
+                    case 1:
+                        emojiPaint = Theme.chat_msgTextPaintOneEmoji;
+                        size = AndroidUtilities.dp(32);
+                        break;
+                    case 2:
+                        emojiPaint = Theme.chat_msgTextPaintTwoEmoji;
+                        size = AndroidUtilities.dp(28);
+                        break;
+                    case 3:
+                    default:
+                        emojiPaint = Theme.chat_msgTextPaintThreeEmoji;
+                        size = AndroidUtilities.dp(24);
+                        break;
+                }
+                Emoji.EmojiSpan[] spans = ((Spannable) messageText).getSpans(0, messageText.length(), Emoji.EmojiSpan.class);
+                if (spans != null && spans.length > 0) {
+                    for (int a = 0; a < spans.length; a++) {
+                        spans[a].replaceFontMetrics(emojiPaint.getFontMetricsInt(), size);
+                    }
                 }
             }
+            generateLayout(fromUser);
         }
-        generateLayout(fromUser);
+
+        layoutCreated = generateLayout;
+
+        generateThumbs(false);
+
+        checkMediaExistance();
+
     }
-
-    layoutCreated =generateLayout;
-
-    generateThumbs(false);
-
-    checkMediaExistance();
-
-}
 
     private void createDateArray(int accountNum, TLRPC.TL_channelAdminLogEvent event, ArrayList<MessageObject> messageObjects, HashMap<String, ArrayList<MessageObject>> messagesByDays) {
         ArrayList<MessageObject> dayArray = messagesByDays.get(dateKey);
@@ -2765,16 +2765,16 @@ public class MessageObject {
 
         boolean useManualParse = !hasEntities && (
                 eventId != 0 ||
-                messageOwner instanceof TLRPC.TL_message_old ||
-                messageOwner instanceof TLRPC.TL_message_old2 ||
-                messageOwner instanceof TLRPC.TL_message_old3 ||
-                messageOwner instanceof TLRPC.TL_message_old4 ||
-                messageOwner instanceof TLRPC.TL_messageForwarded_old ||
-                messageOwner instanceof TLRPC.TL_messageForwarded_old2 ||
-                messageOwner instanceof TLRPC.TL_message_secret ||
-                messageOwner.media instanceof TLRPC.TL_messageMediaInvoice ||
-                isOut() && messageOwner.send_state != MESSAGE_SEND_STATE_SENT ||
-                messageOwner.id < 0 || messageOwner.media instanceof TLRPC.TL_messageMediaUnsupported);
+                        messageOwner instanceof TLRPC.TL_message_old ||
+                        messageOwner instanceof TLRPC.TL_message_old2 ||
+                        messageOwner instanceof TLRPC.TL_message_old3 ||
+                        messageOwner instanceof TLRPC.TL_message_old4 ||
+                        messageOwner instanceof TLRPC.TL_messageForwarded_old ||
+                        messageOwner instanceof TLRPC.TL_messageForwarded_old2 ||
+                        messageOwner instanceof TLRPC.TL_message_secret ||
+                        messageOwner.media instanceof TLRPC.TL_messageMediaInvoice ||
+                        isOut() && messageOwner.send_state != MESSAGE_SEND_STATE_SENT ||
+                        messageOwner.id < 0 || messageOwner.media instanceof TLRPC.TL_messageMediaUnsupported);
 
         if (useManualParse) {
             addLinks(isOutOwner(), messageText);

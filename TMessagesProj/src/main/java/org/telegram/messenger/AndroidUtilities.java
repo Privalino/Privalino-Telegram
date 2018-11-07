@@ -150,6 +150,7 @@ public class AndroidUtilities {
     private static Paint roundPaint;
     private static RectF bitmapRect;
 
+
     public static Pattern WEB_URL = null;
     static {
         try {
@@ -1301,236 +1302,236 @@ public class AndroidUtilities {
         }
     }
 
-    private static Intent createIntrnalShortcutIntent(long did) {
-        Intent shortcutIntent = new Intent(ApplicationLoader.applicationContext, OpenChatReceiver.class);
+//    private static Intent createIntrnalShortcutIntent(long did) {
+//        Intent shortcutIntent = new Intent(ApplicationLoader.applicationContext, OpenChatReceiver.class);
+//
+//        int lower_id = (int) did;
+//        int high_id = (int) (did >> 32);
+//
+//        if (lower_id == 0) {
+//            shortcutIntent.putExtra("encId", high_id);
+//            TLRPC.EncryptedChat encryptedChat = MessagesController.getInstance().getEncryptedChat(high_id);
+//            if (encryptedChat == null) {
+//                return null;
+//            }
+//        } else if (lower_id > 0) {
+//            shortcutIntent.putExtra("userId", lower_id);
+//        } else if (lower_id < 0) {
+//            shortcutIntent.putExtra("chatId", -lower_id);
+//        } else {
+//            return null;
+//        }
+//        shortcutIntent.setAction("com.tmessages.openchat" + did);
+//        shortcutIntent.addFlags(0x4000000);
+//        return shortcutIntent;
+//    }
 
-        int lower_id = (int) did;
-        int high_id = (int) (did >> 32);
+//    public static void installShortcut(long did) {
+//        try {
+//
+//            Intent shortcutIntent = createIntrnalShortcutIntent(did);
+//
+//            int lower_id = (int) did;
+//            int high_id = (int) (did >> 32);
+//
+//            TLRPC.User user = null;
+//            TLRPC.Chat chat = null;
+//            if (lower_id == 0) {
+//                TLRPC.EncryptedChat encryptedChat = MessagesController.getInstance().getEncryptedChat(high_id);
+//                if (encryptedChat == null) {
+//                    return;
+//                }
+//                user = MessagesController.getInstance().getUser(encryptedChat.user_id);
+//            } else if (lower_id > 0) {
+//                user = MessagesController.getInstance().getUser(lower_id);
+//            } else if (lower_id < 0) {
+//                chat = MessagesController.getInstance().getChat(-lower_id);
+//            } else {
+//                return;
+//            }
+//            if (user == null && chat == null) {
+//                return;
+//            }
+//
+//            String name;
+//            TLRPC.FileLocation photo = null;
+//
+//            boolean selfUser = false;
+//
+//            if (user != null) {
+//                if (UserObject.isUserSelf(user)) {
+//                    name = LocaleController.getString("SavedMessages", R.string.SavedMessages);
+//                    selfUser = true;
+//                } else {
+//                    name = ContactsController.formatName(user.first_name, user.last_name);
+//                    if (user.photo != null) {
+//                        // photo = user.photo.photo_small;
+//                    }
+//                }
+//            } else {
+//                name = chat.title;
+//                if (chat.photo != null) {
+//                    // photo = chat.photo.photo_small;
+//                }
+//            }
+//
+//            Bitmap bitmap = null;
+//            if (selfUser || photo != null) {
+//                try {
+//                    if (!selfUser) {
+//                        File path = FileLoader.getPathToAttach(photo, true);
+//                        bitmap = BitmapFactory.decodeFile(path.toString());
+//                    }
+//                    if (selfUser || bitmap != null) {
+//                        int size = AndroidUtilities.dp(58);
+//                        Bitmap result = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+//                        result.eraseColor(Color.TRANSPARENT);
+//                        Canvas canvas = new Canvas(result);
+//                        if (selfUser) {
+//                            AvatarDrawable avatarDrawable = new AvatarDrawable(user);
+//                            avatarDrawable.setSavedMessages(1);
+//                            avatarDrawable.setBounds(0, 0, size, size);
+//                            avatarDrawable.draw(canvas);
+//                        } else {
+//                            BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+//                            if (roundPaint == null) {
+//                                roundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//                                bitmapRect = new RectF();
+//                            }
+//                            float scale = size / (float) bitmap.getWidth();
+//                            canvas.save();
+//                            canvas.scale(scale, scale);
+//                            roundPaint.setShader(shader);
+//                            bitmapRect.set(0, 0, bitmap.getWidth(), bitmap.getHeight());
+//                            canvas.drawRoundRect(bitmapRect, bitmap.getWidth(), bitmap.getHeight(), roundPaint);
+//                            canvas.restore();
+//                        }
+//                        Drawable drawable = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
+//                        int w = AndroidUtilities.dp(15);
+//                        int left = size - w - AndroidUtilities.dp(2);
+//                        int top = size - w - AndroidUtilities.dp(2);
+//                        drawable.setBounds(left, top, left + w, top + w);
+//                        drawable.draw(canvas);
+//                        try {
+//                            canvas.setBitmap(null);
+//                        } catch (Exception e) {
+//                            //don't promt, this will crash on 2.x
+//                        }
+//                        bitmap = result;
+//                    }
+//                } catch (Throwable e) {
+//                    FileLog.e(e);
+//                }
+//            }
+//
+//            if (Build.VERSION.SDK_INT >= 26) {
+//                ShortcutInfo.Builder pinShortcutInfo =
+//                        new ShortcutInfo.Builder(ApplicationLoader.applicationContext, "sdid_" + did)
+//                                .setShortLabel(name)
+//                                .setIntent(shortcutIntent);
+//
+//                if (bitmap != null) {
+//                    pinShortcutInfo.setIcon(Icon.createWithBitmap(bitmap));
+//                } else {
+//                    if (user != null) {
+//                        if (user.bot) {
+//                            pinShortcutInfo.setIcon(Icon.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_bot));
+//                        } else {
+//                            pinShortcutInfo.setIcon(Icon.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_user));
+//                        }
+//                    } else if (chat != null) {
+//                        if (ChatObject.isChannel(chat) && !chat.megagroup) {
+//                            pinShortcutInfo.setIcon(Icon.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_channel));
+//                        } else {
+//                            pinShortcutInfo.setIcon(Icon.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_group));
+//                        }
+//                    }
+//                }
+//
+//                ShortcutManager shortcutManager = ApplicationLoader.applicationContext.getSystemService(ShortcutManager.class);
+//                shortcutManager.requestPinShortcut(pinShortcutInfo.build(), null);
+//            } else {
+//                Intent addIntent = new Intent();
+//                if (bitmap != null) {
+//                    addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap);
+//                } else {
+//                    if (user != null) {
+//                        if (user.bot) {
+//                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_bot));
+//                        } else {
+//                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_user));
+//                        }
+//                    } else if (chat != null) {
+//                        if (ChatObject.isChannel(chat) && !chat.megagroup) {
+//                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_channel));
+//                        } else {
+//                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_group));
+//                        }
+//                    }
+//                }
+//
+//                addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+//                addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
+//                addIntent.putExtra("duplicate", false);
+//
+//                addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+//                ApplicationLoader.applicationContext.sendBroadcast(addIntent);
+//            }
+//        } catch (Exception e) {
+//            FileLog.e(e);
+//        }
+//    }
 
-        if (lower_id == 0) {
-            shortcutIntent.putExtra("encId", high_id);
-            TLRPC.EncryptedChat encryptedChat = MessagesController.getInstance().getEncryptedChat(high_id);
-            if (encryptedChat == null) {
-                return null;
-            }
-        } else if (lower_id > 0) {
-            shortcutIntent.putExtra("userId", lower_id);
-        } else if (lower_id < 0) {
-            shortcutIntent.putExtra("chatId", -lower_id);
-        } else {
-            return null;
-        }
-        shortcutIntent.setAction("com.tmessages.openchat" + did);
-        shortcutIntent.addFlags(0x4000000);
-        return shortcutIntent;
-    }
-
-    public static void installShortcut(long did) {
-        try {
-
-            Intent shortcutIntent = createIntrnalShortcutIntent(did);
-
-            int lower_id = (int) did;
-            int high_id = (int) (did >> 32);
-
-            TLRPC.User user = null;
-            TLRPC.Chat chat = null;
-            if (lower_id == 0) {
-                TLRPC.EncryptedChat encryptedChat = MessagesController.getInstance().getEncryptedChat(high_id);
-                if (encryptedChat == null) {
-                    return;
-                }
-                user = MessagesController.getInstance().getUser(encryptedChat.user_id);
-            } else if (lower_id > 0) {
-                user = MessagesController.getInstance().getUser(lower_id);
-            } else if (lower_id < 0) {
-                chat = MessagesController.getInstance().getChat(-lower_id);
-            } else {
-                return;
-            }
-            if (user == null && chat == null) {
-                return;
-            }
-
-            String name;
-            TLRPC.FileLocation photo = null;
-
-            boolean selfUser = false;
-
-            if (user != null) {
-                if (UserObject.isUserSelf(user)) {
-                    name = LocaleController.getString("SavedMessages", R.string.SavedMessages);
-                    selfUser = true;
-                } else {
-                    name = ContactsController.formatName(user.first_name, user.last_name);
-                    if (user.photo != null) {
-                        // photo = user.photo.photo_small;
-                    }
-                }
-            } else {
-                name = chat.title;
-                if (chat.photo != null) {
-                    // photo = chat.photo.photo_small;
-                }
-            }
-
-            Bitmap bitmap = null;
-            if (selfUser || photo != null) {
-                try {
-                    if (!selfUser) {
-                        File path = FileLoader.getPathToAttach(photo, true);
-                        bitmap = BitmapFactory.decodeFile(path.toString());
-                    }
-                    if (selfUser || bitmap != null) {
-                        int size = AndroidUtilities.dp(58);
-                        Bitmap result = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-                        result.eraseColor(Color.TRANSPARENT);
-                        Canvas canvas = new Canvas(result);
-                        if (selfUser) {
-                            AvatarDrawable avatarDrawable = new AvatarDrawable(user);
-                            avatarDrawable.setSavedMessages(1);
-                            avatarDrawable.setBounds(0, 0, size, size);
-                            avatarDrawable.draw(canvas);
-                        } else {
-                            BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-                            if (roundPaint == null) {
-                                roundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                                bitmapRect = new RectF();
-                            }
-                            float scale = size / (float) bitmap.getWidth();
-                            canvas.save();
-                            canvas.scale(scale, scale);
-                            roundPaint.setShader(shader);
-                            bitmapRect.set(0, 0, bitmap.getWidth(), bitmap.getHeight());
-                            canvas.drawRoundRect(bitmapRect, bitmap.getWidth(), bitmap.getHeight(), roundPaint);
-                            canvas.restore();
-                        }
-                        Drawable drawable = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
-                        int w = AndroidUtilities.dp(15);
-                        int left = size - w - AndroidUtilities.dp(2);
-                        int top = size - w - AndroidUtilities.dp(2);
-                        drawable.setBounds(left, top, left + w, top + w);
-                        drawable.draw(canvas);
-                        try {
-                            canvas.setBitmap(null);
-                        } catch (Exception e) {
-                            //don't promt, this will crash on 2.x
-                        }
-                        bitmap = result;
-                    }
-                } catch (Throwable e) {
-                    FileLog.e(e);
-                }
-            }
-
-            if (Build.VERSION.SDK_INT >= 26) {
-                ShortcutInfo.Builder pinShortcutInfo =
-                        new ShortcutInfo.Builder(ApplicationLoader.applicationContext, "sdid_" + did)
-                                .setShortLabel(name)
-                                .setIntent(shortcutIntent);
-
-                if (bitmap != null) {
-                    pinShortcutInfo.setIcon(Icon.createWithBitmap(bitmap));
-                } else {
-                    if (user != null) {
-                        if (user.bot) {
-                            pinShortcutInfo.setIcon(Icon.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_bot));
-                        } else {
-                            pinShortcutInfo.setIcon(Icon.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_user));
-                        }
-                    } else if (chat != null) {
-                        if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                            pinShortcutInfo.setIcon(Icon.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_channel));
-                        } else {
-                            pinShortcutInfo.setIcon(Icon.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_group));
-                        }
-                    }
-                }
-
-                ShortcutManager shortcutManager = ApplicationLoader.applicationContext.getSystemService(ShortcutManager.class);
-                shortcutManager.requestPinShortcut(pinShortcutInfo.build(), null);
-            } else {
-                Intent addIntent = new Intent();
-                if (bitmap != null) {
-                    addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap);
-                } else {
-                    if (user != null) {
-                        if (user.bot) {
-                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_bot));
-                        } else {
-                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_user));
-                        }
-                    } else if (chat != null) {
-                        if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_channel));
-                        } else {
-                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_group));
-                        }
-                    }
-                }
-
-                addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-                addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
-                addIntent.putExtra("duplicate", false);
-
-                addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                ApplicationLoader.applicationContext.sendBroadcast(addIntent);
-            }
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-    }
-
-    public static void uninstallShortcut(long did) {
-        try {
-            if (Build.VERSION.SDK_INT >= 26) {
-                ShortcutManager shortcutManager = ApplicationLoader.applicationContext.getSystemService(ShortcutManager.class);
-                ArrayList<String> arrayList = new ArrayList<>();
-                arrayList.add("sdid_" + did);
-                shortcutManager.removeDynamicShortcuts(arrayList);
-            } else {
-                int lower_id = (int) did;
-                int high_id = (int) (did >> 32);
-
-                TLRPC.User user = null;
-                TLRPC.Chat chat = null;
-                if (lower_id == 0) {
-                    TLRPC.EncryptedChat encryptedChat = MessagesController.getInstance().getEncryptedChat(high_id);
-                    if (encryptedChat == null) {
-                        return;
-                    }
-                    user = MessagesController.getInstance().getUser(encryptedChat.user_id);
-                } else if (lower_id > 0) {
-                    user = MessagesController.getInstance().getUser(lower_id);
-                } else if (lower_id < 0) {
-                    chat = MessagesController.getInstance().getChat(-lower_id);
-                } else {
-                    return;
-                }
-                if (user == null && chat == null) {
-                    return;
-                }
-
-                String name;
-
-                if (user != null) {
-                    name = ContactsController.formatName(user.first_name, user.last_name);
-                } else {
-                    name = chat.title;
-                }
-
-                Intent addIntent = new Intent();
-                addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, createIntrnalShortcutIntent(did));
-                addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
-                addIntent.putExtra("duplicate", false);
-
-                addIntent.setAction("com.android.launcher.action.UNINSTALL_SHORTCUT");
-                ApplicationLoader.applicationContext.sendBroadcast(addIntent);
-            }
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-    }
+//    public static void uninstallShortcut(long did) {
+//        try {
+//            if (Build.VERSION.SDK_INT >= 26) {
+//                ShortcutManager shortcutManager = ApplicationLoader.applicationContext.getSystemService(ShortcutManager.class);
+//                ArrayList<String> arrayList = new ArrayList<>();
+//                arrayList.add("sdid_" + did);
+//                shortcutManager.removeDynamicShortcuts(arrayList);
+//            } else {
+//                int lower_id = (int) did;
+//                int high_id = (int) (did >> 32);
+//
+//                TLRPC.User user = null;
+//                TLRPC.Chat chat = null;
+//                if (lower_id == 0) {
+//                    TLRPC.EncryptedChat encryptedChat = MessagesController.getInstance().getEncryptedChat(high_id);
+//                    if (encryptedChat == null) {
+//                        return;
+//                    }
+//                    user = MessagesController.getInstance().getUser(encryptedChat.user_id);
+//                } else if (lower_id > 0) {
+//                    user = MessagesController.getInstance().getUser(lower_id);
+//                } else if (lower_id < 0) {
+//                    chat = MessagesController.getInstance().getChat(-lower_id);
+//                } else {
+//                    return;
+//                }
+//                if (user == null && chat == null) {
+//                    return;
+//                }
+//
+//                String name;
+//
+//                if (user != null) {
+//                    name = ContactsController.formatName(user.first_name, user.last_name);
+//                } else {
+//                    name = chat.title;
+//                }
+//
+//                Intent addIntent = new Intent();
+//                addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, createIntrnalShortcutIntent(did));
+//                addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
+//                addIntent.putExtra("duplicate", false);
+//
+//                addIntent.setAction("com.android.launcher.action.UNINSTALL_SHORTCUT");
+//                ApplicationLoader.applicationContext.sendBroadcast(addIntent);
+//            }
+//        } catch (Exception e) {
+//            FileLog.e(e);
+//        }
+//    }
 
     private static Field mAttachInfoField;
     private static Field mStableInsetsField;

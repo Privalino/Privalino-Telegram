@@ -73,7 +73,7 @@ public class OnBoardingIntroActivity extends Activity {
         } else {
             preWelcomeLayout.setVisibility(View.GONE);
 
-            if (UserConfig.isClientActivated()) {
+            if (UserConfig.getInstance(UserConfig.selectedAccount).isClientActivated()) {
                 welcomeLayout.setVisibility(View.GONE);
                 chooseLayout.setVisibility(View.VISIBLE);
                 backButton.setVisibility(View.VISIBLE);
@@ -202,7 +202,7 @@ public class OnBoardingIntroActivity extends Activity {
     public void onBackPressed() {
         if (chooseLayout.getVisibility() == View.VISIBLE) {
 
-            if (UserConfig.isClientActivated()) {
+            if (UserConfig.getInstance(UserConfig.selectedAccount).isClientActivated()) {
                 super.onBackPressed();
                 AnimationHelper.transitionAnimation(this);
                 return;

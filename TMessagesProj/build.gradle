@@ -25,39 +25,39 @@ dependencies {
 
     compileOnly 'org.checkerframework:checker-qual:2.5.0'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.0'
-    implementation 'com.google.firebase:firebase-core:16.0.3'
-    implementation 'com.google.firebase:firebase-messaging:17.3.0'
-    implementation 'com.google.firebase:firebase-config:16.0.0'
-    implementation 'com.google.android.gms:play-services-gcm:11.0.4'
-    implementation 'com.google.android.gms:play-services-maps:15.0.1'
-    implementation 'com.google.android.gms:play-services-vision:15.0.2'
-    implementation 'com.google.android.gms:play-services-wallet:16.0.0'
-    implementation 'com.google.android.gms:play-services-wearable:15.0.1'
-    implementation 'com.android.support:support-core-ui:28.0.0-rc01'
-    implementation 'com.android.support:support-compat:28.0.0-rc01'
-    implementation 'com.android.support:support-core-utils:28.0.0-rc01'
-    implementation 'com.android.support:support-v13:28.0.0-rc01'
-    implementation 'com.android.support:palette-v7:28.0.0-rc01'
-    implementation 'com.android.support:exifinterface:28.0.0-rc01'
+    implementation 'com.google.firebase:firebase-core:16.0.4'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-config:16.1.0'
+    implementation 'com.google.android.gms:play-services-gcm:16.0.0'
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.android.gms:play-services-vision:17.0.2'
+    implementation 'com.google.android.gms:play-services-wallet:16.0.1'
+    implementation 'com.google.android.gms:play-services-wearable:16.0.1'
+    implementation 'com.android.support:support-core-ui:28.0.0'
+    implementation 'com.android.support:support-compat:28.0.0'
+    implementation 'com.android.support:support-core-utils:28.0.0'
+    implementation 'com.android.support:support-v13:28.0.0'
+    implementation 'com.android.support:palette-v7:28.0.0'
+    implementation 'com.android.support:exifinterface:28.0.0'
     implementation 'net.hockeyapp.android:HockeySDK:5.1.0'
     implementation 'com.googlecode.mp4parser:isoparser:1.0.6'
     implementation 'com.stripe:stripe-android:2.0.2'
 
-    implementation 'com.google.code.gson:gson:2.6.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.0.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.0.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.1.2'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     // Required -- JUnit 4 framework
 
-    implementation 'com.android.support:support-v4:25.3.1'
+    implementation 'com.android.support:support-v4:28.0.0'
 
     testImplementation 'junit:junit:4.12'
     // Optional -- Mockito framework
     testImplementation 'org.mockito:mockito-core:1.10.19'
-    compile('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
         transitive = true;
     }
-    compile('com.crashlytics.sdk.android:crashlytics-ndk:2.0.5@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics-ndk:2.0.5@aar') {
         transitive = true;
     }
 
@@ -65,7 +65,7 @@ dependencies {
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
 
 
     useLibrary 'org.apache.http.legacy'
@@ -303,6 +303,15 @@ android {
                 abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
             }
         }
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86' // <- only the supported ones
+        }
+    }
+    // In build.gradle
+    packagingOptions{
+        doNotStrip '*/mips/*.so'
+        doNotStrip '*/mips64/*.so'
     }
 }
 

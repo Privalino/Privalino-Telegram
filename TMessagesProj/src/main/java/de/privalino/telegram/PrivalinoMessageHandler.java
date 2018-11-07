@@ -60,18 +60,20 @@ public class PrivalinoMessageHandler extends DialogFragment {
 
     private static PrivalinoMessageContainerApi protectionApi = null;
     private static PrivalinoBlockedUserApi blockUserApi = null;
+    private static int currentAccount;
 
     private static PrivalinoMessageContainer initPrivalinoMessageContainer(PrivalinoMessageContainer messageContainer, TLRPC.Message messageObject)
     {
+        currentAccount = UserConfig.selectedAccount;
         int senderId = messageObject.from_id;
         int receiverId = messageObject.to_id.user_id;
         if (messageContainer.isIncoming())
         {
-            receiverId = UserConfig.getClientUserId();
+            receiverId = UserConfig.getInstance(currentAccount).getClientUserId();
         }
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences(SHAREDRPREFS_KEY_ON_BOARDING_INFO, MODE_PRIVATE);
         messageContainer.setChannelId(messageObject.to_id.channel_id);
-        messageContainer.setPhoneNumber(UserConfig.getCurrentUser().phone);
+        messageContainer.setPhoneNumber(UserConfig.getInstance(currentAccount).getCurrentUser().phone);
         messageContainer.setPhoneId(preferences.getString(SHAREDPREFS_KEY_PHONE_ID, ""));
         messageContainer.setText(messageObject.message);
         messageContainer.setChatId(messageObject.to_id.chat_id);
@@ -79,7 +81,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
         messageContainer.setSenderId(senderId);
         messageContainer.setMessageId(messageObject.id);
 
-        MessagesStorage messagesStore = MessagesStorage.getInstance();
+        MessagesStorage messagesStore = MessagesStorage.getInstance(currentAccount);
         try {
             if (messagesStore.getUser(senderId) != null) {
                 messageContainer.setSenderUserName(messagesStore.getUser(senderId).username);
@@ -126,7 +128,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
                 if (feedback.getIsFirstMessage())
                 {
                     Log.i(TAG, "This is the first message in the conversation");
-                    SendMessagesHelper.getInstance().sendMessage(LocaleController.getString("PrivalinoTerms", R.string.PrivalinoTerms), messageObject.from_id, null, null, false, null, null, null);
+                    SendMessagesHelper.getInstance(currentAccount).sendMessage(LocaleController.getString("PrivalinoTerms", R.string.PrivalinoTerms), messageObject.from_id, null, null, false, null, null, null);
                 }
                 if(!feedback.getIsWhitelisted()){
                     filterMedia(messageObject);
@@ -197,7 +199,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
                 try {
                     PrivalinoBlockedUser blockedUser = new PrivalinoBlockedUser();
                     blockedUser.setUser(userId);
-                    blockedUser.setBlockingUser(UserConfig.getClientUserId());
+                    blockedUser.setBlockingUser(UserConfig.getInstance(currentAccount).getClientUserId());
                     blockedUser.setIsBlocked(isBlocked);
 
                     //Log.i(TAG, "Sending blocking user: " + blockedUser.toString());
@@ -260,7 +262,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
                 .setNegativeButton(message.privalino_questionOptions[1], new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Der Chatpartner wird gespert.
-                        MessagesController.getInstance().blockUser(message.from_id);
+                        MessagesController.getInstance(currentAccount).blockUser(message.from_id);
                         //Send blocking information to server
                         blockUser(message.from_id);
                     }
@@ -268,7 +270,7 @@ public class PrivalinoMessageHandler extends DialogFragment {
                 .setPositiveButton(message.privalino_questionOptions[0], new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Der Chatpartner wird gespert.
-                        MessagesController.getInstance().unblockUser(message.from_id);
+                        MessagesController.getInstance(currentAccount).unblockUser(message.from_id);
                     }
                 });
         builder.setTitle(LocaleController.getString(TAG, R.string.Message));

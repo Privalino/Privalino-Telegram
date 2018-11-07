@@ -5288,22 +5288,6 @@ public class MessagesStorage {
 
         }
 
-
-        if(useQueue)
-
-    {
-        storageQueue.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                putMessagesInternal(messages, withTransaction, doNotUpdateDialogDate, downloadMask, ifNoLastMessage);
-            }
-        });
-    } else
-
-    {
-        putMessagesInternal(messages, withTransaction, doNotUpdateDialogDate, downloadMask, ifNoLastMessage);
-    }
-}
         if (useQueue) {
             storageQueue.postRunnable(() -> putMessagesInternal(messages, withTransaction, doNotUpdateDialogDate, downloadMask, ifNoLastMessage));
         } else {
